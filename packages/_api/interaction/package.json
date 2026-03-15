@@ -1,0 +1,42 @@
+{
+  "name": "@aja-api/interaction",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./actions/*": "./src/actions/*.ts",
+    "./api/*": "./src/api/*.ts",
+    "./schema/*": "./src/schema/*.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint ./src"
+  },
+  "peerDependencies": {
+    "@aja-core/supabase-next-auth": "workspace:*",
+    "next": "^16.0.10",
+    "react": "^19.2.1",
+    "zod": "^4.1.12"
+  },
+  "dependencies": {
+    "@aja-core/next-safe-action": "workspace:*",
+    "@aja-core/result": "workspace:*"
+  },
+  "devDependencies": {
+    "@aja-app/supabase": "workspace:*",
+    "@aja-core/eslint": "workspace:*",
+    "@aja-core/supabase-next-auth": "workspace:*",
+    "@aja-core/tsconfig": "workspace:*",
+    "eslint": "9.24.0",
+    "next": "16.1.6",
+    "react": "19.2.4",
+    "zod": "4.1.12"
+  },
+  "imports": {
+    "#*": ["./src/*", "./src/*.ts", "./src/*.tsx"],
+    "#actions*": ["./src/actions*", "./src/actions*.ts"],
+    "#api*": ["./src/api*", "./src/api*.ts"],
+    "#schema*": ["./src/schema*", "./src/schema*.ts"]
+  }
+}
