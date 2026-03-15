@@ -1,0 +1,10 @@
+{
+	"plugins": ["@ianvs/prettier-plugin-sort-imports"],
+	"bracketSpacing": true,
+	"bracketSameLine": false,
+	"htmlWhitespaceSensitivity": "css",
+	"proseWrap": "preserve",
+	"semi": false,
+	"singleQuote": false,
+	"trailingComma": "all"
+}

@@ -1,0 +1,1 @@
+ignores: ["tw-animate-css", "@tailwindcss/postcss", "tailwindcss"]

@@ -1,0 +1,18 @@
+{
+	"name": "supabase-app",
+	"private": true,
+	"version": "0.0.0",
+	"scripts": {
+		"apply:migrations:local": "pnpm dlx supabase db push --local",
+		"db:reset": "pnpm dlx supabase db reset",
+		"purge": "pnpm run purge:containers && pnpm run purge:volumes && pnpm run purge:images && pnpm run purge:prune",
+		"purge:containers": "docker ps -a --format '{{.ID}}' | grep -v 'supabase' | xargs -r docker rm",
+		"purge:images": "docker images | grep 'supabase' | awk '{print $3}' | xargs -r docker rmi --force",
+		"purge:prune": "docker system prune -f",
+		"purge:volumes": "docker volume ls --format '{{.Name}}' --filter label=com.supabase.cli.project=auto-job-apps | xargs -r docker volume rm",
+		"start": "pnpm dlx supabase start",
+		"status": "pnpm dlx supabase status",
+		"stop": "pnpm dlx supabase stop",
+		"stop:clear": "pnpm dlx supabase stop --no-backup"
+	}
+}

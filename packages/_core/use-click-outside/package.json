@@ -1,0 +1,24 @@
+{
+	"name": "@aja-core/use-click-outside",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"sideEffects": false,
+	"exports": {
+		".": "./src/use-click-outside.ts"
+	},
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"lint": "eslint ./src"
+	},
+	"peerDependencies": {
+		"react": "^19.2.1"
+	},
+	"devDependencies": {
+		"@aja-core/eslint": "workspace:*",
+		"@aja-core/tsconfig": "workspace:*",
+		"@types/react": "19.1.12",
+		"eslint": "9.24.0",
+		"react": "19.2.1"
+	}
+}

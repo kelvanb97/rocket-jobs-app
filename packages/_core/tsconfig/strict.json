@@ -1,0 +1,40 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	// https://www.typescriptlang.org/tsconfig/
+	"compilerOptions": {
+		// Type Checking
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"strict": true,
+		"exactOptionalPropertyTypes": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+
+		// Modules
+		"module": "es2022",
+		"moduleResolution": "bundler",
+		"resolveJsonModule": true,
+
+		// Emit
+		"noEmit": true,
+
+		// Interop Constraints
+		"erasableSyntaxOnly": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+
+		// Language and Environment
+		"jsx": "preserve",
+		"lib": ["es2022", "DOM", "DOM.Iterable"],
+		"moduleDetection": "force",
+		"target": "es2022",
+
+		// Completeness
+		"skipLibCheck": true
+	}
+}

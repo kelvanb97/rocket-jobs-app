@@ -1,0 +1,1 @@
+ignores: ["@types/node", "@types/react-dom", "eslint", "eslint-config-next", "typescript"]

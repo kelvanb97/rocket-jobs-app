@@ -1,0 +1,34 @@
+.container-lg {
+	scrollbar-gutter: stable;
+	width: 100%;
+}
+
+@media (min-width: 640px) {
+	.container-lg {
+		max-width: 768px;
+	}
+}
+
+@media (min-width: 768px) {
+	.container-lg {
+		max-width: 1024px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.container-lg {
+		max-width: 1280px;
+	}
+}
+
+@media (min-width: 1280px) {
+	.container-lg {
+		max-width: 1536px;
+	}
+}
+
+@media (min-width: 1536px) {
+	.container-lg {
+		max-width: 1728px;
+	}
+}

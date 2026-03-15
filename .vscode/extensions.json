@@ -1,0 +1,14 @@
+{
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
+		"eamodio.gitlens",
+		"editorconfig.editorconfig",
+		"esbenp.prettier-vscode",
+		"loriscro.super",
+		"ms-azuretools.vscode-docker",
+		"pmneo.tsimporter",
+		"streetsidesoftware.code-spell-checker",
+		"vercel.turbo-vsc",
+		"yoavbls.pretty-ts-errors"
+	]
+}

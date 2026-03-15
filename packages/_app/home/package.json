@@ -1,0 +1,61 @@
+{
+	"name": "@aja-app/home",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"sideEffects": false,
+	"exports": {
+		"./home-screen": "./src/next/screens/home.tsx"
+	},
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"lint": "eslint ./src"
+	},
+	"peerDependencies": {
+		"@aja-design/ui": "workspace:*",
+		"next": "^16.1.1",
+		"react": "^19.2.1",
+		"react-dom": "^19.2.1"
+	},
+	"devDependencies": {
+		"@aja-core/eslint": "workspace:*",
+		"@aja-core/tsconfig": "workspace:*",
+		"@aja-design/ui": "workspace:*",
+		"@types/react": "19.1.12",
+		"eslint": "9.24.0",
+		"next": "16.1.1",
+		"react": "19.2.1",
+		"react-dom": "19.2.1"
+	},
+	"imports": {
+		"#*": [
+			"./src/*",
+			"./src/*.ts",
+			"./src/*.tsx"
+		],
+		"#actions*": [
+			"./src/next/actions*",
+			"./src/next/actions*.ts"
+		],
+		"#atoms*": [
+			"./src/ui/react/atoms*",
+			"./src/ui/react/atoms*.ts",
+			"./src/ui/react/atoms*.tsx"
+		],
+		"#molecules*": [
+			"./src/ui/react/molecules*",
+			"./src/ui/react/molecules*.ts",
+			"./src/ui/react/molecules*.tsx"
+		],
+		"#organisms*": [
+			"./src/ui/react/organisms*",
+			"./src/ui/react/organisms*.ts",
+			"./src/ui/react/organisms*.tsx"
+		],
+		"#templates*": [
+			"./src/ui/react/templates*",
+			"./src/ui/react/templates*.ts",
+			"./src/ui/react/templates*.tsx"
+		]
+	}
+}
