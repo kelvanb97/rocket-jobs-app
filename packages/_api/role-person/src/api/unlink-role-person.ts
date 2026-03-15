@@ -1,12 +1,12 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 
 export async function unlinkRolePerson(
 	roleId: string,
 	personId: string,
 ): Promise<TResult<{ roleId: string; personId: string }>> {
-	const supabase = await supabaseServerClient<Database>()
+	const supabase = supabaseAdminClient<Database>()
 
 	const { error } = await supabase
 		.schema("app")

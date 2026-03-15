@@ -1,21 +1,21 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
-import type { TApplication, TListApplications } from "#schema/application-schema"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 import { unmarshalApplication } from "#schema/application-marshallers"
+import type {
+	TApplication,
+	TListApplications,
+} from "#schema/application-schema"
 
 export async function listApplications(
 	input: TListApplications,
 ): Promise<TResult<{ applications: TApplication[]; hasNext: boolean }>> {
-	const supabase = await supabaseServerClient<Database>()
+	const supabase = supabaseAdminClient<Database>()
 
 	const start = (input.page - 1) * input.pageSize
 	const end = start + input.pageSize
 
-	let query = supabase
-		.schema("app")
-		.from("application")
-		.select()
+	let query = supabase.schema("app").from("application").select()
 
 	if (input.roleId) {
 		query = query.eq("role_id", input.roleId)

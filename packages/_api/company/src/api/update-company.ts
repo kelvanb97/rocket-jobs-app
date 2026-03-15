@@ -1,18 +1,19 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
-import type { TCompany, TUpdateCompany } from "#schema/company-schema"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 import { unmarshalCompany } from "#schema/company-marshallers"
+import type { TCompany, TUpdateCompany } from "#schema/company-schema"
 
 export async function updateCompany(
 	input: TUpdateCompany,
 ): Promise<TResult<TCompany>> {
-	const supabase = await supabaseServerClient<Database>()
+	const supabase = supabaseAdminClient<Database>()
 
 	const updates: Record<string, unknown> = {}
 	if (input.name !== undefined) updates.name = input.name
 	if (input.website !== undefined) updates.website = input.website
-	if (input.linkedinUrl !== undefined) updates.linkedin_url = input.linkedinUrl
+	if (input.linkedinUrl !== undefined)
+		updates.linkedin_url = input.linkedinUrl
 	if (input.size !== undefined) updates.size = input.size
 	if (input.stage !== undefined) updates.stage = input.stage
 	if (input.industry !== undefined) updates.industry = input.industry

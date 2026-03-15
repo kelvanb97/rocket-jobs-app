@@ -1,21 +1,18 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
-import type { TRole, TListRoles } from "#schema/role-schema"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 import { unmarshalRole } from "#schema/role-marshallers"
+import type { TListRoles, TRole } from "#schema/role-schema"
 
 export async function listRoles(
 	input: TListRoles,
 ): Promise<TResult<{ roles: TRole[]; hasNext: boolean }>> {
-	const supabase = await supabaseServerClient<Database>()
+	const supabase = supabaseAdminClient<Database>()
 
 	const start = (input.page - 1) * input.pageSize
 	const end = start + input.pageSize
 
-	let query = supabase
-		.schema("app")
-		.from("role")
-		.select()
+	let query = supabase.schema("app").from("role").select()
 
 	if (input.search) {
 		query = query.ilike("title", `%${input.search}%`)

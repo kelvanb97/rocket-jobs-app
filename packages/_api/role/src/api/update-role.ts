@@ -1,13 +1,11 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
-import type { TRole, TUpdateRole } from "#schema/role-schema"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 import { unmarshalRole } from "#schema/role-marshallers"
+import type { TRole, TUpdateRole } from "#schema/role-schema"
 
-export async function updateRole(
-	input: TUpdateRole,
-): Promise<TResult<TRole>> {
-	const supabase = await supabaseServerClient<Database>()
+export async function updateRole(input: TUpdateRole): Promise<TResult<TRole>> {
+	const supabase = supabaseAdminClient<Database>()
 
 	const updates: Record<string, unknown> = {}
 	if (input.companyId !== undefined) updates.company_id = input.companyId
@@ -15,7 +13,8 @@ export async function updateRole(
 	if (input.url !== undefined) updates.url = input.url
 	if (input.description !== undefined) updates.description = input.description
 	if (input.source !== undefined) updates.source = input.source
-	if (input.locationType !== undefined) updates.location_type = input.locationType
+	if (input.locationType !== undefined)
+		updates.location_type = input.locationType
 	if (input.location !== undefined) updates.location = input.location
 	if (input.salaryMin !== undefined) updates.salary_min = input.salaryMin
 	if (input.salaryMax !== undefined) updates.salary_max = input.salaryMax

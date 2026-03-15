@@ -1,13 +1,16 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
-import type { TInteraction, TUpdateInteraction } from "#schema/interaction-schema"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 import { unmarshalInteraction } from "#schema/interaction-marshallers"
+import type {
+	TInteraction,
+	TUpdateInteraction,
+} from "#schema/interaction-schema"
 
 export async function updateInteraction(
 	input: TUpdateInteraction,
 ): Promise<TResult<TInteraction>> {
-	const supabase = await supabaseServerClient<Database>()
+	const supabase = supabaseAdminClient<Database>()
 
 	const updates: Record<string, unknown> = {}
 	if (input.roleId !== undefined) updates.role_id = input.roleId

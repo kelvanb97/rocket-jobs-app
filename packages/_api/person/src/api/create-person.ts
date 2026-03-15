@@ -1,13 +1,13 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
-import type { TPerson, TCreatePerson } from "#schema/person-schema"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 import { unmarshalPerson } from "#schema/person-marshallers"
+import type { TCreatePerson, TPerson } from "#schema/person-schema"
 
 export async function createPerson(
 	input: TCreatePerson,
 ): Promise<TResult<TPerson>> {
-	const supabase = await supabaseServerClient<Database>()
+	const supabase = supabaseAdminClient<Database>()
 
 	const { data, error } = await supabase
 		.schema("app")

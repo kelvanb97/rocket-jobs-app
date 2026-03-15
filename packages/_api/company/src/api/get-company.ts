@@ -1,13 +1,11 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
-import type { TCompany } from "#schema/company-schema"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 import { unmarshalCompany } from "#schema/company-marshallers"
+import type { TCompany } from "#schema/company-schema"
 
-export async function getCompany(
-	id: string,
-): Promise<TResult<TCompany>> {
-	const supabase = await supabaseServerClient<Database>()
+export async function getCompany(id: string): Promise<TResult<TCompany>> {
+	const supabase = supabaseAdminClient<Database>()
 
 	const { data, error } = await supabase
 		.schema("app")

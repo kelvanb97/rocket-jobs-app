@@ -1,21 +1,18 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
-import type { TCompany, TListCompanies } from "#schema/company-schema"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 import { unmarshalCompany } from "#schema/company-marshallers"
+import type { TCompany, TListCompanies } from "#schema/company-schema"
 
 export async function listCompanies(
 	input: TListCompanies,
 ): Promise<TResult<{ companies: TCompany[]; hasNext: boolean }>> {
-	const supabase = await supabaseServerClient<Database>()
+	const supabase = supabaseAdminClient<Database>()
 
 	const start = (input.page - 1) * input.pageSize
 	const end = start + input.pageSize
 
-	let query = supabase
-		.schema("app")
-		.from("company")
-		.select()
+	let query = supabase.schema("app").from("company").select()
 
 	if (input.search) {
 		query = query.ilike("name", `%${input.search}%`)

@@ -1,21 +1,21 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
-import type { TInteraction, TListInteractions } from "#schema/interaction-schema"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 import { unmarshalInteraction } from "#schema/interaction-marshallers"
+import type {
+	TInteraction,
+	TListInteractions,
+} from "#schema/interaction-schema"
 
 export async function listInteractions(
 	input: TListInteractions,
 ): Promise<TResult<{ interactions: TInteraction[]; hasNext: boolean }>> {
-	const supabase = await supabaseServerClient<Database>()
+	const supabase = supabaseAdminClient<Database>()
 
 	const start = (input.page - 1) * input.pageSize
 	const end = start + input.pageSize
 
-	let query = supabase
-		.schema("app")
-		.from("interaction")
-		.select()
+	let query = supabase.schema("app").from("interaction").select()
 
 	if (input.roleId) {
 		query = query.eq("role_id", input.roleId)

@@ -1,13 +1,11 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseServerClient } from "@aja-core/supabase-next-auth/admin"
-import { type TResult, errFrom, ok } from "@aja-core/result"
-import type { TRole } from "#schema/role-schema"
+import { errFrom, ok, type TResult } from "@aja-core/result"
+import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
 import { unmarshalRole } from "#schema/role-marshallers"
+import type { TRole } from "#schema/role-schema"
 
-export async function getRole(
-	id: string,
-): Promise<TResult<TRole>> {
-	const supabase = await supabaseServerClient<Database>()
+export async function getRole(id: string): Promise<TResult<TRole>> {
+	const supabase = supabaseAdminClient<Database>()
 
 	const { data, error } = await supabase
 		.schema("app")
