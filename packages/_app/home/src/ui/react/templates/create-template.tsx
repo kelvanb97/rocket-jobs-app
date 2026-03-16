@@ -1,11 +1,7 @@
 "use client"
 
-import { TextBody } from "@aja-design/ui/library/text"
+import { CreateRoleForm } from "#organisms/create-role-form"
 
 export function CreateTemplate() {
-	return (
-		<TextBody size="md" variant="muted-foreground">
-			Create a new role, contact, or follow-up.
-		</TextBody>
-	)
+	return <CreateRoleForm />
 }

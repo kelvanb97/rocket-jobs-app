@@ -6,7 +6,7 @@
 		"node": ">=25",
 		"pnpm": ">=10"
 	},
-	"packageManager": "pnpm@10.32.1",
+	"packageManager": "pnpm@10",
 	"scripts": {
 		"build": "turbo run build",
 		"check-types": "turbo run check-types",
