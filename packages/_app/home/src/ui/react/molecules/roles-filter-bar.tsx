@@ -1,3 +1,8 @@
+import {
+	type TLocationType,
+	type TRoleSource,
+	type TRoleStatus,
+} from "@aja-api/role/schema/role-schema"
 import { Button } from "@aja-design/ui/library/button"
 import { Input } from "@aja-design/ui/library/input"
 import { Select } from "@aja-design/ui/library/select"
@@ -7,33 +12,36 @@ import { useRef, useState } from "react"
 
 export interface IRolesFilters {
 	search: string
-	status: string | undefined
-	locationType: string | undefined
-	source: string | undefined
+	status: TRoleStatus | undefined
+	locationType: TLocationType | undefined
+	source: TRoleSource | undefined
 }
 
-const STATUS_CHIPS = [
+const STATUS_CHIPS: Array<{ label: string; value: TRoleStatus | undefined }> = [
 	{ label: "All", value: undefined },
 	{ label: "Pending", value: "pending" },
 	{ label: "Applied", value: "applied" },
+	{ label: "Rejected", value: "rejected" },
 	{ label: "Won't Do", value: "wont_do" },
-] as const
-
-const LOCATION_TYPE_OPTIONS = [
-	{ label: "All", value: "all" },
-	{ label: "Remote", value: "Remote" },
-	{ label: "Hybrid", value: "Hybrid" },
-	{ label: "On-site", value: "On-site" },
 ]
 
-const SOURCE_OPTIONS = [
-	{ label: "All", value: "all" },
-	{ label: "LinkedIn", value: "LinkedIn" },
-	{ label: "Indeed", value: "Indeed" },
-	{ label: "Company Website", value: "Company Website" },
-	{ label: "Referral", value: "Referral" },
-	{ label: "Recruiter", value: "Recruiter" },
-	{ label: "Other", value: "Other" },
+const LOCATION_TYPE_OPTIONS: { label: string; value: TLocationType }[] = [
+	{ label: "Remote", value: "remote" },
+	{ label: "Hybrid", value: "hybrid" },
+	{ label: "On-site", value: "on-site" },
+]
+
+const SOURCE_OPTIONS: { label: string; value: TRoleSource }[] = [
+	{ label: "Himalayas", value: "himalayas" },
+	{ label: "Jobicy", value: "jobicy" },
+	{ label: "Remote OK", value: "remoteok" },
+	{ label: "We Work Remotely", value: "weworkremotely" },
+	{ label: "LinkedIn", value: "linkedin" },
+	{ label: "Indeed", value: "indeed" },
+	{ label: "Company Website", value: "company-website" },
+	{ label: "Referral", value: "referral" },
+	{ label: "Recruiter", value: "recruiter" },
+	{ label: "Other", value: "other" },
 ]
 
 interface IRolesFilterBarProps {
@@ -93,7 +101,9 @@ export function RolesFilterBar({
 						onFiltersChange({
 							...filters,
 							locationType:
-								val === "all" ? undefined : val,
+								val === "all"
+									? undefined
+									: (val as TLocationType),
 						})
 					}
 					options={LOCATION_TYPE_OPTIONS}
@@ -104,7 +114,10 @@ export function RolesFilterBar({
 					onValueChange={(val) =>
 						onFiltersChange({
 							...filters,
-							source: val === "all" ? undefined : val,
+							source:
+								val === "all"
+									? undefined
+									: (val as TRoleSource),
 						})
 					}
 					options={SOURCE_OPTIONS}

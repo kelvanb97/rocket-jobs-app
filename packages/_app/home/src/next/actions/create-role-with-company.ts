@@ -2,6 +2,10 @@
 
 import { createCompany } from "@aja-api/company/api/create-company"
 import { createRole } from "@aja-api/role/api/create-role"
+import {
+	locationTypeSchema,
+	roleSourceSchema,
+} from "@aja-api/role/schema/role-schema"
 import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
 import { z } from "zod"
 
@@ -20,8 +24,8 @@ const createRoleWithCompanySchema = z.object({
 	title: z.string().min(1),
 	url: z.string().optional(),
 	description: z.string().optional(),
-	source: z.string().optional(),
-	locationType: z.string().optional(),
+	source: roleSourceSchema.optional(),
+	locationType: locationTypeSchema.optional(),
 	location: z.string().optional(),
 	salaryMin: z.number().optional(),
 	salaryMax: z.number().optional(),

@@ -1,4 +1,10 @@
-import type { TRole, TMarshalledRole } from "./role-schema"
+import type {
+	TRole,
+	TMarshalledRole,
+	TRoleSource,
+	TRoleStatus,
+	TLocationType,
+} from "./role-schema"
 
 export function unmarshalRole(m: TMarshalledRole): TRole {
 	return {
@@ -7,12 +13,12 @@ export function unmarshalRole(m: TMarshalledRole): TRole {
 		title: m.title,
 		url: m.url,
 		description: m.description,
-		source: m.source,
-		locationType: m.location_type,
+		source: m.source as TRoleSource | null,
+		locationType: m.location_type as TLocationType | null,
 		location: m.location,
 		salaryMin: m.salary_min,
 		salaryMax: m.salary_max,
-		status: m.status,
+		status: m.status as TRoleStatus,
 		postedAt: m.posted_at,
 		notes: m.notes,
 		createdAt: m.created_at,

@@ -1,5 +1,6 @@
 "use client"
 
+import type { TLocationType, TRoleSource } from "@aja-api/role/schema/role-schema"
 import { Button } from "@aja-design/ui/library/button"
 import { toast } from "@aja-design/ui/library/toast"
 import { YStack } from "@aja-design/ui/primitives/y-stack"
@@ -82,8 +83,8 @@ export function CreateRoleForm() {
 			title: role.title,
 			url: role.url || undefined,
 			description: role.description || undefined,
-			source: role.source || undefined,
-			locationType: role.locationType || undefined,
+			source: (role.source || undefined) as TRoleSource | undefined,
+			locationType: (role.locationType || undefined) as TLocationType | undefined,
 			location: role.location || undefined,
 			salaryMin: role.salaryMin ? Number(role.salaryMin) : undefined,
 			salaryMax: role.salaryMax ? Number(role.salaryMax) : undefined,

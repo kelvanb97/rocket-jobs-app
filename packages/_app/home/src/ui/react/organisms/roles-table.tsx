@@ -1,4 +1,4 @@
-import type { TRole } from "@aja-api/role/schema/role-schema"
+import type { TRole, TRoleStatus } from "@aja-api/role/schema/role-schema"
 import {
 	Table,
 	TableBody,
@@ -12,7 +12,7 @@ import { RolesTableRow } from "#molecules/roles-table-row"
 interface IRolesTableProps {
 	roles: TRole[]
 	companiesMap: Map<string, string>
-	onStatusChange: (roleId: string, status: string) => void
+	onStatusChange: (roleId: string, status: TRoleStatus) => void
 	onRowClick: (role: TRole) => void
 	sentinelRef: React.RefCallback<HTMLDivElement>
 	isLoadingMore: boolean

@@ -1,5 +1,5 @@
+import type { TRole, TRoleStatus } from "@aja-api/role/schema/role-schema"
 import { TableCell, TableRow } from "@aja-design/ui/library/table"
-import type { TRole } from "@aja-api/role/schema/role-schema"
 import { RoleStatusSelect } from "#molecules/role-status-select"
 
 function formatSalary(min: number | null, max: number | null): string {
@@ -29,7 +29,7 @@ function formatLocation(
 interface IRolesTableRowProps {
 	role: TRole
 	companyName: string | null
-	onStatusChange: (roleId: string, status: string) => void
+	onStatusChange: (roleId: string, status: TRoleStatus) => void
 	onClick: () => void
 	statusDisabled?: boolean
 }

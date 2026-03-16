@@ -1,14 +1,16 @@
+import { type TRoleStatus } from "@aja-api/role/schema/role-schema"
 import { Select } from "@aja-design/ui/library/select"
 
-const STATUS_OPTIONS = [
+const STATUS_OPTIONS: { label: string; value: TRoleStatus }[] = [
 	{ label: "Pending", value: "pending" },
 	{ label: "Applied", value: "applied" },
+	{ label: "Rejected", value: "rejected" },
 	{ label: "Won't Do", value: "wont_do" },
 ]
 
 interface IRoleStatusSelectProps {
-	value: string
-	onValueChange: (status: string) => void
+	value: TRoleStatus
+	onValueChange: (status: TRoleStatus) => void
 	disabled?: boolean
 }
 

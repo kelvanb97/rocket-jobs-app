@@ -1,5 +1,34 @@
-import { z } from "zod"
 import type { Database } from "@aja-app/supabase"
+import { z } from "zod"
+
+export const ROLE_SOURCES = [
+	"himalayas",
+	"jobicy",
+	"remoteok",
+	"weworkremotely",
+	"linkedin",
+	"indeed",
+	"company-website",
+	"referral",
+	"recruiter",
+	"other",
+] as const
+
+export type TRoleSource = (typeof ROLE_SOURCES)[number]
+
+export const roleSourceSchema = z.enum(ROLE_SOURCES)
+
+export const LOCATION_TYPES = ["remote", "hybrid", "on-site"] as const
+
+export type TLocationType = (typeof LOCATION_TYPES)[number]
+
+export const locationTypeSchema = z.enum(LOCATION_TYPES)
+
+export const ROLE_STATUSES = ["pending", "applied", "rejected", "wont_do"] as const
+
+export type TRoleStatus = (typeof ROLE_STATUSES)[number]
+
+export const roleStatusSchema = z.enum(ROLE_STATUSES)
 
 export type TRole = {
 	id: string
@@ -7,12 +36,12 @@ export type TRole = {
 	title: string
 	url: string | null
 	description: string | null
-	source: string | null
-	locationType: string | null
+	source: TRoleSource | null
+	locationType: TLocationType | null
 	location: string | null
 	salaryMin: number | null
 	salaryMax: number | null
-	status: string
+	status: TRoleStatus
 	postedAt: string | null
 	notes: string | null
 	createdAt: string | null
@@ -30,9 +59,9 @@ export const listRolesSchema = z.object({
 	pageSize: z.number().min(1).max(100).default(25),
 	search: z.string().optional(),
 	companyId: z.string().optional(),
-	status: z.string().optional(),
-	locationType: z.string().optional(),
-	source: z.string().optional(),
+	status: roleStatusSchema.optional(),
+	locationType: locationTypeSchema.optional(),
+	source: roleSourceSchema.optional(),
 	sortBy: z
 		.enum(["created_at", "posted_at", "title", "status"])
 		.default("created_at")
@@ -47,8 +76,8 @@ export const createRoleSchema = z.object({
 	title: z.string().min(1),
 	url: z.string().nullable().optional(),
 	description: z.string().nullable().optional(),
-	source: z.string().nullable().optional(),
-	locationType: z.string().nullable().optional(),
+	source: roleSourceSchema.nullable().optional(),
+	locationType: locationTypeSchema.nullable().optional(),
 	location: z.string().nullable().optional(),
 	salaryMin: z.number().nullable().optional(),
 	salaryMax: z.number().nullable().optional(),
@@ -65,8 +94,8 @@ export const updateRoleSchema = z.object({
 	title: z.string().min(1).optional(),
 	url: z.string().nullable().optional(),
 	description: z.string().nullable().optional(),
-	source: z.string().nullable().optional(),
-	locationType: z.string().nullable().optional(),
+	source: roleSourceSchema.nullable().optional(),
+	locationType: locationTypeSchema.nullable().optional(),
 	location: z.string().nullable().optional(),
 	salaryMin: z.number().nullable().optional(),
 	salaryMax: z.number().nullable().optional(),

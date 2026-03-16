@@ -2,6 +2,11 @@
 
 import { updateCompany } from "@aja-api/company/api/update-company"
 import { updateRole } from "@aja-api/role/api/update-role"
+import {
+	locationTypeSchema,
+	roleSourceSchema,
+	roleStatusSchema,
+} from "@aja-api/role/schema/role-schema"
 import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
 import { z } from "zod"
 
@@ -11,12 +16,12 @@ const updateRoleWithCompanySchema = z.object({
 		title: z.string().min(1).optional(),
 		url: z.string().nullable().optional(),
 		description: z.string().nullable().optional(),
-		source: z.string().nullable().optional(),
-		locationType: z.string().nullable().optional(),
+		source: roleSourceSchema.nullable().optional(),
+		locationType: locationTypeSchema.nullable().optional(),
 		location: z.string().nullable().optional(),
 		salaryMin: z.number().nullable().optional(),
 		salaryMax: z.number().nullable().optional(),
-		status: z.string().optional(),
+		status: roleStatusSchema.optional(),
 		notes: z.string().nullable().optional(),
 	}),
 	company: z

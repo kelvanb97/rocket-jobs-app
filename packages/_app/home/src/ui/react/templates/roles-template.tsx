@@ -1,7 +1,7 @@
 "use client"
 
 import type { TCompany } from "@aja-api/company/schema/company-schema"
-import type { TRole } from "@aja-api/role/schema/role-schema"
+import type { TRole, TRoleStatus } from "@aja-api/role/schema/role-schema"
 import {
 	useAction,
 	useActionError,
@@ -193,7 +193,7 @@ export function RolesTemplate() {
 		dispatch({ type: "SET_FILTERS", filters })
 	}
 
-	const handleStatusChange = (roleId: string, status: string) => {
+	const handleStatusChange = (roleId: string, status: TRoleStatus) => {
 		statusUpdatingId.current = roleId
 		updateStatus({ id: roleId, status })
 	}

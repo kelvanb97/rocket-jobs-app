@@ -1,4 +1,8 @@
 import {
+	type TLocationType,
+	type TRoleSource,
+} from "@aja-api/role/schema/role-schema"
+import {
 	Card,
 	CardContent,
 	CardHeader,
@@ -24,19 +28,23 @@ export interface IRoleFieldsValues {
 	notes: string
 }
 
-const SOURCE_OPTIONS = [
-	{ label: "LinkedIn", value: "LinkedIn" },
-	{ label: "Indeed", value: "Indeed" },
-	{ label: "Company Website", value: "Company Website" },
-	{ label: "Referral", value: "Referral" },
-	{ label: "Recruiter", value: "Recruiter" },
-	{ label: "Other", value: "Other" },
+const LOCATION_TYPE_OPTIONS: { label: string; value: TLocationType }[] = [
+	{ label: "Remote", value: "remote" },
+	{ label: "Hybrid", value: "hybrid" },
+	{ label: "On-site", value: "on-site" },
 ]
 
-const LOCATION_TYPE_OPTIONS = [
-	{ label: "Remote", value: "Remote" },
-	{ label: "Hybrid", value: "Hybrid" },
-	{ label: "On-site", value: "On-site" },
+const SOURCE_OPTIONS: { label: string; value: TRoleSource }[] = [
+	{ label: "Himalayas", value: "himalayas" },
+	{ label: "Jobicy", value: "jobicy" },
+	{ label: "Remote OK", value: "remoteok" },
+	{ label: "We Work Remotely", value: "weworkremotely" },
+	{ label: "LinkedIn", value: "linkedin" },
+	{ label: "Indeed", value: "indeed" },
+	{ label: "Company Website", value: "company-website" },
+	{ label: "Referral", value: "referral" },
+	{ label: "Recruiter", value: "recruiter" },
+	{ label: "Other", value: "other" },
 ]
 
 interface IRoleFieldsCardProps {
@@ -83,9 +91,9 @@ export function RoleFieldsCard({ values, onChange }: IRoleFieldsCardProps) {
 						<Textarea
 							id="role-description"
 							value={values.description}
-							onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-								update("description", e.target.value)
-							}
+							onChange={(
+								e: React.ChangeEvent<HTMLTextAreaElement>,
+							) => update("description", e.target.value)}
 							placeholder="Job description..."
 						/>
 					</InputGroup>
@@ -120,9 +128,7 @@ export function RoleFieldsCard({ values, onChange }: IRoleFieldsCardProps) {
 						<Input
 							id="role-location"
 							value={values.location}
-							onChange={(e) =>
-								update("location", e.target.value)
-							}
+							onChange={(e) => update("location", e.target.value)}
 							placeholder="San Francisco, CA"
 						/>
 					</InputGroup>
@@ -159,7 +165,9 @@ export function RoleFieldsCard({ values, onChange }: IRoleFieldsCardProps) {
 						<Textarea
 							id="role-notes"
 							value={values.notes}
-							onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => update("notes", e.target.value)}
+							onChange={(
+								e: React.ChangeEvent<HTMLTextAreaElement>,
+							) => update("notes", e.target.value)}
 							placeholder="Any notes about the role..."
 						/>
 					</InputGroup>
