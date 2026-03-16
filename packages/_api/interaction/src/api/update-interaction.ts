@@ -1,5 +1,5 @@
 import type { Database } from "@aja-app/supabase"
-import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
+import { supabaseAdminClient } from "@aja-core/supabase/admin"
 import { type TResult, errFrom, ok } from "@aja-core/result"
 import type { TInteraction, TUpdateInteraction } from "#schema/interaction-schema"
 import { unmarshalInteraction } from "#schema/interaction-marshallers"

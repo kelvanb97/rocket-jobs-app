@@ -1,6 +1,6 @@
 import type { Database } from "@aja-app/supabase"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
+import { supabaseAdminClient } from "@aja-core/supabase/admin"
 import { unmarshalApplication } from "#schema/application-marshallers"
 import type {
 	TApplication,

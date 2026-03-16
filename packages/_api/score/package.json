@@ -13,7 +13,7 @@
 		"lint": "eslint ./src"
 	},
 	"peerDependencies": {
-		"@aja-core/supabase-next-auth": "workspace:*",
+		"@aja-core/supabase": "workspace:*",
 		"zod": "^4.3.6"
 	},
 	"dependencies": {
@@ -22,7 +22,7 @@
 	"devDependencies": {
 		"@aja-app/supabase": "workspace:*",
 		"@aja-core/eslint": "workspace:*",
-		"@aja-core/supabase-next-auth": "workspace:*",
+		"@aja-core/supabase": "workspace:*",
 		"@aja-core/tsconfig": "workspace:*",
 		"@types/node": "25.5.0",
 		"eslint": "9.24.0",

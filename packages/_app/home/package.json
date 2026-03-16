@@ -23,6 +23,7 @@
 		"@aja-api/role": "workspace:*",
 		"@aja-api/role-person": "workspace:*",
 		"@aja-core/next-safe-action": "workspace:*",
+		"@aja-core/supabase": "workspace:*",
 		"@aja-core/supabase-next-auth": "workspace:*",
 		"zod": "4.3.6"
 	},

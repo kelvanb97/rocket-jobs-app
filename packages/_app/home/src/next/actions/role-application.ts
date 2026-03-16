@@ -6,7 +6,7 @@ import { listApplications } from "@aja-api/application/api/list-applications"
 import { updateApplication } from "@aja-api/application/api/update-application"
 import type { Database } from "@aja-app/supabase"
 import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
-import { supabaseAdminClient } from "@aja-core/supabase-next-auth/admin"
+import { supabaseAdminClient } from "@aja-core/supabase/admin"
 import { z } from "zod"
 
 const BUCKET = "applications"
