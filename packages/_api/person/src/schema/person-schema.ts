@@ -1,5 +1,5 @@
-import { z } from "zod"
 import type { Database } from "@aja-app/supabase"
+import { z } from "zod"
 
 export type TPerson = {
 	id: string

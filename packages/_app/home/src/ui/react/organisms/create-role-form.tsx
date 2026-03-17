@@ -1,26 +1,29 @@
 "use client"
 
-import type { TLocationType, TRoleSource } from "@aja-api/role/schema/role-schema"
-import { Button } from "@aja-design/ui/library/button"
-import { toast } from "@aja-design/ui/library/toast"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+import type {
+	TLocationType,
+	TRoleSource,
+} from "@aja-api/role/schema/role-schema"
 import {
 	useAction,
 	useActionError,
 	useIsLoading,
 	useToastOnError,
 } from "@aja-core/next-safe-action/hooks"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { Button } from "@aja-design/ui/library/button"
+import { toast } from "@aja-design/ui/library/toast"
+import { YStack } from "@aja-design/ui/primitives/y-stack"
 import { createRoleWithCompanyAction } from "#actions/create-role-with-company"
 import {
 	CompanyFieldsCard,
 	type ICompanyFieldsValues,
 } from "#molecules/company-fields-card"
 import {
-	type IRoleFieldsValues,
 	RoleFieldsCard,
+	type IRoleFieldsValues,
 } from "#molecules/role-fields-card"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 const INITIAL_COMPANY: ICompanyFieldsValues = {
 	name: "",
@@ -46,18 +49,16 @@ const INITIAL_ROLE: IRoleFieldsValues = {
 
 export function CreateRoleForm() {
 	const router = useRouter()
-	const [company, setCompany] = useState<ICompanyFieldsValues>(INITIAL_COMPANY)
+	const [company, setCompany] =
+		useState<ICompanyFieldsValues>(INITIAL_COMPANY)
 	const [role, setRole] = useState<IRoleFieldsValues>(INITIAL_ROLE)
 
-	const { execute, result, status } = useAction(
-		createRoleWithCompanyAction,
-		{
-			onSuccess: () => {
-				toast.success("Role created!")
-				router.push("/roles")
-			},
+	const { execute, result, status } = useAction(createRoleWithCompanyAction, {
+		onSuccess: () => {
+			toast.success("Role created!")
+			router.push("/roles")
 		},
-	)
+	})
 
 	const error = useActionError(result)
 	useToastOnError(error, status)
@@ -84,7 +85,9 @@ export function CreateRoleForm() {
 			url: role.url || undefined,
 			description: role.description || undefined,
 			source: (role.source || undefined) as TRoleSource | undefined,
-			locationType: (role.locationType || undefined) as TLocationType | undefined,
+			locationType: (role.locationType || undefined) as
+				| TLocationType
+				| undefined,
 			location: role.location || undefined,
 			salaryMin: role.salaryMin ? Number(role.salaryMin) : undefined,
 			salaryMax: role.salaryMax ? Number(role.salaryMax) : undefined,

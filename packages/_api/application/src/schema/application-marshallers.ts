@@ -9,9 +9,7 @@ import type {
 type ApplicationInsert = Database["app"]["Tables"]["application"]["Insert"]
 type ApplicationUpdate = Database["app"]["Tables"]["application"]["Update"]
 
-export function unmarshalApplication(
-	m: TMarshalledApplication,
-): TApplication {
+export function unmarshalApplication(m: TMarshalledApplication): TApplication {
 	return {
 		id: m.id,
 		roleId: m.role_id,

@@ -5,10 +5,7 @@ import {
 	marshalUpdateRolePerson,
 	unmarshalRolePerson,
 } from "#schema/role-person-marshallers"
-import type {
-	TRolePerson,
-	TUpdateRolePerson,
-} from "#schema/role-person-schema"
+import type { TRolePerson, TUpdateRolePerson } from "#schema/role-person-schema"
 
 export async function updateRolePerson(
 	input: TUpdateRolePerson,

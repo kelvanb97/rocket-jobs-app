@@ -73,7 +73,9 @@ export async function scrape(): Promise<ScrapedRole[]> {
 
 			const jobs = data.jobs ?? []
 
-			console.log(`[himalayas] "${query}" page ${page}: ${jobs.length} jobs`)
+			console.log(
+				`[himalayas] "${query}" page ${page}: ${jobs.length} jobs`,
+			)
 
 			if (jobs.length === 0) break
 

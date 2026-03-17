@@ -1,5 +1,5 @@
-import { z } from "zod"
 import type { Database } from "@aja-app/supabase"
+import { z } from "zod"
 
 export type TRolePerson = {
 	roleId: string
@@ -7,7 +7,8 @@ export type TRolePerson = {
 	relationship: string | null
 }
 
-export type TMarshalledRolePerson = Database["app"]["Tables"]["role_person"]["Row"]
+export type TMarshalledRolePerson =
+	Database["app"]["Tables"]["role_person"]["Row"]
 
 export const linkRolePersonSchema = z.object({
 	roleId: z.string(),

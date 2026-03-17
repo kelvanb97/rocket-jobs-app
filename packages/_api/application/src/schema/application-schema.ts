@@ -1,5 +1,5 @@
-import { z } from "zod"
 import type { Database } from "@aja-app/supabase"
+import { z } from "zod"
 
 export type TApplication = {
 	id: string
@@ -13,7 +13,8 @@ export type TApplication = {
 	updatedAt: string | null
 }
 
-export type TMarshalledApplication = Database["app"]["Tables"]["application"]["Row"]
+export type TMarshalledApplication =
+	Database["app"]["Tables"]["application"]["Row"]
 
 export const getApplicationSchema = z.object({
 	id: z.string(),

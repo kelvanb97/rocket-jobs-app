@@ -1,5 +1,5 @@
-import { z } from "zod"
 import type { Database } from "@aja-app/supabase"
+import { z } from "zod"
 
 export type TInteraction = {
 	id: string
@@ -11,7 +11,8 @@ export type TInteraction = {
 	updatedAt: string | null
 }
 
-export type TMarshalledInteraction = Database["app"]["Tables"]["interaction"]["Row"]
+export type TMarshalledInteraction =
+	Database["app"]["Tables"]["interaction"]["Row"]
 
 export const getInteractionSchema = z.object({
 	id: z.string(),

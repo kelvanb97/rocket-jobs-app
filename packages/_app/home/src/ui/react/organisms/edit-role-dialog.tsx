@@ -3,8 +3,8 @@
 import type { TCompany } from "@aja-api/company/schema/company-schema"
 import type { TInteraction } from "@aja-api/interaction/schema/interaction-schema"
 import type { TPerson } from "@aja-api/person/schema/person-schema"
-import type { TRole } from "@aja-api/role/schema/role-schema"
 import type { TRolePerson } from "@aja-api/role-person/schema/role-person-schema"
+import type { TRole } from "@aja-api/role/schema/role-schema"
 import {
 	useAction,
 	useActionError,
@@ -38,8 +38,8 @@ import {
 } from "#actions/role-people"
 import { updateRoleWithCompanyAction } from "#actions/update-role-with-company"
 import { AddInteractionForm } from "#molecules/add-interaction-form"
-import { ApplicationFieldsCard } from "#molecules/application-fields-card"
 import { AddPersonToRole } from "#molecules/add-person-to-role"
+import { ApplicationFieldsCard } from "#molecules/application-fields-card"
 import {
 	CompanyFieldsCard,
 	type ICompanyFieldsValues,
@@ -94,16 +94,19 @@ function RolePeopleTab({ roleId }: { roleId: string }) {
 		},
 	})
 
-	const { execute: executeUnlink, result: unlinkResult, status: unlinkStatus } =
-		useAction(unlinkPersonFromRoleAction, {
-			onSuccess: ({ data }) => {
-				if (data) {
-					toast.success("Person unlinked")
-					setUnlinkingId(null)
-					fetchPeople({ roleId })
-				}
-			},
-		})
+	const {
+		execute: executeUnlink,
+		result: unlinkResult,
+		status: unlinkStatus,
+	} = useAction(unlinkPersonFromRoleAction, {
+		onSuccess: ({ data }) => {
+			if (data) {
+				toast.success("Person unlinked")
+				setUnlinkingId(null)
+				fetchPeople({ roleId })
+			}
+		},
+	})
 
 	const unlinkError = useActionError(unlinkResult)
 	useToastOnError(unlinkError, unlinkStatus)
@@ -181,9 +184,7 @@ function RoleInteractionsTab({ roleId }: { roleId: string }) {
 			if (data) {
 				toast.success("Interaction deleted")
 				setDeletingId(null)
-				setInteractions((prev) =>
-					prev.filter((i) => i.id !== data.id),
-				)
+				setInteractions((prev) => prev.filter((i) => i.id !== data.id))
 			}
 		},
 	})
@@ -236,24 +237,21 @@ function useRoleApplication(roleId: string | null) {
 		"resume" | "cover_letter" | null
 	>(null)
 
-	const { execute: fetchApplication } = useAction(
-		getRoleApplicationAction,
-		{
-			onSuccess: ({ data }) => {
-				if (data) {
-					setApplicationId(data.id)
-					setResumeUrl(data.resumePath)
-					setCoverLetterUrl(data.coverLetterPath)
-					setNotes(data.notes ?? "")
-				} else {
-					setApplicationId(null)
-					setResumeUrl(null)
-					setCoverLetterUrl(null)
-					setNotes("")
-				}
-			},
+	const { execute: fetchApplication } = useAction(getRoleApplicationAction, {
+		onSuccess: ({ data }) => {
+			if (data) {
+				setApplicationId(data.id)
+				setResumeUrl(data.resumePath)
+				setCoverLetterUrl(data.coverLetterPath)
+				setNotes(data.notes ?? "")
+			} else {
+				setApplicationId(null)
+				setResumeUrl(null)
+				setCoverLetterUrl(null)
+				setNotes("")
+			}
 		},
-	)
+	})
 
 	const {
 		execute: executeSave,
@@ -305,9 +303,7 @@ function useRoleApplication(roleId: string | null) {
 			}
 			toast.success("File uploaded!")
 		} catch (err) {
-			toast.error(
-				err instanceof Error ? err.message : "Upload failed",
-			)
+			toast.error(err instanceof Error ? err.message : "Upload failed")
 		} finally {
 			setUploadingType(null)
 		}
@@ -330,9 +326,7 @@ function useRoleApplication(roleId: string | null) {
 			}
 			toast.success("File removed!")
 		} catch (err) {
-			toast.error(
-				err instanceof Error ? err.message : "Remove failed",
-			)
+			toast.error(err instanceof Error ? err.message : "Remove failed")
 		} finally {
 			setRemovingType(null)
 		}

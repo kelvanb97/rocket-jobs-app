@@ -1,1 +1,4 @@
-{ "$schema": "https://json.schemastore.org/tsconfig", "extends": "@aja-core/tsconfig/strict.json" }
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "@aja-core/tsconfig/strict.json"
+}

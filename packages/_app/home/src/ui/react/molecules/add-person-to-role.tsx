@@ -214,11 +214,7 @@ export function AddPersonToRole({
 								</span>
 							)}
 						</span>
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={resetState}
-						>
+						<Button variant="ghost" size="sm" onClick={resetState}>
 							Cancel
 						</Button>
 					</XStack>
@@ -256,11 +252,7 @@ export function AddPersonToRole({
 						<span className="text-sm font-medium">
 							Create new person
 						</span>
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={resetState}
-						>
+						<Button variant="ghost" size="sm" onClick={resetState}>
 							Cancel
 						</Button>
 					</XStack>

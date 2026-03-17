@@ -2,9 +2,7 @@ import type { Database } from "@aja-app/supabase"
 import { errFrom, ok, type TResult } from "@aja-core/result"
 import { supabaseAdminClient } from "@aja-core/supabase/admin"
 
-export async function listRoleUrls(
-	urls: string[],
-): Promise<TResult<string[]>> {
+export async function listRoleUrls(urls: string[]): Promise<TResult<string[]>> {
 	const supabase = supabaseAdminClient<Database>()
 
 	const { data, error } = await supabase

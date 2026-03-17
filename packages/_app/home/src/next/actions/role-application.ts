@@ -1,9 +1,9 @@
 "use server"
 
-import type { TApplication } from "@aja-api/application/schema/application-schema"
 import { createApplication } from "@aja-api/application/api/create-application"
 import { listApplications } from "@aja-api/application/api/list-applications"
 import { updateApplication } from "@aja-api/application/api/update-application"
+import type { TApplication } from "@aja-api/application/schema/application-schema"
 import type { Database } from "@aja-app/supabase"
 import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
 import { supabaseAdminClient } from "@aja-core/supabase/admin"
@@ -55,9 +55,7 @@ export const saveRoleApplicationAction = actionClient
 		return result.data
 	})
 
-async function getOrCreateApplication(
-	roleId: string,
-): Promise<TApplication> {
+async function getOrCreateApplication(roleId: string): Promise<TApplication> {
 	const listResult = await listApplications({
 		roleId,
 		page: 1,
@@ -150,9 +148,7 @@ export async function removeApplicationFile(
 	}
 
 	const updateFields =
-		fileType === "resume"
-			? { resumePath: null }
-			: { coverLetterPath: null }
+		fileType === "resume" ? { resumePath: null } : { coverLetterPath: null }
 
 	const updateResult = await updateApplication({
 		id: applicationId,

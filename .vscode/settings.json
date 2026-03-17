@@ -33,7 +33,7 @@
 	},
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"files.readonlyInclude": {
-		"packages/_app/supabase/config.toml": true,
+		"packages/_app/supabase/config.toml": true
 	},
 	"[sql]": {
 		"editor.defaultFormatter": "adpyke.vscode-sql-formatter"

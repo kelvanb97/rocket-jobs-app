@@ -9,9 +9,7 @@ import type {
 type InteractionInsert = Database["app"]["Tables"]["interaction"]["Insert"]
 type InteractionUpdate = Database["app"]["Tables"]["interaction"]["Update"]
 
-export function unmarshalInteraction(
-	m: TMarshalledInteraction,
-): TInteraction {
+export function unmarshalInteraction(m: TMarshalledInteraction): TInteraction {
 	return {
 		id: m.id,
 		roleId: m.role_id,

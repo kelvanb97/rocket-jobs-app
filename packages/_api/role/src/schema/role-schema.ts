@@ -24,7 +24,12 @@ export type TLocationType = (typeof LOCATION_TYPES)[number]
 
 export const locationTypeSchema = z.enum(LOCATION_TYPES)
 
-export const ROLE_STATUSES = ["pending", "applied", "rejected", "wont_do"] as const
+export const ROLE_STATUSES = [
+	"pending",
+	"applied",
+	"rejected",
+	"wont_do",
+] as const
 
 export type TRoleStatus = (typeof ROLE_STATUSES)[number]
 
@@ -62,8 +67,10 @@ export const listRolesSchema = z.object({
 	status: roleStatusSchema.optional(),
 	locationType: locationTypeSchema.optional(),
 	source: roleSourceSchema.optional(),
+	scoreMin: z.number().min(0).max(100).optional(),
+	scoreMax: z.number().min(0).max(100).optional(),
 	sortBy: z
-		.enum(["created_at", "posted_at", "title", "status"])
+		.enum(["created_at", "posted_at", "title", "status", "score"])
 		.default("created_at")
 		.optional(),
 	sortOrder: z.enum(["asc", "desc"]).default("desc").optional(),

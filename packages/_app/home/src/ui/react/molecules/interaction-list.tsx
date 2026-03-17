@@ -50,9 +50,8 @@ export function InteractionList({
 							</span>
 							<span className="text-xs text-muted-foreground truncate">
 								{interaction.personId
-									? (personNames.get(
-											interaction.personId,
-										) ?? "—")
+									? (personNames.get(interaction.personId) ??
+										"—")
 									: "—"}
 							</span>
 						</XStack>

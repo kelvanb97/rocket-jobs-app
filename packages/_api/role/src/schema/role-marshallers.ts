@@ -1,7 +1,8 @@
+import type { Database } from "@aja-app/supabase"
 import type {
-	TRole,
-	TMarshalledRole,
 	TCreateRole,
+	TMarshalledRole,
+	TRole,
 	TUpdateRole,
 } from "./role-schema"
 import {
@@ -9,7 +10,6 @@ import {
 	roleSourceSchema,
 	roleStatusSchema,
 } from "./role-schema"
-import type { Database } from "@aja-app/supabase"
 
 type RoleInsert = Database["app"]["Tables"]["role"]["Insert"]
 type RoleUpdate = Database["app"]["Tables"]["role"]["Update"]

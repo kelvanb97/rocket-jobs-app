@@ -130,9 +130,7 @@ export function CompanyFieldsCard({
 						<Input
 							id="company-industry"
 							value={values.industry}
-							onChange={(e) =>
-								update("industry", e.target.value)
-							}
+							onChange={(e) => update("industry", e.target.value)}
 							placeholder="e.g. Fintech, Healthcare"
 						/>
 					</InputGroup>
@@ -142,7 +140,9 @@ export function CompanyFieldsCard({
 						<Textarea
 							id="company-notes"
 							value={values.notes}
-							onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => update("notes", e.target.value)}
+							onChange={(
+								e: React.ChangeEvent<HTMLTextAreaElement>,
+							) => update("notes", e.target.value)}
 							placeholder="Any notes about the company..."
 						/>
 					</InputGroup>

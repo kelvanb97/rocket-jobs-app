@@ -10,14 +10,24 @@ import {
 import { cn } from "@aja-design/ui/cn"
 import { TextBody } from "@aja-design/ui/library/text"
 import { YStack } from "@aja-design/ui/primitives/y-stack"
-import Link from "next/link"
 import type { TPage } from "#templates/app-shell"
+import Link from "next/link"
 
 const NAV_ITEMS = [
-	{ page: "dashboard" as const, href: "/", label: "Dashboard", icon: LayoutDashboard },
+	{
+		page: "dashboard" as const,
+		href: "/",
+		label: "Dashboard",
+		icon: LayoutDashboard,
+	},
 	{ page: "roles" as const, href: "/roles", label: "Roles", icon: Briefcase },
 	{ page: "people" as const, href: "/people", label: "People", icon: Users },
-	{ page: "follow-ups" as const, href: "/follow-ups", label: "Follow-ups", icon: MessageSquare },
+	{
+		page: "follow-ups" as const,
+		href: "/follow-ups",
+		label: "Follow-ups",
+		icon: MessageSquare,
+	},
 ]
 
 const SECONDARY_NAV_ITEMS = [
@@ -52,7 +62,10 @@ export function Sidebar({ activePage }: ISidebarProps) {
 				<YStack className="gap-3 px-1" role="navigation">
 					<NavLinks items={NAV_ITEMS} activePage={activePage} />
 					<div className="mx-2 h-px bg-sidebar-border" />
-					<NavLinks items={SECONDARY_NAV_ITEMS} activePage={activePage} />
+					<NavLinks
+						items={SECONDARY_NAV_ITEMS}
+						activePage={activePage}
+					/>
 				</YStack>
 			</YStack>
 

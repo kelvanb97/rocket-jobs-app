@@ -43,21 +43,18 @@ export function AddInteractionForm({
 	const [personId, setPersonId] = useState("")
 	const [notes, setNotes] = useState("")
 
-	const { execute, result, status } = useAction(
-		createRoleInteractionAction,
-		{
-			onSuccess: ({ data }) => {
-				if (data) {
-					toast.success("Interaction added!")
-					onCreated(data)
-					setType("")
-					setPersonId("")
-					setNotes("")
-					setExpanded(false)
-				}
-			},
+	const { execute, result, status } = useAction(createRoleInteractionAction, {
+		onSuccess: ({ data }) => {
+			if (data) {
+				toast.success("Interaction added!")
+				onCreated(data)
+				setType("")
+				setPersonId("")
+				setNotes("")
+				setExpanded(false)
+			}
 		},
-	)
+	})
 
 	const error = useActionError(result)
 	useToastOnError(error, status)

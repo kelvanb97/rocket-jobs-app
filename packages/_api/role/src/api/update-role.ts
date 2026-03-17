@@ -4,9 +4,7 @@ import { supabaseAdminClient } from "@aja-core/supabase/admin"
 import { marshalUpdateRole, unmarshalRole } from "#schema/role-marshallers"
 import type { TRole, TUpdateRole } from "#schema/role-schema"
 
-export async function updateRole(
-	input: TUpdateRole,
-): Promise<TResult<TRole>> {
+export async function updateRole(input: TUpdateRole): Promise<TResult<TRole>> {
 	const supabase = supabaseAdminClient<Database>()
 
 	const { data, error } = await supabase
