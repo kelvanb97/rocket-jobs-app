@@ -1,8 +1,8 @@
 import { z } from "zod"
 
 const envSchema = z.object({
-	NEXT_PUBLIC_SUPABASE_URL: z.string().trim().url(),
-	NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().trim().min(1),
+	SUPABASE_URL: z.string().trim().url(),
+	SUPABASE_PUBLISHABLE_KEY: z.string().trim().min(1),
 	SUPABASE_SECRET_KEY: z.string().trim().min(1),
 })
 
@@ -18,8 +18,8 @@ const createConfig = (): Config => {
 	const env = envSchema.parse(process.env)
 	return {
 		supabase: {
-			url: env.NEXT_PUBLIC_SUPABASE_URL,
-			publishableKey: env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+			url: env.SUPABASE_URL,
+			publishableKey: env.SUPABASE_PUBLISHABLE_KEY,
 			secretKey: env.SUPABASE_SECRET_KEY,
 		},
 	} as const
