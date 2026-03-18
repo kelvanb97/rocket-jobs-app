@@ -1,0 +1,822 @@
+[
+  {
+    "roleId": "25741090-da9b-46e5-94da-e267f86e1f6f",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:34:39.788Z"
+  },
+  {
+    "roleId": "97ecad7c-b58d-4f0a-9ab8-333ef4641da1",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:34:46.514Z"
+  },
+  {
+    "roleId": "28446bdf-12be-4828-88bc-988828e4d9f5",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:34:48.988Z"
+  },
+  {
+    "roleId": "0a3deab6-ad65-43f8-99cc-2b371ce027b2",
+    "humanScore": 100,
+    "isTitleFit": true,
+    "isSeniorityAppropriate": true,
+    "doSkillsAlign": true,
+    "isLocationAcceptable": true,
+    "isSalaryAcceptable": true,
+    "labeledAt": "2026-03-18T22:35:11.731Z"
+  },
+  {
+    "roleId": "b046f760-86c3-4feb-911f-88e4424688cc",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:35:19.762Z"
+  },
+  {
+    "roleId": "f6ab0964-cc1c-4dfa-a696-1e7fcdbb488d",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:35:22.794Z"
+  },
+  {
+    "roleId": "227fa9dd-9ba4-4306-bfa5-984477774817",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:35:24.703Z"
+  },
+  {
+    "roleId": "49efa05c-0dad-4265-8805-535a9d8368b9",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:35:26.248Z"
+  },
+  {
+    "roleId": "e5e9d4ed-7c73-4731-807d-c31c2afe6c32",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:35:30.189Z"
+  },
+  {
+    "roleId": "53713bb3-4566-44c6-bafe-f29b11694ea5",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:35:32.849Z"
+  },
+  {
+    "roleId": "3d2d9ca0-cd02-4a12-a7c1-ddd6f79c72ee",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:35:35.947Z"
+  },
+  {
+    "roleId": "b97421a2-6f7e-4170-98fe-46be90b0d7b4",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:35:37.924Z"
+  },
+  {
+    "roleId": "66e50e67-456b-4695-94af-f145cc819384",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:35:40.656Z"
+  },
+  {
+    "roleId": "2c9bc14b-28f3-4419-a7a4-44e08052113e",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:35:52.687Z"
+  },
+  {
+    "roleId": "e6bd51a6-e909-4c2d-a109-888a53a2e99b",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:08.342Z"
+  },
+  {
+    "roleId": "4118cf88-64f0-49e0-8f25-91d1cd9e13ad",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:10.725Z"
+  },
+  {
+    "roleId": "da6e9f50-10be-44d1-bbe7-3b57e58202d6",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:16.236Z"
+  },
+  {
+    "roleId": "6e15a0b9-e6cc-4d0c-a7ce-438c1a50f13f",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:19.577Z"
+  },
+  {
+    "roleId": "e319d3d7-d844-4693-b133-44d1105ab999",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:21.244Z"
+  },
+  {
+    "roleId": "1ee27b91-4cad-43ed-82ed-381c024abb9f",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:23.195Z"
+  },
+  {
+    "roleId": "7d5c5596-3265-472c-9a4f-01d9a8fbcd76",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:24.921Z"
+  },
+  {
+    "roleId": "ca66c671-f2e3-49ed-939a-8360d318648f",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:27.549Z"
+  },
+  {
+    "roleId": "b5cb8cb2-9f24-40d3-95a5-bf498f7ba2f4",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:29.215Z"
+  },
+  {
+    "roleId": "11f8d8e7-4f94-4a98-b26a-07162d71e1aa",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:30.929Z"
+  },
+  {
+    "roleId": "1df5593a-9f73-4da8-8b22-093ea974bc07",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:32.521Z"
+  },
+  {
+    "roleId": "02556a13-a149-4874-a3b2-fabe0e8d5eb7",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:35.992Z"
+  },
+  {
+    "roleId": "7a7ca7a2-a367-441c-9e32-d4abe5b6237b",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:37.799Z"
+  },
+  {
+    "roleId": "0d8dffab-6831-4242-8696-47033d10ae76",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:40.033Z"
+  },
+  {
+    "roleId": "ee68aa41-b08b-4cab-aee4-b7fd703fe441",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:45.296Z"
+  },
+  {
+    "roleId": "a8d86058-6310-42d4-ab4b-a08ff84595e7",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:46.935Z"
+  },
+  {
+    "roleId": "bd9ed871-407f-4000-a4f9-64e44a880293",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:53.507Z"
+  },
+  {
+    "roleId": "1410307b-7275-4d81-894b-dc0e34899409",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:36:55.426Z"
+  },
+  {
+    "roleId": "1f5a87f8-e658-483d-abd9-310173ba09d8",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:37:13.369Z"
+  },
+  {
+    "roleId": "2f630ab4-eebc-419a-8a9b-da631507eec2",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:37:18.470Z"
+  },
+  {
+    "roleId": "edc03f05-4651-466b-b025-60441944eab1",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:37:20.355Z"
+  },
+  {
+    "roleId": "9ab9bd00-0a8a-41ef-9b4c-3551294cb14d",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:37:21.682Z"
+  },
+  {
+    "roleId": "eab04aa1-16fc-4674-81d1-33bbebf12b59",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:44:39.925Z"
+  },
+  {
+    "roleId": "1d14b053-7dcb-4373-a6cf-e3e0f3afca34",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:44:43.189Z"
+  },
+  {
+    "roleId": "709e0fbf-5748-48bc-9d99-badad6eb1b35",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:44:45.121Z"
+  },
+  {
+    "roleId": "c8ed5add-ef8c-48cf-91df-53a5a7c4a8f0",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:44:54.460Z"
+  },
+  {
+    "roleId": "6ca8aae2-0d76-4982-a03c-d5331ea1ae69",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:44:57.859Z"
+  },
+  {
+    "roleId": "5cc60952-f3fa-4083-9452-96bce1a70f48",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:06.444Z"
+  },
+  {
+    "roleId": "048aa483-7d2f-46e3-89c8-b9c75d8dc420",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:08.681Z"
+  },
+  {
+    "roleId": "9990871c-c545-418e-ae4e-ccba2f74dc23",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:11.062Z"
+  },
+  {
+    "roleId": "ae295404-a79b-440f-a394-040b39819e6b",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:14.159Z"
+  },
+  {
+    "roleId": "a5cba238-65d3-4ee1-81f9-a5d3cde230a2",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:17.332Z"
+  },
+  {
+    "roleId": "015ea876-c1fa-4149-b19c-a0141fff8ac7",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:20.416Z"
+  },
+  {
+    "roleId": "85df801d-c86a-49e2-b2b4-fd221b53c84b",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:22.356Z"
+  },
+  {
+    "roleId": "1b0187fd-0b6f-4135-bc2e-569936898427",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:23.583Z"
+  },
+  {
+    "roleId": "a49eefa5-b78b-4558-8339-d3349f96c99d",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:25.025Z"
+  },
+  {
+    "roleId": "497a9d02-7887-4edd-bddd-8c8a36c04a63",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:34.518Z"
+  },
+  {
+    "roleId": "dd281d36-e30b-4004-9f5f-008ac06ef710",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:36.186Z"
+  },
+  {
+    "roleId": "cd018920-bb31-4d3d-98e4-50c1cc98173e",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:55.716Z"
+  },
+  {
+    "roleId": "2c867b22-000f-4091-adab-7ae0384ac7e5",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:57.728Z"
+  },
+  {
+    "roleId": "010405bb-5747-4cbe-a65c-6eda57001404",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:45:59.097Z"
+  },
+  {
+    "roleId": "cc017f5b-828d-4288-9187-8ec16dadf4f5",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:00.678Z"
+  },
+  {
+    "roleId": "7f9cce02-f9e6-4131-8076-f08d437c1040",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:03.628Z"
+  },
+  {
+    "roleId": "fddb49e1-c7ca-4214-968f-6c7e3665d183",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:05.750Z"
+  },
+  {
+    "roleId": "4cf5bf58-24e6-471c-8552-90aa83227ae0",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:07.788Z"
+  },
+  {
+    "roleId": "0eab36bc-b2ba-450f-82f5-83852a575ded",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:10.184Z"
+  },
+  {
+    "roleId": "8937034d-f604-410b-b7e0-01626401f0c7",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:12.321Z"
+  },
+  {
+    "roleId": "7e3b961e-07ef-4d5f-bfb1-a9fd06c1e871",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:14.404Z"
+  },
+  {
+    "roleId": "73007e9d-4ce2-4a2a-b883-b30c24a14ee1",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:15.896Z"
+  },
+  {
+    "roleId": "3308b1d0-c014-4b57-a687-7fcbcbb84807",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:17.685Z"
+  },
+  {
+    "roleId": "ab00c150-54e1-4898-b9f7-0a2bae620587",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:19.606Z"
+  },
+  {
+    "roleId": "39a25faf-886e-4ffa-bbe7-62dc65919c84",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:35.532Z"
+  },
+  {
+    "roleId": "bf492d4e-e5f6-4658-8bf6-50311ec38169",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:37.667Z"
+  },
+  {
+    "roleId": "506d97d4-a404-4c0d-8a72-e629bade923e",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:39.414Z"
+  },
+  {
+    "roleId": "31a3388e-c070-447d-b661-95a5b296c270",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:41.332Z"
+  },
+  {
+    "roleId": "b36cb241-6a9d-455c-b95b-2706a49b41c5",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:43.244Z"
+  },
+  {
+    "roleId": "591af29e-888b-4265-87a2-6a83b7920298",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:44.727Z"
+  },
+  {
+    "roleId": "1f8fa029-0d0a-4491-a852-6dbb8f45b3e4",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:48.096Z"
+  },
+  {
+    "roleId": "46544d31-7a13-4ebd-971e-dbba32b7222f",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:46:50.799Z"
+  },
+  {
+    "roleId": "c0149e25-0c54-4d0f-be41-ced8b725919f",
+    "humanScore": 0,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": false,
+    "isSalaryAcceptable": false,
+    "labeledAt": "2026-03-18T22:47:10.655Z"
+  },
+  {
+    "roleId": "96c17688-655e-4754-8c8c-37166c222332",
+    "humanScore": 20,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": true,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": true,
+    "isSalaryAcceptable": true,
+    "labeledAt": "2026-03-18T22:47:28.666Z"
+  },
+  {
+    "roleId": "3bcf52ce-cff9-43af-92a6-da33d4442c1a",
+    "humanScore": 20,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": true,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": true,
+    "isSalaryAcceptable": true,
+    "labeledAt": "2026-03-18T22:47:43.305Z"
+  },
+  {
+    "roleId": "35197cdd-b566-4818-b0dc-71207176dee2",
+    "humanScore": 80,
+    "isTitleFit": true,
+    "isSeniorityAppropriate": true,
+    "doSkillsAlign": true,
+    "isLocationAcceptable": true,
+    "isSalaryAcceptable": true,
+    "labeledAt": "2026-03-18T22:48:05.069Z"
+  },
+  {
+    "roleId": "6ae9262d-d677-4606-a251-d77a882d8210",
+    "humanScore": 20,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": true,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": true,
+    "isSalaryAcceptable": true,
+    "labeledAt": "2026-03-18T22:48:50.095Z"
+  },
+  {
+    "roleId": "9ffe78c1-260c-443a-a8a3-4bb6180a675f",
+    "humanScore": 20,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": true,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": true,
+    "isSalaryAcceptable": true,
+    "labeledAt": "2026-03-18T22:49:01.602Z"
+  },
+  {
+    "roleId": "9e512ca4-f87e-4a7c-ab75-479684cdfc3a",
+    "humanScore": 50,
+    "isTitleFit": true,
+    "isSeniorityAppropriate": true,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": true,
+    "isSalaryAcceptable": true,
+    "labeledAt": "2026-03-18T22:49:21.522Z"
+  },
+  {
+    "roleId": "645441f6-aefa-47ee-afc9-afb3d7bbc98b",
+    "humanScore": 50,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": true,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": true,
+    "isSalaryAcceptable": true,
+    "labeledAt": "2026-03-18T22:49:34.002Z"
+  },
+  {
+    "roleId": "c7e4bf15-39d1-4e28-8202-f8a1af6fbef5",
+    "humanScore": 50,
+    "isTitleFit": false,
+    "isSeniorityAppropriate": false,
+    "doSkillsAlign": false,
+    "isLocationAcceptable": true,
+    "isSalaryAcceptable": true,
+    "labeledAt": "2026-03-18T22:49:59.898Z"
+  }
+]

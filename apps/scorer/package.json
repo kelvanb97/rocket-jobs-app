@@ -6,8 +6,8 @@
 	"scripts": {
 		"score": "node --env-file=.env --import=tsx src/index.ts",
 		"label": "node --env-file=.env --import=tsx src/index.ts --label",
-		"eval": "node --env-file=.env --import=tsx src/index.ts --eval",
-		"optimize": "node --env-file=.env --import=tsx src/index.ts --optimize",
+		"eval-ar": "node --env-file=.env --import=tsx autoresearch/scripts/eval.ts",
+		"backfill-eval": "node --env-file=.env --import=tsx src/index.ts --backfill",
 		"check-types": "tsc --noEmit",
 		"lint": "eslint ./src"
 	},
@@ -15,6 +15,7 @@
 		"@aja-api/company": "workspace:*",
 		"@aja-api/role": "workspace:*",
 		"@aja-api/score": "workspace:*",
+		"@aja-integrations/anthropic": "workspace:*",
 		"@aja-core/result": "workspace:*",
 		"@aja-core/supabase": "workspace:*",
 		"@anthropic-ai/sdk": "0.52.0",

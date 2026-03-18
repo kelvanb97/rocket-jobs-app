@@ -1,20 +1,25 @@
-import { createInterface } from "node:readline/promises"
 import { stdin, stdout } from "node:process"
+import { createInterface } from "node:readline/promises"
 import { getCompany } from "@aja-api/company/api/get-company"
+import { getRole } from "@aja-api/role/api/get-role"
 import { listUnscoredRoles } from "@aja-api/role/api/list-unscored-roles"
 import type { TRole } from "@aja-api/role/schema/role-schema"
+import { USER_PROFILE } from "@aja-api/score/config/profile"
+import { buildScoringPrompt } from "@aja-api/score/prompt/scoring-prompt"
 import { convert } from "html-to-text"
-import { saveLabel } from "./dataset.js"
+import {
+	loadDataset,
+	loadEvalSet,
+	saveEvalExample,
+	saveLabel,
+} from "./dataset.js"
 
 function getArg(flag: string): string | undefined {
 	const idx = process.argv.indexOf(flag)
 	return idx !== -1 ? process.argv[idx + 1] : undefined
 }
 
-function formatRoleForDisplay(
-	role: TRole,
-	companyName: string | null,
-): string {
+function formatRoleForDisplay(role: TRole, companyName: string | null): string {
 	const lines = [
 		"─".repeat(60),
 		`Title: ${role.title}`,
@@ -33,9 +38,7 @@ function formatRoleForDisplay(
 
 function formatDescription(description: string): string {
 	const isHtml = /<[a-z][\s\S]*>/i.test(description)
-	const text = isHtml
-		? convert(description, { wordwrap: 80 })
-		: description
+	const text = isHtml ? convert(description, { wordwrap: 80 }) : description
 	const trimmed = text.slice(0, 1500)
 	return trimmed.length < text.length ? trimmed + "\n..." : trimmed
 }
@@ -63,18 +66,21 @@ export async function runLabeler(): Promise<void> {
 		return
 	}
 
-	console.log(`\nLabeling ${roles.length} roles. Type "skip" to skip, "quit" to stop.\n`)
+	console.log(
+		`\nLabeling ${roles.length} roles. Type "skip" to skip, "quit" to stop.\n`,
+	)
 
 	const rl = createInterface({ input: stdin, output: stdout })
 
 	try {
 		for (let i = 0; i < roles.length; i++) {
 			const role = roles[i]!
-			const companyName = role.companyId
+			const company = role.companyId
 				? await getCompany(role.companyId).then((r) =>
-						r.ok ? r.data.name : null,
+						r.ok ? r.data : null,
 					)
 				: null
+			const companyName = company?.name ?? null
 
 			console.log(`\n[${i + 1}/${roles.length}]`)
 			console.log(formatRoleForDisplay(role, companyName))
@@ -89,27 +95,79 @@ export async function runLabeler(): Promise<void> {
 				continue
 			}
 
-			const positiveInput = await rl.question(
-				"Positive reasons (comma-separated): ",
-			)
-			const negativeInput = await rl.question(
-				"Negative reasons (comma-separated): ",
-			)
+			if (score === 0) {
+				const labeledAt = new Date().toISOString()
+				await saveLabel({
+					roleId: role.id,
+					humanScore: 0,
+					isTitleFit: false,
+					isSeniorityAppropriate: false,
+					doSkillsAlign: false,
+					isLocationAcceptable: false,
+					isSalaryAcceptable: false,
+					labeledAt,
+				})
+				const { user: userMessage } = buildScoringPrompt(
+					role,
+					company,
+					USER_PROFILE,
+				)
+				await saveEvalExample({
+					roleId: role.id,
+					title: role.title,
+					userMessage,
+					humanScore: 0,
+					isTitleFit: false,
+					isSeniorityAppropriate: false,
+					doSkillsAlign: false,
+					isLocationAcceptable: false,
+					isSalaryAcceptable: false,
+					labeledAt,
+				})
+				console.log(`Saved: score=0 (binary fields skipped)`)
+				continue
+			}
 
-			const positive = positiveInput
-				.split(",")
-				.map((s) => s.trim())
-				.filter(Boolean)
-			const negative = negativeInput
-				.split(",")
-				.map((s) => s.trim())
-				.filter(Boolean)
+			const yn = (s: string) => s.trim().toLowerCase() === "y"
+
+			const isTitleFit = yn(await rl.question("Title fit? (y/n): "))
+			const isSeniorityAppropriate = yn(
+				await rl.question("Seniority appropriate? (y/n): "),
+			)
+			const doSkillsAlign = yn(await rl.question("Skills align? (y/n): "))
+			const isLocationAcceptable = yn(
+				await rl.question("Location acceptable? (y/n): "),
+			)
+			const isSalaryAcceptable = yn(
+				await rl.question("Salary acceptable? (y/n): "),
+			)
 
 			await saveLabel({
 				roleId: role.id,
 				humanScore: score,
-				humanPositive: positive,
-				humanNegative: negative,
+				isTitleFit,
+				isSeniorityAppropriate,
+				doSkillsAlign,
+				isLocationAcceptable,
+				isSalaryAcceptable,
+				labeledAt: new Date().toISOString(),
+			})
+
+			const { user: userMessage } = buildScoringPrompt(
+				role,
+				company,
+				USER_PROFILE,
+			)
+			await saveEvalExample({
+				roleId: role.id,
+				title: role.title,
+				userMessage,
+				humanScore: score,
+				isTitleFit,
+				isSeniorityAppropriate,
+				doSkillsAlign,
+				isLocationAcceptable,
+				isSalaryAcceptable,
 				labeledAt: new Date().toISOString(),
 			})
 
@@ -120,4 +178,59 @@ export async function runLabeler(): Promise<void> {
 	}
 
 	console.log("\nLabeling session complete.")
+}
+
+export async function runBackfill(): Promise<void> {
+	console.log("[backfill] Loading labeled roles and eval set...")
+	const dataset = await loadDataset()
+	const evalSet = await loadEvalSet()
+	const evalSetIds = new Set(evalSet.map((e) => e.roleId))
+
+	const missing = dataset.filter((l) => !evalSetIds.has(l.roleId))
+
+	if (missing.length === 0) {
+		console.log("[backfill] Eval set is already up to date.")
+		return
+	}
+
+	console.log(`[backfill] Backfilling ${missing.length} entries...`)
+
+	for (const label of missing) {
+		const roleResult = await getRole(label.roleId)
+		if (!roleResult.ok) {
+			console.warn(
+				`[backfill] Could not fetch role ${label.roleId}, skipping`,
+			)
+			continue
+		}
+
+		const role = roleResult.data
+		const company = role.companyId
+			? await getCompany(role.companyId).then((r) =>
+					r.ok ? r.data : null,
+				)
+			: null
+
+		const { user: userMessage } = buildScoringPrompt(
+			role,
+			company,
+			USER_PROFILE,
+		)
+		await saveEvalExample({
+			roleId: role.id,
+			title: role.title,
+			userMessage,
+			humanScore: label.humanScore,
+			isTitleFit: label.isTitleFit,
+			isSeniorityAppropriate: label.isSeniorityAppropriate,
+			doSkillsAlign: label.doSkillsAlign,
+			isLocationAcceptable: label.isLocationAcceptable,
+			isSalaryAcceptable: label.isSalaryAcceptable,
+			labeledAt: label.labeledAt,
+		})
+
+		console.log(`[backfill] Saved: ${role.title}`)
+	}
+
+	console.log("[backfill] Done.")
 }

@@ -1,4 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": "@aja-core/tsconfig/strict.json"
+	"extends": "@aja-core/tsconfig/strict.json",
+	"compilerOptions": {
+		"allowImportingTsExtensions": true
+	}
 }

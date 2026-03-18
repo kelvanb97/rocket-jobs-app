@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk"
-import type { z } from "zod"
+import { z } from "zod"
 
 export type TAnthropicModel = Anthropic.Messages.Model
 
@@ -32,19 +32,30 @@ export async function createMessage<T>(
 ): Promise<T> {
 	const client = getClient()
 
+	const inputSchema = z.toJSONSchema(params.schema)
+
 	const message = await client.messages.create({
 		model: params.model,
 		max_tokens: params.maxTokens ?? 1024,
 		system: params.system,
 		messages: [{ role: "user", content: params.user }],
+		tools: [
+			{
+				name: "respond",
+				description: "Respond with structured output",
+				input_schema: inputSchema as {
+					type: "object"
+					[key: string]: unknown
+				},
+			},
+		],
+		tool_choice: { type: "tool", name: "respond" },
 	})
 
-	const text = message.content
-		.filter((block) => block.type === "text")
-		.map((block) => block.text)
-		.join("")
+	const toolUse = message.content.find((block) => block.type === "tool_use")
+	if (!toolUse || toolUse.type !== "tool_use") {
+		throw new Error("No tool use block in response")
+	}
 
-	const parsed = JSON.parse(text) as unknown
-
-	return params.schema.parse(parsed)
+	return params.schema.parse(toolUse.input)
 }

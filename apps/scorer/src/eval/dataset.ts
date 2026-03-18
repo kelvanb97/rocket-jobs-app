@@ -1,12 +1,15 @@
-import { readFile, writeFile, mkdir } from "node:fs/promises"
+import { mkdir, readFile, writeFile } from "node:fs/promises"
 import { dirname, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
 export type TLabeledRole = {
 	roleId: string
 	humanScore: number
-	humanPositive: string[]
-	humanNegative: string[]
+	isTitleFit: boolean
+	isSeniorityAppropriate: boolean
+	doSkillsAlign: boolean
+	isLocationAcceptable: boolean
+	isSalaryAcceptable: boolean
 	labeledAt: string
 }
 
@@ -37,4 +40,43 @@ export async function saveLabel(label: TLabeledRole): Promise<void> {
 export async function saveDataset(dataset: TLabeledRole[]): Promise<void> {
 	await mkdir(dirname(DATA_PATH), { recursive: true })
 	await writeFile(DATA_PATH, JSON.stringify(dataset, null, 2) + "\n")
+}
+
+const EVAL_SET_PATH = resolve(
+	__dirname,
+	"../../autoresearch/evals/eval_set.json",
+)
+
+export type TEvalExample = {
+	roleId: string
+	title: string
+	userMessage: string
+	humanScore: number
+	isTitleFit: boolean
+	isSeniorityAppropriate: boolean
+	doSkillsAlign: boolean
+	isLocationAcceptable: boolean
+	isSalaryAcceptable: boolean
+	labeledAt: string
+}
+
+export async function loadEvalSet(): Promise<TEvalExample[]> {
+	try {
+		const raw = await readFile(EVAL_SET_PATH, "utf-8")
+		return JSON.parse(raw) as TEvalExample[]
+	} catch {
+		return []
+	}
+}
+
+export async function saveEvalExample(example: TEvalExample): Promise<void> {
+	const evalSet = await loadEvalSet()
+	const existing = evalSet.findIndex((e) => e.roleId === example.roleId)
+	if (existing !== -1) {
+		evalSet[existing] = example
+	} else {
+		evalSet.push(example)
+	}
+	await mkdir(dirname(EVAL_SET_PATH), { recursive: true })
+	await writeFile(EVAL_SET_PATH, JSON.stringify(evalSet, null, 2) + "\n")
 }

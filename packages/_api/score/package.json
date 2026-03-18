@@ -6,7 +6,10 @@
 	"sideEffects": false,
 	"exports": {
 		"./api/*": "./src/api/*.ts",
-		"./schema/*": "./src/schema/*.ts"
+		"./schema/*": "./src/schema/*.ts",
+		"./config/*": "./src/config/*.ts",
+		"./prompt/*": "./src/prompt/*.ts",
+		"./lib/*": "./src/lib/*.ts"
 	},
 	"scripts": {
 		"check-types": "tsc --noEmit",
@@ -17,6 +20,9 @@
 		"zod": "^4.3.6"
 	},
 	"dependencies": {
+		"@aja-api/company": "workspace:*",
+		"@aja-api/role": "workspace:*",
+		"@aja-integrations/anthropic": "workspace:*",
 		"@aja-core/result": "workspace:*"
 	},
 	"devDependencies": {
@@ -42,6 +48,18 @@
 		"#schema*": [
 			"./src/schema*",
 			"./src/schema*.ts"
+		],
+		"#config*": [
+			"./src/config*",
+			"./src/config*.ts"
+		],
+		"#prompt*": [
+			"./src/prompt*",
+			"./src/prompt*.ts"
+		],
+		"#lib*": [
+			"./src/lib*",
+			"./src/lib*.ts"
 		]
 	}
 }

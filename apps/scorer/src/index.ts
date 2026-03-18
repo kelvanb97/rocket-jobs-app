@@ -1,7 +1,5 @@
+import { runBackfill, runLabeler } from "./eval/labeler.js"
 import { runScorer } from "./scorer.js"
-import { runLabeler } from "./eval/labeler.js"
-import { runEvaluator } from "./eval/evaluator.js"
-import { runOptimizer } from "./eval/optimizer.js"
 
 async function main() {
 	if (process.argv.includes("--label")) {
@@ -9,13 +7,8 @@ async function main() {
 		process.exit(0)
 	}
 
-	if (process.argv.includes("--eval")) {
-		await runEvaluator()
-		process.exit(0)
-	}
-
-	if (process.argv.includes("--optimize")) {
-		await runOptimizer()
+	if (process.argv.includes("--backfill")) {
+		await runBackfill()
 		process.exit(0)
 	}
 
