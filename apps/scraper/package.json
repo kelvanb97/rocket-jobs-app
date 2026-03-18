@@ -16,6 +16,7 @@
 	"dependencies": {
 		"@aja-api/company": "workspace:*",
 		"@aja-api/role": "workspace:*",
+		"@aja-api/score": "workspace:*",
 		"@aja-core/result": "workspace:*",
 		"@aja-core/supabase": "workspace:*",
 		"node-cron": "4.0.7",

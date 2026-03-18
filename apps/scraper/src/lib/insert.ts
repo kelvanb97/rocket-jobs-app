@@ -2,7 +2,11 @@ import { createCompany } from "@aja-api/company/api/create-company"
 import { findCompanyByName } from "@aja-api/company/api/find-company-by-name"
 import { createRole } from "@aja-api/role/api/create-role"
 import { listRoleUrls } from "@aja-api/role/api/list-role-urls"
-import type { TLocationType, TRoleSource } from "@aja-api/role/schema/role-schema"
+import type {
+	TLocationType,
+	TRoleSource,
+} from "@aja-api/role/schema/role-schema"
+import { scoreRoleById } from "@aja-api/score/api/score-role-by-id"
 
 export type ScrapedRole = {
 	title: string
@@ -33,7 +37,9 @@ async function resolveCompanyId(
 
 	const createResult = await createCompany({ name: name.trim() })
 	if (!createResult.ok) {
-		console.warn(`Failed to create company "${name}": ${createResult.error.message}`)
+		console.warn(
+			`Failed to create company "${name}": ${createResult.error.message}`,
+		)
 		return null
 	}
 
@@ -45,7 +51,8 @@ export async function insertRoles(
 	roles: ScrapedRole[],
 ): Promise<{ inserted: number; skipped: number }> {
 	const rolesWithUrl = roles.filter(
-		(r): r is ScrapedRole & { url: string } => r.url !== null && r.url !== "",
+		(r): r is ScrapedRole & { url: string } =>
+			r.url !== null && r.url !== "",
 	)
 
 	if (rolesWithUrl.length === 0) {
@@ -100,8 +107,20 @@ export async function insertRoles(
 
 		if (result.ok) {
 			inserted++
+			const scoreResult = await scoreRoleById(result.data.id)
+			if (scoreResult.ok) {
+				console.log(
+					`[scorer] "${role.title}" → ${scoreResult.data.score}`,
+				)
+			} else {
+				console.warn(
+					`[scorer] "${role.title}": ${scoreResult.error.message}`,
+				)
+			}
 		} else {
-			console.warn(`Failed to insert role "${role.title}": ${result.error.message}`)
+			console.warn(
+				`Failed to insert role "${role.title}": ${result.error.message}`,
+			)
 		}
 	}
 
