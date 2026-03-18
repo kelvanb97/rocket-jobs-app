@@ -21,6 +21,7 @@
 		"@aja-api/interaction": "workspace:*",
 		"@aja-api/person": "workspace:*",
 		"@aja-api/role": "workspace:*",
+		"@aja-api/score": "workspace:*",
 		"@aja-api/role-person": "workspace:*",
 		"@aja-core/dates": "workspace:*",
 		"@aja-core/next-safe-action": "workspace:*",

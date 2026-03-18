@@ -2,6 +2,7 @@
 
 import type { TCompany } from "@aja-api/company/schema/company-schema"
 import type { TRole, TRoleStatus } from "@aja-api/role/schema/role-schema"
+import type { TScore } from "@aja-api/score/schema/score-schema"
 import {
 	useAction,
 	useActionError,
@@ -11,16 +12,37 @@ import {
 import { YStack } from "@aja-design/ui/primitives/y-stack"
 import { listRolesWithCompaniesAction } from "#actions/list-roles-with-companies"
 import { updateRoleStatusAction } from "#actions/update-role-status"
-import { RolesFilterBar, type IRolesFilters } from "#molecules/roles-filter-bar"
+import {
+	RolesFilterBar,
+	type IRolesFilters,
+	type TSortOption,
+} from "#molecules/roles-filter-bar"
 import { EditRoleDialog } from "#organisms/edit-role-dialog"
 import { RolesTable } from "#organisms/roles-table"
 import { useCallback, useEffect, useReducer, useRef } from "react"
 
 const PAGE_SIZE = 25
 
+function parseSortOption(sort: TSortOption): {
+	sortBy: "posted_at" | "created_at" | "score"
+	sortOrder: "asc" | "desc"
+} {
+	switch (sort) {
+		case "posted_at_desc":
+			return { sortBy: "posted_at", sortOrder: "desc" }
+		case "created_at_desc":
+			return { sortBy: "created_at", sortOrder: "desc" }
+		case "score_desc":
+			return { sortBy: "score", sortOrder: "desc" }
+		case "score_asc":
+			return { sortBy: "score", sortOrder: "asc" }
+	}
+}
+
 interface IState {
 	roles: TRole[]
 	companies: Map<string, TCompany>
+	scores: Map<string, TScore>
 	filters: IRolesFilters
 	page: number
 	hasNext: boolean
@@ -34,6 +56,7 @@ type TAction =
 			type: "LOAD_SUCCESS"
 			roles: TRole[]
 			companies: TCompany[]
+			scores: TScore[]
 			hasNext: boolean
 			page: number
 	  }
@@ -49,6 +72,7 @@ function reducer(state: IState, action: TAction): IState {
 				filters: action.filters,
 				roles: [],
 				companies: new Map(),
+				scores: new Map(),
 				page: 1,
 				hasNext: false,
 			}
@@ -57,6 +81,10 @@ function reducer(state: IState, action: TAction): IState {
 			for (const c of action.companies) {
 				newCompanies.set(c.id, c)
 			}
+			const newScores = new Map(state.scores)
+			for (const s of action.scores) {
+				if (s.roleId) newScores.set(s.roleId, s)
+			}
 			return {
 				...state,
 				roles:
@@ -64,6 +92,7 @@ function reducer(state: IState, action: TAction): IState {
 						? action.roles
 						: [...state.roles, ...action.roles],
 				companies: newCompanies,
+				scores: newScores,
 				hasNext: action.hasNext,
 				page: action.page,
 			}
@@ -85,11 +114,15 @@ function reducer(state: IState, action: TAction): IState {
 const INITIAL_STATE: IState = {
 	roles: [],
 	companies: new Map(),
+	scores: new Map(),
 	filters: {
 		search: "",
 		status: undefined,
 		locationType: undefined,
 		source: undefined,
+		scoreMin: undefined,
+		scoreMax: undefined,
+		sort: "posted_at_desc",
 	},
 	page: 1,
 	hasNext: false,
@@ -116,6 +149,7 @@ export function RolesTemplate() {
 					type: "LOAD_SUCCESS",
 					roles: data.roles,
 					companies: data.companies,
+					scores: data.scores,
 					hasNext: data.hasNext,
 					page: input.page ?? 1,
 				})
@@ -147,6 +181,7 @@ export function RolesTemplate() {
 	const doFetch = useCallback(
 		(page: number) => {
 			const f = filtersRef.current
+			const { sortBy, sortOrder } = parseSortOption(f.sort)
 			fetchRoles({
 				page,
 				pageSize: PAGE_SIZE,
@@ -154,8 +189,10 @@ export function RolesTemplate() {
 				status: f.status,
 				locationType: f.locationType,
 				source: f.source,
-				sortBy: "posted_at",
-				sortOrder: "desc",
+				scoreMin: f.scoreMin,
+				scoreMax: f.scoreMax,
+				sortBy,
+				sortOrder,
 			})
 		},
 		[fetchRoles],
@@ -215,6 +252,11 @@ export function RolesTemplate() {
 		companiesNameMap.set(id, company.name)
 	}
 
+	const scoresMap = new Map<string, number>()
+	for (const [roleId, score] of state.scores) {
+		scoresMap.set(roleId, score.score)
+	}
+
 	const selectedCompany = state.selectedRole?.companyId
 		? (state.companies.get(state.selectedRole.companyId) ?? null)
 		: null
@@ -228,6 +270,7 @@ export function RolesTemplate() {
 			<RolesTable
 				roles={state.roles}
 				companiesMap={companiesNameMap}
+				scoresMap={scoresMap}
 				onStatusChange={handleStatusChange}
 				onRowClick={handleRowClick}
 				sentinelRef={sentinelCallbackRef}

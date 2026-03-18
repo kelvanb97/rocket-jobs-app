@@ -28,9 +28,16 @@ function formatLocation(
 	return locationType ?? location ?? "—"
 }
 
+function scoreColor(score: number): string {
+	if (score >= 70) return "text-green-600 dark:text-green-400"
+	if (score >= 40) return "text-yellow-600 dark:text-yellow-400"
+	return "text-red-600 dark:text-red-400"
+}
+
 interface IRolesTableRowProps {
 	role: TRole
 	companyName: string | null
+	score: number | null
 	onStatusChange: (roleId: string, status: TRoleStatus) => void
 	onClick: () => void
 	statusDisabled?: boolean
@@ -39,23 +46,19 @@ interface IRolesTableRowProps {
 export function RolesTableRow({
 	role,
 	companyName,
+	score,
 	onStatusChange,
 	onClick,
 	statusDisabled = false,
 }: IRolesTableRowProps) {
 	return (
-		<TableRow
-			className="cursor-pointer"
-			onClick={onClick}
-		>
+		<TableRow className="cursor-pointer" onClick={onClick}>
 			<TableCell className="font-medium">{role.title}</TableCell>
 			<TableCell>{companyName ?? "—"}</TableCell>
 			<TableCell>
 				<RoleStatusSelect
 					value={role.status}
-					onValueChange={(status) =>
-						onStatusChange(role.id, status)
-					}
+					onValueChange={(status) => onStatusChange(role.id, status)}
 					disabled={statusDisabled}
 				/>
 			</TableCell>
@@ -64,6 +67,15 @@ export function RolesTableRow({
 			</TableCell>
 			<TableCell>
 				{formatSalary(role.salaryMin, role.salaryMax)}
+			</TableCell>
+			<TableCell>
+				{score !== null ? (
+					<span className={`font-medium ${scoreColor(score)}`}>
+						{score}
+					</span>
+				) : (
+					<span className="text-muted-foreground">—</span>
+				)}
 			</TableCell>
 			<TableCell>
 				{role.source ? (

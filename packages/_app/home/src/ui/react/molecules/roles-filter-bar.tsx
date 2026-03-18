@@ -10,11 +10,20 @@ import { XStack } from "@aja-design/ui/primitives/x-stack"
 import { YStack } from "@aja-design/ui/primitives/y-stack"
 import { useRef, useState } from "react"
 
+export type TSortOption =
+	| "posted_at_desc"
+	| "created_at_desc"
+	| "score_desc"
+	| "score_asc"
+
 export interface IRolesFilters {
 	search: string
 	status: TRoleStatus | undefined
 	locationType: TLocationType | undefined
 	source: TRoleSource | undefined
+	scoreMin: number | undefined
+	scoreMax: number | undefined
+	sort: TSortOption
 }
 
 const STATUS_CHIPS: Array<{ label: string; value: TRoleStatus | undefined }> = [
@@ -44,6 +53,13 @@ const SOURCE_OPTIONS: { label: string; value: TRoleSource }[] = [
 	{ label: "Other", value: "other" },
 ]
 
+const SORT_OPTIONS: { label: string; value: TSortOption }[] = [
+	{ label: "Newest Posted", value: "posted_at_desc" },
+	{ label: "Newest Added", value: "created_at_desc" },
+	{ label: "Highest Score", value: "score_desc" },
+	{ label: "Lowest Score", value: "score_asc" },
+]
+
 interface IRolesFilterBarProps {
 	filters: IRolesFilters
 	onFiltersChange: (filters: IRolesFilters) => void
@@ -62,6 +78,15 @@ export function RolesFilterBar({
 		timerRef.current = setTimeout(() => {
 			onFiltersChange({ ...filters, search: value })
 		}, 300)
+	}
+
+	const handleScoreChange = (
+		field: "scoreMin" | "scoreMax",
+		value: string,
+	) => {
+		const num = value === "" ? undefined : Number(value)
+		if (num !== undefined && (isNaN(num) || num < 0 || num > 100)) return
+		onFiltersChange({ ...filters, [field]: num })
 	}
 
 	return (
@@ -122,6 +147,39 @@ export function RolesFilterBar({
 					}
 					options={SOURCE_OPTIONS}
 					placeholder="Source"
+				/>
+				<Input
+					type="number"
+					min={0}
+					max={100}
+					value={filters.scoreMin ?? ""}
+					onChange={(e) =>
+						handleScoreChange("scoreMin", e.target.value)
+					}
+					placeholder="Min score"
+					className="max-w-[100px]"
+				/>
+				<Input
+					type="number"
+					min={0}
+					max={100}
+					value={filters.scoreMax ?? ""}
+					onChange={(e) =>
+						handleScoreChange("scoreMax", e.target.value)
+					}
+					placeholder="Max score"
+					className="max-w-[100px]"
+				/>
+				<Select
+					value={filters.sort}
+					onValueChange={(val) =>
+						onFiltersChange({
+							...filters,
+							sort: val as TSortOption,
+						})
+					}
+					options={SORT_OPTIONS}
+					placeholder="Sort by"
 				/>
 			</XStack>
 		</YStack>

@@ -12,6 +12,7 @@ import { RolesTableRow } from "#molecules/roles-table-row"
 interface IRolesTableProps {
 	roles: TRole[]
 	companiesMap: Map<string, string>
+	scoresMap: Map<string, number>
 	onStatusChange: (roleId: string, status: TRoleStatus) => void
 	onRowClick: (role: TRole) => void
 	sentinelRef: React.RefCallback<HTMLDivElement>
@@ -22,6 +23,7 @@ interface IRolesTableProps {
 export function RolesTable({
 	roles,
 	companiesMap,
+	scoresMap,
 	onStatusChange,
 	onRowClick,
 	sentinelRef,
@@ -46,6 +48,7 @@ export function RolesTable({
 						<TableHead>Status</TableHead>
 						<TableHead>Location</TableHead>
 						<TableHead>Salary</TableHead>
+						<TableHead>Score</TableHead>
 						<TableHead>Source</TableHead>
 						<TableHead>Posted</TableHead>
 						<TableHead>Added</TableHead>
@@ -61,6 +64,7 @@ export function RolesTable({
 									? (companiesMap.get(role.companyId) ?? null)
 									: null
 							}
+							score={scoresMap.get(role.id) ?? null}
 							onStatusChange={onStatusChange}
 							onClick={() => onRowClick(role)}
 							statusDisabled={role.id === statusDisabledId}
