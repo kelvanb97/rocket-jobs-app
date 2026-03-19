@@ -109,12 +109,18 @@ importers:
       '@aja-api/score':
         specifier: workspace:*
         version: link:../../packages/_api/score
+      '@aja-config/profile':
+        specifier: workspace:*
+        version: link:../../packages/_config/profile
       '@aja-core/result':
         specifier: workspace:*
         version: link:../../packages/_core/result
       '@aja-core/supabase':
         specifier: workspace:*
         version: link:../../packages/_core/supabase
+      '@aja-integrations/patchright':
+        specifier: workspace:*
+        version: link:../../packages/_integrations/patchright
       node-cron:
         specifier: 4.0.7
         version: 4.0.7
@@ -398,6 +404,9 @@ importers:
       '@aja-api/role':
         specifier: workspace:*
         version: link:../role
+      '@aja-config/profile':
+        specifier: workspace:*
+        version: link:../../_config/profile
       '@aja-core/result':
         specifier: workspace:*
         version: link:../../_core/result
@@ -495,6 +504,24 @@ importers:
         version: 19.2.4(react@19.2.4)
 
   packages/_app/supabase: {}
+
+  packages/_config/profile:
+    devDependencies:
+      '@aja-core/eslint':
+        specifier: workspace:*
+        version: link:../../_core/eslint
+      '@aja-core/tsconfig':
+        specifier: workspace:*
+        version: link:../../_core/tsconfig
+      '@types/node':
+        specifier: 25.5.0
+        version: 25.5.0
+      eslint:
+        specifier: 9.24.0
+        version: 9.24.0(jiti@2.6.1)
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
 
   packages/_core/dates:
     devDependencies:
@@ -812,6 +839,28 @@ importers:
       zod:
         specifier: 4.3.6
         version: 4.3.6
+    devDependencies:
+      '@aja-core/eslint':
+        specifier: workspace:*
+        version: link:../../_core/eslint
+      '@aja-core/tsconfig':
+        specifier: workspace:*
+        version: link:../../_core/tsconfig
+      '@types/node':
+        specifier: 25.5.0
+        version: 25.5.0
+      eslint:
+        specifier: 9.24.0
+        version: 9.24.0(jiti@2.6.1)
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/_integrations/patchright:
+    dependencies:
+      patchright:
+        specifier: 1.58.2
+        version: 1.58.2
     devDependencies:
       '@aja-core/eslint':
         specifier: workspace:*
@@ -3164,6 +3213,11 @@ packages:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
     engines: {node: '>= 0.4'}
 
+  fsevents@2.3.2:
+    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -3873,6 +3927,16 @@ packages:
 
   parseley@0.12.1:
     resolution: {integrity: sha512-e6qHKe3a9HWr0oMRVDTRhKce+bRO8VGQR3NyVwcjwrbhMmFCX9KszEV35+rn4AdilFAq9VPxP/Fe1wC9Qjd2lw==}
+
+  patchright-core@1.58.2:
+    resolution: {integrity: sha512-f3r0u6as+4nd0Vmr4ndH/zwijMHj7ECxelSa5iMeIJPxtLOwbo22LQPC1qjZZtSIhAVzUDStx4nw/BW3MqhJIQ==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  patchright@1.58.2:
+    resolution: {integrity: sha512-B1pufT2A5uZKL4e5/s2cykUo4RpVupHfJ8eTvuS560D/B7H8McjLzN9n6ruYFIi5/e17WJL428bFMUOEgPL5OQ==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   path-exists@4.0.0:
     resolution: {integrity: sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==}
@@ -7081,6 +7145,9 @@ snapshots:
     dependencies:
       is-callable: 1.2.7
 
+  fsevents@2.3.2:
+    optional: true
+
   fsevents@2.3.3:
     optional: true
 
@@ -7767,6 +7834,14 @@ snapshots:
     dependencies:
       leac: 0.6.0
       peberminta: 0.9.0
+
+  patchright-core@1.58.2: {}
+
+  patchright@1.58.2:
+    dependencies:
+      patchright-core: 1.58.2
+    optionalDependencies:
+      fsevents: 2.3.2
 
   path-exists@4.0.0: {}
 

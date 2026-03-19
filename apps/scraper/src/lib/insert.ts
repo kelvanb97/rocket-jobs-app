@@ -11,6 +11,8 @@ import { scoreRoleById } from "@aja-api/score/api/score-role-by-id"
 export type ScrapedRole = {
 	title: string
 	url: string | null
+	source_url?: string | null
+	application_url?: string | null
 	company: string | null
 	description: string | null
 	source: TRoleSource
@@ -96,6 +98,8 @@ export async function insertRoles(
 			companyId,
 			title: role.title,
 			url: role.url,
+			sourceUrl: role.source_url,
+			applicationUrl: role.application_url,
 			description: role.description,
 			source: role.source,
 			locationType: role.location_type,

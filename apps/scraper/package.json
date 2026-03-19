@@ -10,6 +10,7 @@
 		"scrape:jobicy": "node --env-file=.env --import=tsx src/index.ts --now --source jobicy",
 		"scrape:remoteok": "node --env-file=.env --import=tsx src/index.ts --now --source remoteok",
 		"scrape:weworkremotely": "node --env-file=.env --import=tsx src/index.ts --now --source weworkremotely",
+		"scrape:google-jobs": "node --env-file=.env --import=tsx src/index.ts --now --source google-jobs",
 		"check-types": "tsc --noEmit",
 		"lint": "eslint ./src"
 	},
@@ -17,8 +18,10 @@
 		"@aja-api/company": "workspace:*",
 		"@aja-api/role": "workspace:*",
 		"@aja-api/score": "workspace:*",
+		"@aja-config/profile": "workspace:*",
 		"@aja-core/result": "workspace:*",
 		"@aja-core/supabase": "workspace:*",
+		"@aja-integrations/patchright": "workspace:*",
 		"node-cron": "4.0.7",
 		"rss-parser": "3.13.0",
 		"zod": "4.3.6"

@@ -10,7 +10,8 @@
 				"SUPABASE_URL",
 				"SUPABASE_PUBLISHABLE_KEY",
 				"SUPABASE_SECRET_KEY",
-				"SCRAPER_CRON_SCHEDULE"
+				"SCRAPER_CRON_SCHEDULE",
+				"SCRAPER_HTTP_PORT"
 			],
 			"dependsOn": ["^build"],
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],

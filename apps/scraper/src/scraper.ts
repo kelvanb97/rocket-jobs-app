@@ -1,4 +1,5 @@
 import { insertRoles, type ScrapedRole } from "./lib/insert"
+import * as googleJobs from "./sources/google-jobs"
 import * as himalayas from "./sources/himalayas"
 import * as jobicy from "./sources/jobicy"
 import * as remoteok from "./sources/remoteok"
@@ -19,6 +20,7 @@ const sources: Record<string, SourceModule> = {
 	weworkremotely,
 	himalayas,
 	jobicy,
+	"google-jobs": googleJobs,
 }
 
 type ScrapeSummary = {
