@@ -7,7 +7,6 @@
 	"exports": {
 		"./api/*": "./src/api/*.ts",
 		"./schema/*": "./src/schema/*.ts",
-		"./config/*": "./src/config/*.ts",
 		"./prompt/*": "./src/prompt/*.ts",
 		"./lib/*": "./src/lib/*.ts"
 	},
@@ -22,6 +21,7 @@
 	"dependencies": {
 		"@aja-api/company": "workspace:*",
 		"@aja-api/role": "workspace:*",
+		"@aja-config/profile": "workspace:*",
 		"@aja-integrations/anthropic": "workspace:*",
 		"@aja-core/result": "workspace:*"
 	},
@@ -48,10 +48,6 @@
 		"#schema*": [
 			"./src/schema*",
 			"./src/schema*.ts"
-		],
-		"#config*": [
-			"./src/config*",
-			"./src/config*.ts"
 		],
 		"#prompt*": [
 			"./src/prompt*",

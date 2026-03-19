@@ -1,6 +1,6 @@
 import type { TCompany } from "@aja-api/company/schema/company-schema"
 import type { TRole } from "@aja-api/role/schema/role-schema"
-import type { TUserProfile } from "#config/profile"
+import type { TUserProfile } from "@aja-config/profile/experience"
 
 function formatSalary(min: number | null, max: number | null): string {
 	if (min === null && max === null) return "Not listed"
