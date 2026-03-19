@@ -1,0 +1,26 @@
+{
+	"name": "@aja-integrations/patchright",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"exports": {
+		"./browser": "./src/browser.ts",
+		"./interaction": "./src/interaction.ts",
+		"./page": "./src/page.ts",
+		"./errors": "./src/errors.ts"
+	},
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"lint": "eslint ."
+	},
+	"dependencies": {
+		"patchright": "1.58.2"
+	},
+	"devDependencies": {
+		"@aja-core/eslint": "workspace:*",
+		"@aja-core/tsconfig": "workspace:*",
+		"@types/node": "25.5.0",
+		"eslint": "9.24.0",
+		"typescript": "5.9.3"
+	}
+}
