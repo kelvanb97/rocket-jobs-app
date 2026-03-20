@@ -49,6 +49,8 @@ async function resolveCompanyId(
 	return createResult.data.id
 }
 
+const DUPLICATE_VIOLATION = "duplicate key value violates unique constraint"
+
 export async function insertRoles(
 	roles: ScrapedRole[],
 ): Promise<{ inserted: number; skipped: number }> {
@@ -88,6 +90,7 @@ export async function insertRoles(
 	// Resolve companies and create roles
 	const companyCache = new Map<string, string>()
 	let inserted = 0
+	let conflicts = 0
 
 	for (const role of newRoles) {
 		const companyId = role.company
@@ -121,6 +124,9 @@ export async function insertRoles(
 					`[score] "${role.title}": ${scoreResult.error.message}`,
 				)
 			}
+		} else if (result.error.message.includes(DUPLICATE_VIOLATION)) {
+			conflicts++
+			console.log(`[skip] "${role.title}" — duplicate company+title`)
 		} else {
 			console.warn(
 				`Failed to insert role "${role.title}": ${result.error.message}`,
@@ -128,5 +134,5 @@ export async function insertRoles(
 		}
 	}
 
-	return { inserted, skipped }
+	return { inserted, skipped: skipped + conflicts }
 }
