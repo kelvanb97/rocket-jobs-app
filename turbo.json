@@ -6,6 +6,7 @@
 			"env": [
 				"NODE_ENV",
 				"SCORE_MODEL",
+				"SCORE_BATCH_SIZE",
 				"SCORE_RATE_LIMIT_MS",
 				"SUPABASE_URL",
 				"SUPABASE_PUBLISHABLE_KEY",

@@ -11,42 +11,101 @@ function formatSalary(min: number | null, max: number | null): string {
 	return `Up to ${fmt(max!)}`
 }
 
+function buildCandidateContext(profile: TUserProfile): string {
+	const sections: string[] = []
+
+	// Identity + summary
+	sections.push(
+		`${profile.name} — ${profile.jobTitle} (${profile.seniority}-level, ${profile.yearsOfExperience}+ years)`,
+	)
+	sections.push(profile.summary)
+
+	// Domain expertise
+	if (profile.domainExpertise.length > 0) {
+		sections.push(
+			`Domain expertise: ${profile.domainExpertise.map((d) => d.split(" — ")[0]).join(", ")}`,
+		)
+	}
+
+	// Work history (condensed for token efficiency — company, title, duration, summary + top 2 highlights)
+	if (profile.workExperience.length > 0) {
+		const history = profile.workExperience
+			.map((w) => {
+				const duration = `${w.startDate} – ${w.endDate}`
+				const topHighlights = w.highlights.slice(0, 2).join(" ")
+				return `- ${w.company} | ${w.title} (${w.type}, ${duration}): ${w.summary} ${topHighlights}`
+			})
+			.join("\n")
+		sections.push(`Work history:\n${history}`)
+	}
+
+	// Skills
+	sections.push(`Skills: ${profile.skills.join(", ")}`)
+	if (profile.preferredSkills.length > 0) {
+		sections.push(`Preferred stack: ${profile.preferredSkills.join(", ")}`)
+	}
+
+	// Preferences
+	sections.push(
+		`Location: ${profile.preferredLocationTypes.join(", ")}${profile.preferredLocations.length > 0 ? ` (${profile.preferredLocations.join(", ")})` : ""}`,
+	)
+	sections.push(
+		`Salary: $${Math.round(profile.salaryMin / 1000)}k – $${Math.round(profile.salaryMax / 1000)}k`,
+	)
+
+	if (profile.industries.length > 0) {
+		sections.push(`Preferred industries: ${profile.industries.join(", ")}`)
+	}
+	if (profile.dealbreakers.length > 0) {
+		sections.push(`Dealbreakers: ${profile.dealbreakers.join(", ")}`)
+	}
+	if (profile.notes) {
+		sections.push(`Notes: ${profile.notes}`)
+	}
+
+	return sections.join("\n\n")
+}
+
 export function buildScoringPrompt(
 	role: TRole,
 	company: TCompany | null,
 	profile: TUserProfile,
 	weights: TScoringWeights,
 ): { system: string; user: string } {
-	const system = `You are a job match scoring assistant. Given a candidate's profile and a job posting, score how well the job matches the candidate on a scale of 0-100.
+	const system = `You are a job match scoring assistant. Score how well a job posting matches a candidate on a 0-100 scale.
 
-Scoring guidelines:
-- 90-100: Exceptional match — strong alignment on title, skills, seniority, salary, and location
-- 70-89: Good match — most criteria align, minor gaps
-- 50-69: Moderate match — some criteria align but notable gaps
-- 30-49: Weak match — few criteria align
-- 0-29: Poor match — significant misalignment or dealbreakers present
+Scoring brackets:
+- 80-100: Strong match — the candidate should apply. Title, skills, seniority, and preferences align well.
+- 60-79: Moderate match — worth considering. Most criteria fit with minor gaps the candidate could bridge.
+- 40-59: Weak match — likely not worth applying. Notable misalignment on title, skills, seniority, or preferences.
+- 20-39: Poor match — do not apply. Major gaps or misalignment across multiple criteria.
+- 0-19: Dealbreaker present or fundamental mismatch.
 
-Key factors to weigh:
-1. Job title and seniority alignment (${weights.titleAndSeniority} weight)
-2. Required skills vs candidate skills (${weights.skills} weight)
-3. Salary range overlap (${weights.salary} weight)
-4. Location/remote compatibility (${weights.location} weight)
-5. Industry fit (${weights.industry} weight)
-6. Dealbreakers (any match = score below 20)
+Scoring weights:
+1. Title and seniority alignment: ${weights.titleAndSeniority}
+2. Skills overlap (required vs candidate): ${weights.skills}
+3. Salary range compatibility: ${weights.salary}
+4. Location/remote compatibility: ${weights.location}
+5. Industry fit: ${weights.industry}
 
-Respond with ONLY valid JSON in this exact format:
+Important scoring rules:
+- Evaluate skills by depth, not just keyword matches. The candidate's work history shows what they've actually built — weigh demonstrated experience over listed buzzwords.
+- A missing salary on the posting is neutral, not negative.
+- Any dealbreaker match forces the score below 20.
+- Roles requiring skills entirely outside the candidate's stack should score below 40 regardless of title fit.
+- Roles with adjacent but non-preferred tech (e.g. Vue instead of React) should not be penalized as harshly as completely unrelated tech (e.g. Java, C#).
+
+Respond with ONLY valid JSON:
 {
   "score": <number 0-100>,
-  "isTitleFit": <boolean — job title aligns with candidate's target role>,
-  "isSeniorityAppropriate": <boolean — seniority level matches candidate's level>,
-  "doSkillsAlign": <boolean — required skills meaningfully overlap with candidate's skills>,
-  "isLocationAcceptable": <boolean — location/remote type is compatible with candidate's preferences>,
-  "isSalaryAcceptable": <boolean — salary range overlaps with candidate's range, or salary is not listed>,
-  "positive": [<string reasons why this is a good match>],
-  "negative": [<string reasons why this is a poor match or concerns>]
-}
-
-Keep each reason to one concise sentence. Include 1-4 reasons per category.`
+  "isTitleFit": <boolean>,
+  "isSeniorityAppropriate": <boolean>,
+  "doSkillsAlign": <boolean>,
+  "isLocationAcceptable": <boolean>,
+  "isSalaryAcceptable": <boolean>,
+  "positive": [<1-4 concise reasons this is a good match>],
+  "negative": [<1-4 concise reasons this is a poor match or concerns>]
+}`
 
 	const roleDetails = [
 		`Title: ${role.title}`,
@@ -64,32 +123,8 @@ Keep each reason to one concise sentence. Include 1-4 reasons per category.`
 		.filter(Boolean)
 		.join("\n")
 
-	const candidateDetails = [
-		`Name: ${profile.name}`,
-		`Target Job Title: ${profile.jobTitle}`,
-		`Seniority: ${profile.seniority}`,
-		`Skills: ${profile.skills.join(", ")}`,
-		profile.preferredSkills.length > 0
-			? `Preferred Skills: ${profile.preferredSkills.join(", ")}`
-			: null,
-		`Preferred Location Types: ${profile.preferredLocationTypes.join(", ")}`,
-		profile.preferredLocations.length > 0
-			? `Preferred Locations: ${profile.preferredLocations.join(", ")}`
-			: null,
-		`Salary Range: $${Math.round(profile.salaryMin / 1000)}k - $${Math.round(profile.salaryMax / 1000)}k`,
-		profile.industries.length > 0
-			? `Preferred Industries: ${profile.industries.join(", ")}`
-			: null,
-		profile.dealbreakers.length > 0
-			? `Dealbreakers: ${profile.dealbreakers.join(", ")}`
-			: null,
-		profile.notes ? `Additional Notes: ${profile.notes}` : null,
-	]
-		.filter(Boolean)
-		.join("\n")
-
 	const user = `## Candidate Profile
-${candidateDetails}
+${buildCandidateContext(profile)}
 
 ## Job Posting
 ${roleDetails}`
