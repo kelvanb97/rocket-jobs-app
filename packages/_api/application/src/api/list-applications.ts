@@ -24,7 +24,10 @@ export async function listApplications(
 		query = query.eq("status", input.status)
 	}
 
-	const { data, error } = await query.range(start, end)
+	const { data, error } = await query
+		.order("created_at", { ascending: false })
+		.order("id")
+		.range(start, end)
 
 	if (error) return errFrom(`Error listing applications: ${error.message}`)
 

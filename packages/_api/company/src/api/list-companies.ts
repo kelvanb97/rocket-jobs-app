@@ -27,7 +27,10 @@ export async function listCompanies(
 		query = query.eq("size", input.size)
 	}
 
-	const { data, error } = await query.range(start, end)
+	const { data, error } = await query
+		.order("created_at", { ascending: false })
+		.order("id")
+		.range(start, end)
 
 	if (error) return errFrom(`Error listing companies: ${error.message}`)
 

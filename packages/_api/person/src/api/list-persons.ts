@@ -24,7 +24,10 @@ export async function listPersons(
 		query = query.eq("company_id", input.companyId)
 	}
 
-	const { data, error } = await query.range(start, end)
+	const { data, error } = await query
+		.order("created_at", { ascending: false })
+		.order("id")
+		.range(start, end)
 
 	if (error) return errFrom(`Error listing persons: ${error.message}`)
 

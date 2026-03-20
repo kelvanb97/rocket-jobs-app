@@ -27,7 +27,10 @@ export async function listInteractions(
 		query = query.eq("type", input.type)
 	}
 
-	const { data, error } = await query.range(start, end)
+	const { data, error } = await query
+		.order("created_at", { ascending: false })
+		.order("id")
+		.range(start, end)
 
 	if (error) return errFrom(`Error listing interactions: ${error.message}`)
 

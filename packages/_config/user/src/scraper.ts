@@ -13,6 +13,16 @@ export type TScraperConfig = {
 
 export const GOOGLE_JOBS_SEARCH = {
 	titles: [
+		"software engineer",
+		"frontend engineer",
+		"full-stack engineer",
+		"fullstack engineer",
+		"react engineer",
+		"typescript engineer",
+		"next.js engineer",
+		"web engineer",
+		"product engineer",
+		"design engineer",
 		"senior software engineer",
 		"senior frontend engineer",
 		"senior full-stack engineer",
@@ -21,6 +31,8 @@ export const GOOGLE_JOBS_SEARCH = {
 		"senior typescript engineer",
 		"senior next.js engineer",
 		"senior web engineer",
+		"senior product engineer",
+		"senior design engineer",
 	],
 	remote: true,
 	fullTimeOnly: true,
