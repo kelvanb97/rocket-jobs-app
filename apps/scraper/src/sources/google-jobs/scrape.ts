@@ -1,4 +1,4 @@
-import { SEARCH_CONFIG } from "@aja-config/profile/search"
+import { GOOGLE_JOBS_SEARCH } from "@aja-config/user/scraper"
 import {
 	closeBrowserContext,
 	createBrowserContext,
@@ -16,10 +16,10 @@ import { parsePostedAt, parseSalary } from "./parse"
 
 function buildSearchUrl(title: string): string {
 	const queryParts = [title]
-	if (SEARCH_CONFIG.remote) queryParts.push("remote")
-	if (SEARCH_CONFIG.freshnessdays)
-		queryParts.push(`in the last ${SEARCH_CONFIG.freshnessdays} days`)
-	if (SEARCH_CONFIG.fullTimeOnly) queryParts.push("Full time")
+	if (GOOGLE_JOBS_SEARCH.remote) queryParts.push("remote")
+	if (GOOGLE_JOBS_SEARCH.freshnessdays)
+		queryParts.push(`in the last ${GOOGLE_JOBS_SEARCH.freshnessdays} days`)
+	if (GOOGLE_JOBS_SEARCH.fullTimeOnly) queryParts.push("Full time")
 
 	const params = new URLSearchParams({
 		udm: "8",
@@ -35,7 +35,7 @@ export async function scrape(): Promise<ScrapedRole[]> {
 	const seenDocIds = new Set<string>()
 
 	try {
-		for (const title of SEARCH_CONFIG.titles) {
+		for (const title of GOOGLE_JOBS_SEARCH.titles) {
 			console.log(`[google-jobs] Searching: "${title}"`)
 
 			const xhrBodies: string[] = []

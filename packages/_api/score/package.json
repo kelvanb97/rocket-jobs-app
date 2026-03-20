@@ -21,7 +21,7 @@
 	"dependencies": {
 		"@aja-api/company": "workspace:*",
 		"@aja-api/role": "workspace:*",
-		"@aja-config/profile": "workspace:*",
+		"@aja-config/user": "workspace:*",
 		"@aja-integrations/anthropic": "workspace:*",
 		"@aja-core/result": "workspace:*"
 	},

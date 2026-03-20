@@ -109,9 +109,9 @@ importers:
       '@aja-api/score':
         specifier: workspace:*
         version: link:../../packages/_api/score
-      '@aja-config/profile':
+      '@aja-config/user':
         specifier: workspace:*
-        version: link:../../packages/_config/profile
+        version: link:../../packages/_config/user
       '@aja-core/result':
         specifier: workspace:*
         version: link:../../packages/_core/result
@@ -404,9 +404,9 @@ importers:
       '@aja-api/role':
         specifier: workspace:*
         version: link:../role
-      '@aja-config/profile':
+      '@aja-config/user':
         specifier: workspace:*
-        version: link:../../_config/profile
+        version: link:../../_config/user
       '@aja-core/result':
         specifier: workspace:*
         version: link:../../_core/result
@@ -505,7 +505,7 @@ importers:
 
   packages/_app/supabase: {}
 
-  packages/_config/profile:
+  packages/_config/user:
     devDependencies:
       '@aja-core/eslint':
         specifier: workspace:*

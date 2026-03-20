@@ -1,3 +1,4 @@
+import { SCRAPER_CONFIG, type TSourceName } from "@aja-config/user/scraper"
 import { insertRoles, type ScrapedRole } from "./lib/insert"
 import * as googleJobs from "./sources/google-jobs"
 import * as himalayas from "./sources/himalayas"
@@ -5,23 +6,33 @@ import * as jobicy from "./sources/jobicy"
 import * as remoteok from "./sources/remoteok"
 import * as weworkremotely from "./sources/weworkremotely"
 
-const RELEVANT_TITLE_RE =
-	/engineer|developer|software|frontend|fullstack|full.?stack|react|typescript|node/i
+const RELEVANT_TITLE_RE = new RegExp(
+	SCRAPER_CONFIG.relevantKeywords.join("|"),
+	"i",
+)
 
-const BLOCKED_TITLE_RE =
-	/\bsales\b|\bmanager\b|\bdirector\b|\bvp\b|\bvice.?president\b|\bprincipal\b|\bstaff\b/i
+const BLOCKED_TITLE_RE = new RegExp(
+	SCRAPER_CONFIG.blockedKeywords
+		.map((kw) => `\\b${kw.replace(/\s+/g, ".?")}\\b`)
+		.join("|"),
+	"i",
+)
 
 type SourceModule = {
 	scrape: () => Promise<ScrapedRole[]>
 }
 
-const sources: Record<string, SourceModule> = {
+const allSources: Record<TSourceName, SourceModule> = {
 	remoteok,
 	weworkremotely,
 	himalayas,
 	jobicy,
 	"google-jobs": googleJobs,
 }
+
+const sources: Record<string, SourceModule> = Object.fromEntries(
+	SCRAPER_CONFIG.enabledSources.map((name) => [name, allSources[name]]),
+)
 
 type ScrapeSummary = {
 	total: {

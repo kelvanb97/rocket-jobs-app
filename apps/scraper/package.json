@@ -18,7 +18,7 @@
 		"@aja-api/company": "workspace:*",
 		"@aja-api/role": "workspace:*",
 		"@aja-api/score": "workspace:*",
-		"@aja-config/profile": "workspace:*",
+		"@aja-config/user": "workspace:*",
 		"@aja-core/result": "workspace:*",
 		"@aja-core/supabase": "workspace:*",
 		"@aja-integrations/patchright": "workspace:*",

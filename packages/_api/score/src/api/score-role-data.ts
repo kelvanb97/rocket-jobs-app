@@ -1,6 +1,7 @@
 import type { TCompany } from "@aja-api/company/schema/company-schema"
 import type { TRole } from "@aja-api/role/schema/role-schema"
-import { USER_PROFILE } from "@aja-config/profile/experience"
+import { USER_PROFILE } from "@aja-config/user/experience"
+import { SCORING_WEIGHTS } from "@aja-config/user/scoring"
 import { errFrom, type TResult } from "@aja-core/result"
 import type { TAnthropicModel } from "@aja-integrations/anthropic/client"
 import { scoreRole } from "#lib/claude-client"
@@ -18,7 +19,12 @@ export async function scoreRoleData(
 ): Promise<TResult<TScore>> {
 	try {
 		const model = options?.model ?? SCORER_MODEL
-		const { system, user } = buildScoringPrompt(role, company, USER_PROFILE)
+		const { system, user } = buildScoringPrompt(
+			role,
+			company,
+			USER_PROFILE,
+			SCORING_WEIGHTS,
+		)
 		const response = await scoreRole(model, system, user)
 		return upsertScore({
 			roleId: role.id,

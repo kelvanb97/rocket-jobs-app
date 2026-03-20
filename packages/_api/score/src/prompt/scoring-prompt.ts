@@ -1,6 +1,7 @@
 import type { TCompany } from "@aja-api/company/schema/company-schema"
 import type { TRole } from "@aja-api/role/schema/role-schema"
-import type { TUserProfile } from "@aja-config/profile/experience"
+import type { TUserProfile } from "@aja-config/user/experience"
+import type { TScoringWeights } from "@aja-config/user/scoring"
 
 function formatSalary(min: number | null, max: number | null): string {
 	if (min === null && max === null) return "Not listed"
@@ -14,6 +15,7 @@ export function buildScoringPrompt(
 	role: TRole,
 	company: TCompany | null,
 	profile: TUserProfile,
+	weights: TScoringWeights,
 ): { system: string; user: string } {
 	const system = `You are a job match scoring assistant. Given a candidate's profile and a job posting, score how well the job matches the candidate on a scale of 0-100.
 
@@ -25,11 +27,11 @@ Scoring guidelines:
 - 0-29: Poor match — significant misalignment or dealbreakers present
 
 Key factors to weigh:
-1. Job title and seniority alignment (high weight)
-2. Required skills vs candidate skills (high weight)
-3. Salary range overlap (high weight)
-4. Location/remote compatibility (medium weight)
-5. Industry fit (low weight)
+1. Job title and seniority alignment (${weights.titleAndSeniority} weight)
+2. Required skills vs candidate skills (${weights.skills} weight)
+3. Salary range overlap (${weights.salary} weight)
+4. Location/remote compatibility (${weights.location} weight)
+5. Industry fit (${weights.industry} weight)
 6. Dealbreakers (any match = score below 20)
 
 Respond with ONLY valid JSON in this exact format:
