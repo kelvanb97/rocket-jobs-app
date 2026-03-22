@@ -15,7 +15,7 @@
 		"@aja-integrations/anthropic": "workspace:*",
 		"@aja-core/result": "workspace:*",
 		"@aja-core/supabase": "workspace:*",
-		"@anthropic-ai/sdk": "0.52.0",
+		"@anthropic-ai/sdk": "0.80.0",
 		"html-to-text": "9.0.5",
 		"zod": "4.3.6"
 	},

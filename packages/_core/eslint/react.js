@@ -4,7 +4,7 @@ import reactPlugin from "eslint-plugin-react"
 import reactHooksPlugin from "eslint-plugin-react-hooks"
 import globals from "globals"
 import ts from "typescript-eslint"
-import { coreEslintConfig } from "./core"
+import { coreEslintConfig } from "./core.js"
 
 export const eslintConfig = [
 	...coreEslintConfig,
