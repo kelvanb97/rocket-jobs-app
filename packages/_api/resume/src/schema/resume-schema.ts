@@ -16,7 +16,9 @@ const resumeEducationSchema = z.object({
 
 export const resumeResponseSchema = z.object({
 	summary: z.string(),
-	skills: z.array(z.string()),
+	skills: z.array(
+		z.object({ category: z.string(), items: z.array(z.string()) }),
+	),
 	workExperience: z.array(resumeWorkExperienceSchema),
 	education: z.array(resumeEducationSchema),
 })

@@ -13,7 +13,8 @@
 				"SUPABASE_SECRET_KEY",
 				"SCRAPER_CRON_SCHEDULE",
 				"SCRAPER_HTTP_PORT",
-				"APPLY_MODEL"
+				"APPLY_KEYWORD_MODEL",
+				"APPLY_RESUME_MODEL"
 			],
 			"dependsOn": ["^build"],
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],

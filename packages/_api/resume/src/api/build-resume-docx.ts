@@ -10,9 +10,17 @@ import {
 	TextRun,
 } from "docx"
 
+type TContactInfo = {
+	email?: string
+	phone?: string
+	linkedIn?: string
+	location?: string
+}
+
 export async function buildResumeDocx(
 	name: string,
 	resume: TResumeResponse,
+	contactInfo?: TContactInfo,
 ): Promise<Buffer> {
 	const children: Paragraph[] = []
 
@@ -32,6 +40,32 @@ export async function buildResumeDocx(
 		}),
 	)
 
+	// Contact info
+	if (contactInfo) {
+		const parts = [
+			contactInfo.email,
+			contactInfo.phone,
+			contactInfo.linkedIn,
+			contactInfo.location,
+		].filter(Boolean)
+		if (parts.length > 0) {
+			children.push(
+				new Paragraph({
+					alignment: AlignmentType.CENTER,
+					spacing: { after: 100 },
+					children: [
+						new TextRun({
+							text: parts.join("  |  "),
+							size: 20,
+							font: "Calibri",
+							color: "555555",
+						}),
+					],
+				}),
+			)
+		}
+	}
+
 	// Summary section
 	children.push(sectionHeading("Professional Summary"))
 	children.push(
@@ -49,18 +83,26 @@ export async function buildResumeDocx(
 
 	// Skills section
 	children.push(sectionHeading("Skills"))
-	children.push(
-		new Paragraph({
-			spacing: { after: 200 },
-			children: [
-				new TextRun({
-					text: resume.skills.join("  •  "),
-					size: 22,
-					font: "Calibri",
-				}),
-			],
-		}),
-	)
+	for (const group of resume.skills) {
+		children.push(
+			new Paragraph({
+				spacing: { after: 40 },
+				children: [
+					new TextRun({
+						text: `${group.category}: `,
+						bold: true,
+						size: 22,
+						font: "Calibri",
+					}),
+					new TextRun({
+						text: group.items.join(", "),
+						size: 22,
+						font: "Calibri",
+					}),
+				],
+			}),
+		)
+	}
 
 	// Work Experience section
 	children.push(sectionHeading("Experience"))

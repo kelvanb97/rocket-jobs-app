@@ -27,6 +27,12 @@ export type TEducation = {
 
 export type TUserProfile = {
 	name: string
+	email: string
+	phone: string
+	linkedIn: string
+	github: string
+	personalWebsite: string
+	location: string
 	jobTitle: string
 	seniority: "junior" | "mid" | "senior" | "staff" | "principal" | "director"
 	yearsOfExperience: number
@@ -47,6 +53,12 @@ export type TUserProfile = {
 
 export const USER_PROFILE: TUserProfile = {
 	name: "Kelvan Brandt",
+	email: "kelvanb97@gmail.com",
+	phone: "(206) 508-1205",
+	linkedIn: "linkedin.com/in/your-profile",
+	github: "https://github.com/kelvanb97",
+	personalWebsite: "https://www.kelvanbrandt.com/",
+	location: "United States",
 	jobTitle: "Senior Software Engineer",
 	seniority: "senior",
 	yearsOfExperience: 5,
@@ -359,7 +371,7 @@ export const USER_PROFILE: TUserProfile = {
 		},
 		{
 			company: "Third Floor Tech",
-			title: "Senior Software Engineer",
+			title: "Software Engineer",
 			startDate: "Dec 2020",
 			endDate: "Jul 2021",
 			type: "contract",
