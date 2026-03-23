@@ -1,17 +1,25 @@
 {
-	"mcpServers": {
-		"playwright": {
-			"command": "npx",
-			"args": [
-				"@playwright/mcp@0.0.68",
-				"--browser",
-				"chrome",
-				"--user-data-dir",
-				"~/.chrome-profile"
-			]
-		}
-	},
-	"enabledPlugins": {
-		"playwright@claude-plugins-official": true
-	}
+  "enabledPlugins": {
+    "playwright@claude-plugins-official": true,
+    "context7@claude-plugins-official": true
+  },
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@0.0.68",
+        "--browser",
+        "chrome",
+        "--user-data-dir",
+        "~/.chrome-profile"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    }
+  }
 }
