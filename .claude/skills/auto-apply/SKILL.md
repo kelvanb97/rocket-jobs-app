@@ -31,24 +31,33 @@ All API calls use the web app at `http://localhost:3000`. Each step uses `curl` 
 curl -s http://localhost:3000/api/apply/top-role
 ```
 
-**Response:** `{ "data": { "id", "title", "companyName", "score", "applicationUrl", "sourceUrl", "url", "description", "location", "locationType", "salaryMin", "salaryMax" } }` or `{ "data": null }` if no roles.
+**Response:** `{ "data": { "id", "title", "companyName", "score", "url", "description", "location", "locationType", "salaryMin", "salaryMax" } }` or `{ "data": null }` if no roles.
 
 **After running:**
 - If `data` is `null`: inform the user that all scored roles have been applied to or no roles have been scored yet. Stop.
-- **URL validation (auto-skip):** Check if the role's `applicationUrl` (or `url` if `applicationUrl` is null) contains any of these suspicious free-hosting domains:
-  - `wuaze.com`, `kesug.com`, `epizy.com`, `infinityfreeapp.com`, `000webhostapp.com`, `rf.gd`, `byethost.com`
-  - If the URL matches a blocked domain, automatically skip the role without asking the user:
-    ```bash
-    curl -s -X POST -H 'Content-Type: application/json' \
-      -d '{"roleId":"ROLE_ID","reason":"Suspicious URL domain"}' \
-      http://localhost:3000/api/apply/skip
-    ```
-  - Then loop back to the beginning of Step A to fetch the next role.
-  - Continue looping until a role with a valid URL is found or no roles remain.
-  - Log each skipped role (e.g., "Skipped: TITLE at COMPANY — suspicious domain").
+- **URL legitimacy check (auto-skip):** Before showing the role to the user, verify the application page is legitimate.
+  1. **Resolve the URL:** Use `url`. If it is null, skip the role with reason "No URL available" and loop back to fetch the next role.
+  2. **Navigate:** Call `browser_navigate` with the resolved URL. If navigation fails (network error, timeout), skip the role with reason "Page failed to load" and loop.
+  3. **Capture content:** Call `browser_snapshot` to read the page content.
+  4. **Evaluate:** Determine whether the page contains or leads to a legitimate job application. The page is **legitimate** if it shows a job listing, a company career page, an ATS platform (Greenhouse, Lever, Workday, Ashby, BambooHR, etc.), or a job board page (LinkedIn, Indeed, etc.). The page is **illegitimate** if it matches any of these:
+     - Parked domain, domain-for-sale, or default hosting placeholder
+     - Primarily ads, spam, or SEO-farm content with no job listing
+     - Requests payment or financial information to apply
+     - Content entirely unrelated to employment (e-commerce, gaming, crypto, etc.)
+     - Broken page — blank, error page (404, 500), or no meaningful content in the snapshot
+     - Phishing indicators — mismatched branding, requests for SSN or bank details upfront
+     - When in doubt, err on the side of **legitimate** — the user will review before submitting
+  5. **If illegitimate**, skip the role automatically:
+     ```bash
+     curl -s -X POST -H 'Content-Type: application/json' \
+       -d '{"roleId":"ROLE_ID","reason":"DESCRIPTIVE_REASON"}' \
+       http://localhost:3000/api/apply/skip
+     ```
+     Use a specific reason (e.g., "Parked domain with no job content", "Page failed to load (404)"). Log: "Skipped: TITLE at COMPANY — REASON". Then loop back to the beginning of Step A to fetch the next role.
+  6. **If legitimate**, continue to the next bullet (display role info to user).
 - Otherwise: display the role title, company, score, URL, location, and salary to the user.
 - Ask the user to confirm they want to proceed with this role.
-- Save the parsed JSON output — you will need `id`, `companyId`, `companyName`, `title`, `applicationUrl`, `sourceUrl`, `url`, and `description` in later steps.
+- Save the parsed JSON output — you will need `id`, `companyId`, `companyName`, `title`, `url`, and `description` in later steps.
 
 ## Step B: Create Draft Application Record
 
@@ -117,15 +126,11 @@ Save the local file paths (absolute) — they will be used for browser file uplo
 
 Use the Playwright MCP browser tools.
 
-1. **Determine the URL:**
-   - If `applicationUrl` from Step A is not null, use it
-   - Otherwise use `sourceUrl`
-   - If neither exists, use `url`
-   - If all are null, ask the user for the URL
+1. **Determine the URL:** Use `url` from Step A. If null, ask the user for the URL.
 
 2. **Navigate:** Call `browser_navigate` with the URL
 
-3. **If using sourceUrl or url (not a direct applicationUrl):** The page is a job listing, not the application form. Use `browser_snapshot` to read the page and look for an "Apply" button/link. Click it to get to the actual application form.
+3. **Find the application form:** The page may be a job listing rather than the application form itself. Use `browser_snapshot` to read the page and look for an "Apply" button/link. Click it to get to the actual application form.
 
 4. **Handle login walls:** If the page shows a login/signup form instead of the application:
    - Inform the user: "This site requires authentication. Please log in manually in the browser window."
@@ -290,4 +295,5 @@ Display a summary:
 | Form field not found or unclear | Take a snapshot, describe what is visible, ask user for guidance |
 | Submit button not found | Take a snapshot, ask user to identify the submit element |
 | Submission fails (error after clicking submit) | Take screenshot, do NOT update status, inform user |
+| Page legitimacy check fails to load | Skip the role with reason "Page failed to load" and loop to next |
 | API endpoint returns error | Display the error message from the response and stop or ask for guidance |
