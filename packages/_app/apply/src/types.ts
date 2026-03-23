@@ -4,8 +4,6 @@ export type TTopRoleResult = {
 	companyId: string | null
 	companyName: string
 	score: number
-	applicationUrl: string | null
-	sourceUrl: string | null
 	url: string | null
 	description: string | null
 	location: string | null

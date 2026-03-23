@@ -98,9 +98,7 @@ export async function scrape(): Promise<ScrapedRole[]> {
 
 				roles.push({
 					title: job.title || title,
-					url: job.applyUrl,
-					source_url: searchUrl,
-					application_url: job.applicationUrl,
+					url: job.applicationUrl ?? job.applyUrl,
 					company: job.company,
 					description: job.description,
 					source: "google-jobs",

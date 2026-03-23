@@ -6,8 +6,6 @@ import type {
 export type ScrapedRole = {
 	title: string
 	url: string | null
-	source_url?: string | null
-	application_url?: string | null
 	company: string | null
 	description: string | null
 	source: TRoleSource

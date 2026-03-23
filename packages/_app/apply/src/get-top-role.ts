@@ -22,8 +22,6 @@ export async function getTopRole(): Promise<TResult<TTopRoleResult | null>> {
 		companyId: roleWithScore.companyId,
 		companyName,
 		score: roleWithScore.score,
-		applicationUrl: roleWithScore.applicationUrl,
-		sourceUrl: roleWithScore.sourceUrl,
 		url: roleWithScore.url,
 		description: roleWithScore.description?.slice(0, 500) ?? null,
 		location: roleWithScore.location,

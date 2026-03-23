@@ -86,8 +86,6 @@ export async function insertRoles(
 			companyId,
 			title: role.title,
 			url: role.url,
-			sourceUrl: role.source_url,
-			applicationUrl: role.application_url,
 			description: role.description,
 			source: role.source,
 			locationType: role.location_type,

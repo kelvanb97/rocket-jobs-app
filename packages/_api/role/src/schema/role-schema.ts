@@ -41,8 +41,6 @@ export type TRole = {
 	companyId: string | null
 	title: string
 	url: string | null
-	sourceUrl: string | null
-	applicationUrl: string | null
 	description: string | null
 	source: TRoleSource | null
 	locationType: TLocationType | null
@@ -85,8 +83,6 @@ export const createRoleSchema = z.object({
 	companyId: z.string().nullable().optional(),
 	title: z.string().min(1),
 	url: z.string().nullable().optional(),
-	sourceUrl: z.string().nullable().optional(),
-	applicationUrl: z.string().nullable().optional(),
 	description: z.string().nullable().optional(),
 	source: roleSourceSchema.nullable().optional(),
 	locationType: locationTypeSchema.nullable().optional(),
@@ -105,8 +101,6 @@ export const updateRoleSchema = z.object({
 	companyId: z.string().nullable().optional(),
 	title: z.string().min(1).optional(),
 	url: z.string().nullable().optional(),
-	sourceUrl: z.string().nullable().optional(),
-	applicationUrl: z.string().nullable().optional(),
 	description: z.string().nullable().optional(),
 	source: roleSourceSchema.nullable().optional(),
 	locationType: locationTypeSchema.nullable().optional(),

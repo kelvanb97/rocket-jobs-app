@@ -183,7 +183,6 @@ export type Database = {
 			}
 			role: {
 				Row: {
-					application_url: string | null
 					company_id: string | null
 					created_at: string | null
 					description: string | null
@@ -195,14 +194,12 @@ export type Database = {
 					salary_max: number | null
 					salary_min: number | null
 					source: string | null
-					source_url: string | null
 					status: string
 					title: string
 					updated_at: string | null
 					url: string | null
 				}
 				Insert: {
-					application_url?: string | null
 					company_id?: string | null
 					created_at?: string | null
 					description?: string | null
@@ -214,14 +211,12 @@ export type Database = {
 					salary_max?: number | null
 					salary_min?: number | null
 					source?: string | null
-					source_url?: string | null
 					status?: string
 					title: string
 					updated_at?: string | null
 					url?: string | null
 				}
 				Update: {
-					application_url?: string | null
 					company_id?: string | null
 					created_at?: string | null
 					description?: string | null
@@ -233,7 +228,6 @@ export type Database = {
 					salary_max?: number | null
 					salary_min?: number | null
 					source?: string | null
-					source_url?: string | null
 					status?: string
 					title?: string
 					updated_at?: string | null
