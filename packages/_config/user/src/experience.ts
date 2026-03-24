@@ -61,7 +61,7 @@ export const USER_PROFILE: TUserProfile = {
 	location: "United States",
 	jobTitle: "Senior Software Engineer",
 	seniority: "senior",
-	yearsOfExperience: 5,
+	yearsOfExperience: 7,
 	summary: [
 		"Senior software engineer specializing in building and scaling early-stage products.",
 		"5+ years working directly with founders and small teams as a technical lead and consultant,",
