@@ -19,3 +19,6 @@ data
 
 # playwright mcp
 .playwright-mcp
+
+# superpowers
+.superpowers
