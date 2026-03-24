@@ -12,13 +12,13 @@ import { getRole } from "@aja-api/role/api/get-role"
 import { uploadFile } from "@aja-api/storage/api/upload-file"
 import { USER_PROFILE } from "@aja-config/user/experience"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import type { TAnthropicModel } from "@aja-integrations/anthropic/client"
+import type { TLLMModel } from "@aja-integrations/llm/client"
 import type { TGenerateDocumentsResult } from "./types"
 
 const KEYWORD_MODEL = (process.env["APPLY_KEYWORD_MODEL"] ??
-	"claude-haiku-4-5-20251001") as TAnthropicModel
+	"claude-haiku-4-5-20251001") as TLLMModel
 const RESUME_MODEL = (process.env["APPLY_RESUME_MODEL"] ??
-	"claude-opus-4-6") as TAnthropicModel
+	"claude-opus-4-6") as TLLMModel
 const STORAGE_BUCKET = "applications"
 const DOCX_CONTENT_TYPE =
 	"application/vnd.openxmlformats-officedocument.wordprocessingml.document"

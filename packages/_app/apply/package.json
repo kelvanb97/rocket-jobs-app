@@ -27,7 +27,7 @@
 		"@aja-api/storage": "workspace:*",
 		"@aja-config/user": "workspace:*",
 		"@aja-core/result": "workspace:*",
-		"@aja-integrations/anthropic": "workspace:*"
+		"@aja-integrations/llm": "workspace:*"
 	},
 	"devDependencies": {
 		"@aja-core/eslint": "workspace:*",

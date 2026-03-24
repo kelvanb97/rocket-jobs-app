@@ -1,10 +1,10 @@
-import { createMessage } from "@aja-integrations/anthropic/client"
-import type { TAnthropicModel } from "@aja-integrations/anthropic/client"
+import { createMessage } from "@aja-integrations/llm/client"
+import type { TLLMModel } from "@aja-integrations/llm/client"
 import { resumeResponseSchema } from "#schema/resume-schema"
 import type { TResumeResponse } from "#schema/resume-schema"
 
 export async function generateResumeContent(
-	model: TAnthropicModel,
+	model: TLLMModel,
 	system: string,
 	user: string,
 ): Promise<TResumeResponse> {

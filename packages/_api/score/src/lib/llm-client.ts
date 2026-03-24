@@ -1,5 +1,5 @@
-import { createMessage } from "@aja-integrations/anthropic/client"
-import type { TAnthropicModel } from "@aja-integrations/anthropic/client"
+import { createMessage } from "@aja-integrations/llm/client"
+import type { TLLMModel } from "@aja-integrations/llm/client"
 import { z } from "zod"
 
 const scoreResponseSchema = z.object({
@@ -16,7 +16,7 @@ const scoreResponseSchema = z.object({
 export type TScoreResponse = z.infer<typeof scoreResponseSchema>
 
 export async function scoreRole(
-	model: TAnthropicModel,
+	model: TLLMModel,
 	system: string,
 	user: string,
 ): Promise<TScoreResponse> {

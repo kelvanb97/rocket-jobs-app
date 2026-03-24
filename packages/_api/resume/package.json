@@ -16,7 +16,7 @@
 		"@aja-api/company": "workspace:*",
 		"@aja-api/role": "workspace:*",
 		"@aja-config/user": "workspace:*",
-		"@aja-integrations/anthropic": "workspace:*",
+		"@aja-integrations/llm": "workspace:*",
 		"docx": "9.5.0"
 	},
 	"peerDependencies": {

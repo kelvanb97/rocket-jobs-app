@@ -22,7 +22,7 @@
 		"@aja-api/company": "workspace:*",
 		"@aja-api/role": "workspace:*",
 		"@aja-config/user": "workspace:*",
-		"@aja-integrations/anthropic": "workspace:*",
+		"@aja-integrations/llm": "workspace:*",
 		"@aja-core/result": "workspace:*"
 	},
 	"devDependencies": {

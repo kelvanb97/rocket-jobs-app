@@ -1,10 +1,10 @@
-import { createMessage } from "@aja-integrations/anthropic/client"
-import type { TAnthropicModel } from "@aja-integrations/anthropic/client"
+import { createMessage } from "@aja-integrations/llm/client"
+import type { TLLMModel } from "@aja-integrations/llm/client"
 import { keywordExtractionSchema } from "#schema/keyword-schema"
 import type { TKeywordExtraction } from "#schema/keyword-schema"
 
 export async function extractKeywords(
-	model: TAnthropicModel,
+	model: TLLMModel,
 	system: string,
 	user: string,
 ): Promise<TKeywordExtraction> {

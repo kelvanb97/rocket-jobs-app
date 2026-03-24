@@ -1,0 +1,25 @@
+{
+	"name": "@aja-integrations/llm",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"exports": {
+		"./client": "./src/client.ts"
+	},
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"lint": "eslint ."
+	},
+	"dependencies": {
+		"@aja-integrations/anthropic": "workspace:*",
+		"@aja-integrations/ollama": "workspace:*",
+		"zod": "4.3.6"
+	},
+	"devDependencies": {
+		"@aja-core/eslint": "workspace:*",
+		"@aja-core/tsconfig": "workspace:*",
+		"@types/node": "25.5.0",
+		"eslint": "9.24.0",
+		"typescript": "5.9.3"
+	}
+}

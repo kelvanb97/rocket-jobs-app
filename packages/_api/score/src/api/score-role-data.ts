@@ -3,19 +3,19 @@ import type { TRole } from "@aja-api/role/schema/role-schema"
 import { USER_PROFILE } from "@aja-config/user/experience"
 import { SCORING_WEIGHTS } from "@aja-config/user/scoring"
 import { errFrom, type TResult } from "@aja-core/result"
-import type { TAnthropicModel } from "@aja-integrations/anthropic/client"
-import { scoreRole } from "#lib/claude-client"
+import type { TLLMModel } from "@aja-integrations/llm/client"
+import { scoreRole } from "#lib/llm-client"
 import { buildScoringPrompt } from "#prompt/scoring-prompt"
 import type { TScore } from "#schema/score-schema"
 import { upsertScore } from "./upsert-score"
 
 const SCORER_MODEL = (process.env["SCORE_MODEL"] ??
-	"claude-haiku-4-5-20251001") as TAnthropicModel
+	"claude-haiku-4-5-20251001") as TLLMModel
 
 export async function scoreRoleData(
 	role: TRole,
 	company: TCompany | null,
-	options?: { model?: TAnthropicModel },
+	options?: { model?: TLLMModel },
 ): Promise<TResult<TScore>> {
 	try {
 		const model = options?.model ?? SCORER_MODEL
