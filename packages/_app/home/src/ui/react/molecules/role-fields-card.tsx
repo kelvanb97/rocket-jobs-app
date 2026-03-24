@@ -35,11 +35,12 @@ const LOCATION_TYPE_OPTIONS: { label: string; value: TLocationType }[] = [
 ]
 
 const SOURCE_OPTIONS: { label: string; value: TRoleSource }[] = [
+	{ label: "LinkedIn", value: "linkedin" },
+	{ label: "Google Jobs", value: "google-jobs" },
 	{ label: "Himalayas", value: "himalayas" },
 	{ label: "Jobicy", value: "jobicy" },
 	{ label: "Remote OK", value: "remoteok" },
 	{ label: "We Work Remotely", value: "weworkremotely" },
-	{ label: "LinkedIn", value: "linkedin" },
 	{ label: "Indeed", value: "indeed" },
 	{ label: "Company Website", value: "company-website" },
 	{ label: "Referral", value: "referral" },
