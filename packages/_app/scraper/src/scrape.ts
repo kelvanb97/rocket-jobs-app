@@ -7,10 +7,14 @@ import * as jobicy from "#sources/jobicy"
 import * as linkedin from "#sources/linkedin/index"
 import * as remoteok from "#sources/remoteok"
 import * as weworkremotely from "#sources/weworkremotely"
-import type { ScrapedRole, TScrapeProgressCallback } from "#types"
+import type {
+	ScrapedRole,
+	TScrapeProgressCallback,
+	TSourceScrapeOptions,
+} from "#types"
 
 type SourceModule = {
-	scrape: () => Promise<ScrapedRole[]>
+	scrape: (options?: TSourceScrapeOptions) => Promise<ScrapedRole[]>
 }
 
 const ALL_SOURCES: Record<TSourceName, SourceModule> = {
@@ -74,36 +78,87 @@ export async function runScraper(
 		onProgress?.({ type: "source:start", source: name })
 
 		try {
-			const allRoles = await sourceModule.scrape()
-			onProgress?.({
-				type: "source:found",
-				source: name,
-				count: allRoles.length,
-			})
-
-			const { filtered: roles, removedCount } = filterRoles(allRoles)
-			const { inserted, skipped } = await insertRoles(roles, signal)
-
-			summary.sources[name] = {
-				found: allRoles.length,
-				filtered: removedCount,
-				inserted,
-				skipped,
+			let batchPageCount = 0
+			const sourceSummary = {
+				found: 0,
+				filtered: 0,
+				inserted: 0,
+				skipped: 0,
 			}
-			summary.total.found += allRoles.length
-			summary.total.filtered += removedCount
-			summary.total.inserted += inserted
-			summary.total.skipped += skipped
 
-			onProgress?.({
-				type: "source:inserted",
-				source: name,
-				inserted,
-				skipped,
+			const onBatch = async (roles: ScrapedRole[]) => {
+				batchPageCount++
+				sourceSummary.found += roles.length
+
+				const { filtered, removedCount } = filterRoles(roles)
+				const { inserted, skipped } = await insertRoles(
+					filtered,
+					signal,
+				)
+
+				sourceSummary.filtered += removedCount
+				sourceSummary.inserted += inserted
+				sourceSummary.skipped += skipped
+
+				onProgress?.({
+					type: "source:page",
+					source: name,
+					page: batchPageCount,
+					found: roles.length,
+					inserted,
+					skipped,
+					filtered: removedCount,
+				})
+
+				console.log(
+					`[${name}] page ${batchPageCount}: found=${roles.length} filtered=${removedCount} inserted=${inserted} skipped=${skipped}`,
+				)
+			}
+
+			const allRoles = await sourceModule.scrape({
+				onBatch,
+				signal,
 			})
+
+			if (batchPageCount === 0 && allRoles.length > 0) {
+				// Source did not use onBatch — process in bulk
+				onProgress?.({
+					type: "source:found",
+					source: name,
+					count: allRoles.length,
+				})
+
+				const { filtered: roles, removedCount } = filterRoles(allRoles)
+				const { inserted, skipped } = await insertRoles(roles, signal)
+
+				sourceSummary.found = allRoles.length
+				sourceSummary.filtered = removedCount
+				sourceSummary.inserted = inserted
+				sourceSummary.skipped = skipped
+
+				onProgress?.({
+					type: "source:inserted",
+					source: name,
+					inserted,
+					skipped,
+				})
+			} else if (batchPageCount > 0) {
+				onProgress?.({
+					type: "source:inserted",
+					source: name,
+					inserted: sourceSummary.inserted,
+					skipped: sourceSummary.skipped,
+				})
+			}
+
+			summary.sources[name] = sourceSummary
+			summary.total.found += sourceSummary.found
+			summary.total.filtered += sourceSummary.filtered
+			summary.total.inserted += sourceSummary.inserted
+			summary.total.skipped += sourceSummary.skipped
 
 			console.log(
-				`[${name}] found=${allRoles.length} filtered=${removedCount} inserted=${inserted} skipped=${skipped}`,
+				`[${name}] found=${sourceSummary.found} filtered=${sourceSummary.filtered} inserted=${sourceSummary.inserted} skipped=${sourceSummary.skipped}`,
 			)
 		} catch (err) {
 			const error = err instanceof Error ? err.message : String(err)
