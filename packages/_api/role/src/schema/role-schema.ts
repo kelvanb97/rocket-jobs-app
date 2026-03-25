@@ -8,6 +8,7 @@ export const ROLE_SOURCES = [
 	"weworkremotely",
 	"google-jobs",
 	"linkedin",
+	"jobright",
 	"indeed",
 	"company-website",
 	"referral",

@@ -5,6 +5,8 @@ export type TSourceName =
 	| "jobicy"
 	| "google-jobs"
 	| "linkedin"
+	| "jobright"
+
 
 export type TScraperConfig = {
 	relevantKeywords: string[]
@@ -58,6 +60,18 @@ export const LINKEDIN_SEARCH = {
 	maxPerPage: 25,
 } as const
 
+export const JOBRIGHT_SEARCH = {
+	urls: [
+		"https://jobright.ai/jobs?q=software%20engineer",
+		"https://jobright.ai/jobs?q=frontend%20engineer",
+		"https://jobright.ai/jobs?q=full%20stack%20engineer",
+		"https://jobright.ai/jobs?q=react%20engineer",
+		"https://jobright.ai/jobs?q=typescript%20engineer",
+		"https://jobright.ai/jobs?q=next.js%20engineer",
+	],
+	maxPages: 3,
+} as const
+
 export const SCRAPER_CONFIG: TScraperConfig = {
 	relevantKeywords: [
 		"engineer",
@@ -87,5 +101,6 @@ export const SCRAPER_CONFIG: TScraperConfig = {
 		// "jobicy",
 		"google-jobs",
 		"linkedin",
+		"jobright",
 	],
 }

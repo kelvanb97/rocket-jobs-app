@@ -30,14 +30,6 @@ export function RolesTable({
 	isLoadingMore,
 	statusDisabledId,
 }: IRolesTableProps) {
-	if (roles.length === 0 && !isLoadingMore) {
-		return (
-			<TextBody size="md" variant="muted-foreground">
-				No roles found.
-			</TextBody>
-		)
-	}
-
 	return (
 		<>
 			<Table>
@@ -55,6 +47,13 @@ export function RolesTable({
 					</TableRow>
 				</TableHeader>
 				<TableBody>
+					{roles.length === 0 && !isLoadingMore && (
+						<TableRow>
+							<td colSpan={9} className="py-8 text-center text-muted-foreground">
+								No roles found.
+							</td>
+						</TableRow>
+					)}
 					{roles.map((role) => (
 						<RolesTableRow
 							key={role.id}

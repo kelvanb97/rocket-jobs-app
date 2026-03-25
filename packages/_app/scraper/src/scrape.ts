@@ -5,6 +5,7 @@ import * as googleJobs from "#sources/google-jobs/index"
 import * as himalayas from "#sources/himalayas"
 import * as jobicy from "#sources/jobicy"
 import * as linkedin from "#sources/linkedin/index"
+import * as jobright from "#sources/jobright"
 import * as remoteok from "#sources/remoteok"
 import * as weworkremotely from "#sources/weworkremotely"
 import type {
@@ -24,6 +25,7 @@ const ALL_SOURCES: Record<TSourceName, SourceModule> = {
 	jobicy,
 	"google-jobs": googleJobs,
 	linkedin,
+	jobright,
 }
 
 export type TScrapeSummary = {

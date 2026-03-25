@@ -41,6 +41,7 @@ export type TScrapeProgressEvent =
 	  }
 	| { type: "source:error"; source: string; error: string }
 	| { type: "source:done"; source: string }
+	| { type: "heartbeat"; timestamp: string }
 	| { type: "done" }
 
 export type TScrapeProgressCallback = (event: TScrapeProgressEvent) => void
