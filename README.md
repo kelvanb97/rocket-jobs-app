@@ -8,6 +8,10 @@
 [![Radix UI](https://img.shields.io/badge/Radix_UI-161618?logo=radixui&logoColor=white)](https://www.radix-ui.com/)
 [![Anthropic](https://img.shields.io/badge/Claude_AI-D4A574?logo=anthropic&logoColor=white)](https://www.anthropic.com/)
 
+# Quickstart Instructions with Docker
+
+Visit [DOCKER_QUICKSTART.md](./docs/DOCKER_QUICKSTART.md) for instructions on how to run the suite with Docker
+
 # Auto Job App
 
 An AI-powered job search pipeline that scrapes, scores, generates tailored documents, and auto-applies to the best remote roles - so I can focus on interviewing, not searching.

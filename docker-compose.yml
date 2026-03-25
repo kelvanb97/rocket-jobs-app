@@ -1,0 +1,158 @@
+# version: '3.8' is obsolete and ignored by modern Docker Compose
+
+x-supabase-env:
+  &supabase-env
+  PGRST_JWT_SECRET: "${SUPABASE_JWT_SECRET}"
+  POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "43000:3000"
+    env_file:
+      - .env
+    environment:
+      - SUPABASE_URL=http://kong:8000
+      - SUPABASE_PUBLISHABLE_KEY=${SUPABASE_PUBLISHABLE_KEY}
+      - SUPABASE_SECRET_KEY=${SUPABASE_SECRET_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DOCKER=true
+    depends_on:
+      db:
+        condition: service_healthy
+      kong:
+        condition: service_started
+
+  scraper:
+    build:
+      context: .
+      dockerfile: apps/scraper/Dockerfile
+    env_file:
+      - .env
+    environment:
+      - SUPABASE_URL=http://kong:8000
+      - SUPABASE_PUBLISHABLE_KEY=${SUPABASE_PUBLISHABLE_KEY}
+      - SUPABASE_SECRET_KEY=${SUPABASE_SECRET_KEY}
+      - DOCKER=true
+    depends_on:
+      db:
+        condition: service_healthy
+      kong:
+        condition: service_started
+
+  score:
+    build:
+      context: .
+      dockerfile: apps/score/Dockerfile
+    env_file:
+      - .env
+    environment:
+      - SUPABASE_URL=http://kong:8000
+      - SUPABASE_PUBLISHABLE_KEY=${SUPABASE_PUBLISHABLE_KEY}
+      - SUPABASE_SECRET_KEY=${SUPABASE_SECRET_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DOCKER=true
+    depends_on:
+      db:
+        condition: service_healthy
+      kong:
+        condition: service_started
+
+  # --------------------------------------------------------------------------
+  # Minimum Supabase Setup
+  # --------------------------------------------------------------------------
+  db:
+    image: supabase/postgres:15.1.1.78
+    ports:
+      - "45432:5432"
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    volumes:
+      - supabase-db:/var/lib/postgresql/data
+      - ./apps/supabase/migrations:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  rest:
+    image: postgrest/postgrest:v12.2.0
+    environment:
+      <<: *supabase-env
+      PGRST_DB_URI: postgres://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
+      PGRST_DB_SCHEMA: "public,app"
+      PGRST_DB_ANON_ROLE: "anon"
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+  storage:
+    image: supabase/storage-api:v1.10.1
+    environment:
+      <<: *supabase-env
+      ANON_KEY: "${SUPABASE_PUBLISHABLE_KEY}"
+      SERVICE_KEY: "${SUPABASE_SECRET_KEY}"
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
+      POSTGREST_URL: http://rest:3000
+      FILE_SIZE_LIMIT: 52428800
+      STORAGE_BACKEND: file
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      TENANT_ID: stub
+      REGION: stub
+      GLOBAL_S3_BUCKET: stub
+    volumes:
+      - supabase-storage:/var/lib/storage
+    depends_on:
+      db:
+        condition: service_healthy
+      rest:
+        condition: service_started
+
+
+  auth:
+    image: supabase/gotrue:v2.158.1
+    environment:
+      <<: *supabase-env
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
+      GOTRUE_SITE_URL: http://localhost:43000
+      GOTRUE_EXTERNAL_URL: http://localhost:48000
+      API_EXTERNAL_URL: http://localhost:48000
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+      GOTRUE_JWT_SECRET: "${SUPABASE_JWT_SECRET}"
+      GOTRUE_JWT_EXP: 3600
+      GOTRUE_DB_MAX_POOL_SIZE: 30
+      GOTRUE_MAILER_AUTOCONFIRM: "true"
+      GOTRUE_SMS_AUTOCONFIRM: "true"
+      GOTRUE_LOG_LEVEL: info
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+  kong:
+    image: kong:3.4
+    ports:
+      - "48000:8000"
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /var/lib/kong/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+    volumes:
+      - ./supabase-kong.yml:/var/lib/kong/kong.yml
+    depends_on:
+      - rest
+      - storage
+      - auth
+
+volumes:
+  supabase-db:
+  supabase-storage:
