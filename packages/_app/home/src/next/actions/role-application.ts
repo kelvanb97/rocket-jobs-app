@@ -13,6 +13,13 @@ import { z } from "zod"
 
 const BUCKET = "applications"
 
+function storageUrl(path: string | null): string | null {
+	if (!path) return null
+	if (path.startsWith("http")) return path
+	const result = getPublicUrl(BUCKET, path)
+	return result.ok ? result.data : null
+}
+
 export const getRoleApplicationAction = actionClient
 	.inputSchema(z.object({ roleId: z.string() }))
 	.action(async ({ parsedInput }) => {
@@ -24,7 +31,14 @@ export const getRoleApplicationAction = actionClient
 		if (!result.ok) {
 			throw new SafeForClientError(result.error.message)
 		}
-		return result.data.applications[0] ?? null
+		const app = result.data.applications[0] ?? null
+		if (!app) return null
+		return {
+			...app,
+			resumePath: storageUrl(app.resumePath),
+			coverLetterPath: storageUrl(app.coverLetterPath),
+			screenshotPath: storageUrl(app.screenshotPath),
+		}
 	})
 
 export const saveRoleApplicationAction = actionClient
@@ -106,20 +120,12 @@ export async function uploadApplicationFile(
 		throw new Error(`Upload failed: ${uploadResult.error.message}`)
 	}
 
-	const urlResult = getPublicUrl(BUCKET, storagePath)
-
-	if (!urlResult.ok) {
-		throw new Error(`Failed to get public URL: ${urlResult.error.message}`)
-	}
-
-	const publicUrl = urlResult.data
-
 	const application = await getOrCreateApplication(roleId)
 
 	const updateFields =
 		fileType === "resume"
-			? { resumePath: publicUrl }
-			: { coverLetterPath: publicUrl }
+			? { resumePath: storagePath }
+			: { coverLetterPath: storagePath }
 
 	const updateResult = await updateApplication({
 		id: application.id,
@@ -129,7 +135,7 @@ export async function uploadApplicationFile(
 		throw new Error(updateResult.error.message)
 	}
 
-	return { url: publicUrl, application: updateResult.data }
+	return { url: storageUrl(storagePath) ?? storagePath, application: updateResult.data }
 }
 
 export async function removeApplicationFile(

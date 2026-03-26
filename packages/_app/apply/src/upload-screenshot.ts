@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs"
 import { updateApplication } from "@aja-api/application/api/update-application"
 import { getRole } from "@aja-api/role/api/get-role"
-import { getPublicUrl } from "@aja-api/storage/api/get-public-url"
 import { uploadFile } from "@aja-api/storage/api/upload-file"
 import { errFrom, ok, type TResult } from "@aja-core/result"
 
@@ -44,18 +43,14 @@ export async function uploadScreenshot(
 	if (!upload.ok)
 		return errFrom(`Failed to upload screenshot: ${upload.error.message}`)
 
-	const urlResult = getPublicUrl(STORAGE_BUCKET, storagePath)
-	if (!urlResult.ok)
-		return errFrom(`Failed to get public URL: ${urlResult.error.message}`)
-
 	const updateResult = await updateApplication({
 		id: input.applicationId,
-		screenshotPath: urlResult.data,
+		screenshotPath: storagePath,
 	})
 	if (!updateResult.ok)
 		return errFrom(
 			`Failed to update application: ${updateResult.error.message}`,
 		)
 
-	return ok({ screenshotUrl: urlResult.data })
+	return ok({ screenshotUrl: storagePath })
 }

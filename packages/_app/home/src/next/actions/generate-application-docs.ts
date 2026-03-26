@@ -11,7 +11,6 @@ import { buildResumePrompt } from "@aja-api/resume/api/build-resume-prompt"
 import { extractKeywords } from "@aja-api/resume/api/extract-keywords"
 import { generateResumeContent } from "@aja-api/resume/api/generate-resume"
 import { getRole } from "@aja-api/role/api/get-role"
-import { getPublicUrl } from "@aja-api/storage/api/get-public-url"
 import { uploadFile } from "@aja-api/storage/api/upload-file"
 import { USER_PROFILE } from "@aja-config/user/experience"
 import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
@@ -139,24 +138,12 @@ export const generateApplicationDocsAction = actionClient
 		if (!coverLetterUpload.ok)
 			throw new SafeForClientError(coverLetterUpload.error.message)
 
-		// Get public URLs
-		const resumeUrlResult = getPublicUrl(STORAGE_BUCKET, resumePath)
-		if (!resumeUrlResult.ok)
-			throw new SafeForClientError(resumeUrlResult.error.message)
-
-		const coverLetterUrlResult = getPublicUrl(
-			STORAGE_BUCKET,
-			coverLetterPath,
-		)
-		if (!coverLetterUrlResult.ok)
-			throw new SafeForClientError(coverLetterUrlResult.error.message)
-
 		// Get or create application and update with paths
 		const application = await getOrCreateApplication(roleId)
 		const updateResult = await updateApplication({
 			id: application.id,
-			resumePath: resumeUrlResult.data,
-			coverLetterPath: coverLetterUrlResult.data,
+			resumePath,
+			coverLetterPath,
 		})
 		if (!updateResult.ok)
 			throw new SafeForClientError(updateResult.error.message)
