@@ -8,12 +8,14 @@ const schema = z.object({
 async function test(provider: "anthropic" | "ollama") {
 	console.log(`Testing provider: ${provider}...`)
 	process.env["LLM_PROVIDER"] = provider
-	
+
 	try {
 		const response = await createMessage({
-			model: provider === "anthropic" 
-				? (process.env["SCORE_MODEL"] ?? "claude-haiku-4-5-20251001")
-				: (process.env["OLLAMA_MODEL"] ?? "llama3"),
+			model:
+				provider === "anthropic"
+					? (process.env["SCORE_MODEL"] ??
+						"claude-haiku-4-5-20251001")
+					: (process.env["OLLAMA_MODEL"] ?? "llama3"),
 			system: "You are a helpful assistant.",
 			user: "Say hello in JSON format with a 'greeting' field.",
 			schema,
@@ -32,7 +34,7 @@ async function main() {
 	} else {
 		console.log("Skipping Anthropic test (no API key)")
 	}
-	
+
 	await test("ollama")
 }
 

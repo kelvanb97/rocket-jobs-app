@@ -16,7 +16,6 @@ type TSourceName =
 	| "google-jobs"
 	| "jobright"
 
-
 const ALL_SOURCES: { name: TSourceName; label: string }[] = [
 	{ name: "google-jobs", label: "Google Jobs" },
 	{ name: "jobright", label: "Jobright" },

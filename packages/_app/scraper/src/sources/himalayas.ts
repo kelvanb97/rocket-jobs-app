@@ -61,8 +61,6 @@ async function fetchPage(
 	return (await response.json()) as HimalayasResponse
 }
 
-
-
 export async function scrape(
 	options?: TSourceScrapeOptions,
 ): Promise<ScrapedRole[]> {

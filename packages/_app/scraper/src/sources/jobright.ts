@@ -3,7 +3,10 @@ import {
 	closeBrowserContext,
 	createBrowserContext,
 } from "@aja-integrations/patchright/browser"
-import { humanScroll, randomWait } from "@aja-integrations/patchright/interaction"
+import {
+	humanScroll,
+	randomWait,
+} from "@aja-integrations/patchright/interaction"
 import type { ScrapedRole, TSourceScrapeOptions } from "#types"
 
 export async function scrape(
@@ -55,14 +58,20 @@ export async function scrape(
 				const pageRoles: ScrapedRole[] = []
 				for (let i = 0; i < count; i++) {
 					const card = cards.nth(i)
-					const titleText = (await card.innerText().catch(() => "")) || ""
-					const href = await card.getAttribute("href").catch(() => null)
-					
+					const titleText =
+						(await card.innerText().catch(() => "")) || ""
+					const href = await card
+						.getAttribute("href")
+						.catch(() => null)
+
 					if (titleText.trim() && href) {
-						const cleanTitle = titleText.split("\n")[0]?.trim() || titleText.trim()
-						const fullUrl = href.startsWith("http") ? href : `https://jobright.ai${href}`
+						const cleanTitle =
+							titleText.split("\n")[0]?.trim() || titleText.trim()
+						const fullUrl = href.startsWith("http")
+							? href
+							: `https://jobright.ai${href}`
 						const key = `${cleanTitle}|${fullUrl}`
-						
+
 						if (!seen.has(key)) {
 							seen.add(key)
 							pageRoles.push({

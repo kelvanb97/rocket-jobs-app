@@ -14,8 +14,6 @@ type JobicyResponse = {
 	jobs?: JobicyJob[]
 }
 
-
-
 export async function scrape(
 	options?: TSourceScrapeOptions,
 ): Promise<ScrapedRole[]> {

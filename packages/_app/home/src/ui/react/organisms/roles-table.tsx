@@ -49,7 +49,10 @@ export function RolesTable({
 				<TableBody>
 					{roles.length === 0 && !isLoadingMore && (
 						<TableRow>
-							<td colSpan={9} className="py-8 text-center text-muted-foreground">
+							<td
+								colSpan={9}
+								className="py-8 text-center text-muted-foreground"
+							>
 								No roles found.
 							</td>
 						</TableRow>
