@@ -18,7 +18,8 @@ Guidelines:
 - Tone: Professional but warm. Confident without being arrogant. Specific without being exhaustive.
 - Do NOT fabricate any experience or accomplishments.
 - Do NOT use clichés like "I am writing to express my interest" or "I believe I would be a great fit."
-- Start with something engaging that connects the candidate's experience to the company's mission or the role's challenges.`
+- Start with something engaging that connects the candidate's experience to the company's mission or the role's challenges.
+- The signoff field must include the closing phrase AND the candidate's full name on a new line (e.g. "Sincerely,\nKelvan Brandt").`
 
 	const roleDetails = [
 		`Title: ${role.title}`,

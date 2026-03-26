@@ -130,34 +130,22 @@ export async function buildCoverLetterDocx(
 	// Blank line before sign-off
 	children.push(new Paragraph({ spacing: SPACING }))
 
-	// Sign-off
-	children.push(
-		new Paragraph({
-			spacing: SPACING,
-			children: [
-				new TextRun({
-					text: coverLetter.signoff,
-					size: BODY_SIZE,
-					font: FONT,
-				}),
-			],
-		}),
-	)
-
-	// Name (bold)
-	children.push(
-		new Paragraph({
-			spacing: SPACING,
-			children: [
-				new TextRun({
-					text: name,
-					bold: true,
-					size: BODY_SIZE,
-					font: FONT,
-				}),
-			],
-		}),
-	)
+	// Sign-off (e.g. "Sincerely,")
+	const signoffLines = coverLetter.signoff.split("\n")
+	for (const line of signoffLines) {
+		children.push(
+			new Paragraph({
+				spacing: SPACING,
+				children: [
+					new TextRun({
+						text: line.trim(),
+						size: BODY_SIZE,
+						font: FONT,
+					}),
+				],
+			}),
+		)
+	}
 
 	const doc = new Document({
 		sections: [
