@@ -99,7 +99,7 @@ file_size_limit = "50MiB"
 [storage.buckets.applications]
 public = true
 file_size_limit = "10MiB"
-allowed_mime_types = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
+allowed_mime_types = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/png", "image/jpeg"]
 
 [auth]
 enabled = true

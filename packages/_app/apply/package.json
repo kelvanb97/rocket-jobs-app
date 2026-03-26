@@ -12,7 +12,8 @@
 		"./download-documents": "./src/download-documents.ts",
 		"./skip-role": "./src/skip-role.ts",
 		"./submit-application": "./src/submit-application.ts",
-		"./types": "./src/types.ts"
+		"./types": "./src/types.ts",
+		"./upload-screenshot": "./src/upload-screenshot.ts"
 	},
 	"scripts": {
 		"check-types": "tsc --noEmit",

@@ -18,6 +18,7 @@ import { useState } from "react"
 interface IApplicationFieldsCardProps {
 	resumeUrl: string | null
 	coverLetterUrl: string | null
+	screenshotUrl: string | null
 	notes: string
 	onNotesChange: (notes: string) => void
 	onUpload: (fileType: "resume" | "cover_letter", file: File) => void
@@ -105,6 +106,7 @@ function FileSlot({
 export function ApplicationFieldsCard({
 	resumeUrl,
 	coverLetterUrl,
+	screenshotUrl,
 	notes,
 	onNotesChange,
 	onUpload,
@@ -154,6 +156,22 @@ export function ApplicationFieldsCard({
 						isUploading={uploadingType === "cover_letter"}
 						isRemoving={removingType === "cover_letter"}
 					/>
+
+					{screenshotUrl && (
+						<InputGroup>
+							<Label>Screenshot</Label>
+							<XStack className="items-center gap-2 rounded-md border px-3 py-2">
+								<a
+									href={screenshotUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="text-sm text-primary underline truncate flex-1"
+								>
+									View screenshot
+								</a>
+							</XStack>
+						</InputGroup>
+					)}
 
 					<InputGroup>
 						<Label htmlFor="app-notes">Notes</Label>

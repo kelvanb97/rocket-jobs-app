@@ -17,6 +17,7 @@ export function unmarshalApplication(m: TMarshalledApplication): TApplication {
 		status: applicationStatusSchema.parse(m.status),
 		resumePath: m.resume_path,
 		coverLetterPath: m.cover_letter_path,
+		screenshotPath: m.screenshot_path,
 		submittedAt: m.submitted_at,
 		notes: m.notes,
 		createdAt: m.created_at,
@@ -32,6 +33,7 @@ export function marshalCreateApplication(
 		status: input.status ?? "draft",
 		resume_path: input.resumePath ?? null,
 		cover_letter_path: input.coverLetterPath ?? null,
+		screenshot_path: input.screenshotPath ?? null,
 		submitted_at: input.submittedAt ?? null,
 		notes: input.notes ?? null,
 	}
@@ -46,6 +48,8 @@ export function marshalUpdateApplication(
 	if (input.resumePath !== undefined) updates.resume_path = input.resumePath
 	if (input.coverLetterPath !== undefined)
 		updates.cover_letter_path = input.coverLetterPath
+	if (input.screenshotPath !== undefined)
+		updates.screenshot_path = input.screenshotPath
 	if (input.submittedAt !== undefined)
 		updates.submitted_at = input.submittedAt
 	if (input.notes !== undefined) updates.notes = input.notes

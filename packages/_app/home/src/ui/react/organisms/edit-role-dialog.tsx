@@ -236,6 +236,7 @@ function useRoleApplication(roleId: string | null) {
 	const [applicationId, setApplicationId] = useState<string | null>(null)
 	const [resumeUrl, setResumeUrl] = useState<string | null>(null)
 	const [coverLetterUrl, setCoverLetterUrl] = useState<string | null>(null)
+	const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null)
 	const [notes, setNotes] = useState("")
 	const [uploadingType, setUploadingType] = useState<
 		"resume" | "cover_letter" | null
@@ -250,11 +251,13 @@ function useRoleApplication(roleId: string | null) {
 				setApplicationId(data.id)
 				setResumeUrl(data.resumePath)
 				setCoverLetterUrl(data.coverLetterPath)
+				setScreenshotUrl(data.screenshotPath)
 				setNotes(data.notes ?? "")
 			} else {
 				setApplicationId(null)
 				setResumeUrl(null)
 				setCoverLetterUrl(null)
+				setScreenshotUrl(null)
 				setNotes("")
 			}
 		},
@@ -344,6 +347,7 @@ function useRoleApplication(roleId: string | null) {
 		setResumeUrl,
 		coverLetterUrl,
 		setCoverLetterUrl,
+		screenshotUrl,
 		notes,
 		setNotes,
 		handleSave,
@@ -633,6 +637,7 @@ export function EditRoleDialog({
 						<ApplicationFieldsCard
 							resumeUrl={app.resumeUrl}
 							coverLetterUrl={app.coverLetterUrl}
+							screenshotUrl={app.screenshotUrl}
 							notes={app.notes}
 							onNotesChange={app.setNotes}
 							onUpload={app.handleUpload}

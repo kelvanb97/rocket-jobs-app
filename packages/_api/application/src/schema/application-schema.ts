@@ -21,6 +21,7 @@ export type TApplication = {
 	status: TApplicationStatus
 	resumePath: string | null
 	coverLetterPath: string | null
+	screenshotPath: string | null
 	submittedAt: string | null
 	notes: string | null
 	createdAt: string | null
@@ -48,6 +49,7 @@ export const createApplicationSchema = z.object({
 	status: applicationStatusSchema.optional(),
 	resumePath: z.string().nullable().optional(),
 	coverLetterPath: z.string().nullable().optional(),
+	screenshotPath: z.string().nullable().optional(),
 	submittedAt: z.string().nullable().optional(),
 	notes: z.string().nullable().optional(),
 })
@@ -60,6 +62,7 @@ export const updateApplicationSchema = z.object({
 	status: applicationStatusSchema.optional(),
 	resumePath: z.string().nullable().optional(),
 	coverLetterPath: z.string().nullable().optional(),
+	screenshotPath: z.string().nullable().optional(),
 	submittedAt: z.string().nullable().optional(),
 	notes: z.string().nullable().optional(),
 })

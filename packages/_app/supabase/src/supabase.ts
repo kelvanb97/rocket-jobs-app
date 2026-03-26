@@ -17,6 +17,7 @@ export type Database = {
 					notes: string | null
 					resume_path: string | null
 					role_id: string | null
+					screenshot_path: string | null
 					status: string
 					submitted_at: string | null
 					updated_at: string | null
@@ -28,6 +29,7 @@ export type Database = {
 					notes?: string | null
 					resume_path?: string | null
 					role_id?: string | null
+					screenshot_path?: string | null
 					status?: string
 					submitted_at?: string | null
 					updated_at?: string | null
@@ -39,6 +41,7 @@ export type Database = {
 					notes?: string | null
 					resume_path?: string | null
 					role_id?: string | null
+					screenshot_path?: string | null
 					status?: string
 					submitted_at?: string | null
 					updated_at?: string | null
