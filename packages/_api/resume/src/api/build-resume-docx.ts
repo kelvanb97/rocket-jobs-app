@@ -14,6 +14,8 @@ type TContactInfo = {
 	email?: string
 	phone?: string
 	linkedIn?: string
+	github?: string
+	personalWebsite?: string
 	location?: string
 }
 
@@ -46,6 +48,8 @@ export async function buildResumeDocx(
 			contactInfo.email,
 			contactInfo.phone,
 			contactInfo.linkedIn,
+			contactInfo.github,
+			contactInfo.personalWebsite,
 			contactInfo.location,
 		].filter(Boolean)
 		if (parts.length > 0) {

@@ -12,7 +12,7 @@ export type TWorkExperience = {
 	title: string
 	startDate: string
 	endDate: string | "Current"
-	type: "full-time" | "contract" | "founder"
+	type: "full-time" | "contract" | "founder" | "self-employed"
 	platforms: string[]
 	techStack: string[]
 	summary: string
@@ -194,6 +194,38 @@ export const USER_PROFILE: TUserProfile = {
 	],
 
 	workExperience: [
+		{
+			company: "Kelvco LLC",
+			title: "Senior Software Engineer",
+			startDate: "Oct 2020",
+			endDate: "Mar 2026",
+			type: "self-employed",
+			platforms: ["web", "iOS", "Android"],
+			techStack: [
+				"React",
+				"TypeScript",
+				"Next.js",
+				"Node.js",
+				"PostgreSQL",
+				"Supabase",
+				"React Native",
+				"Expo",
+				"Tamagui",
+				"Tailwind CSS",
+				"AWS",
+				"Docker",
+				"Anthropic API",
+				"OpenAI API",
+				"Claude Code",
+			],
+			summary:
+				"Independent consulting and product development for early-stage companies. Worked directly with founders and small engineering teams to design product architecture, build scalable systems, and solve complex performance and infrastructure problems across multiple client engagements. Currently building an AI-powered job automation platform using TypeScript, Next.js, Supabase, and the Anthropic API — automated job scraping, AI-powered role scoring, and resume/cover letter generation.",
+			highlights: [
+				"Completed multiple client engagements over 5+ years, spanning legacy modernization, cross-platform MVP delivery, distributed infrastructure at scale, and AI-powered product features.",
+				"Currently building an AI-powered job automation platform using TypeScript, Next.js, Supabase, and the Anthropic API — automated job scraping, AI-powered role scoring, and resume/cover letter generation.",
+				"AI-augmented development workflow using Claude Code with autoresearch and RALPH loops as primary development tooling.",
+			],
+		},
 		{
 			company: "SurePeople",
 			title: "Senior Software Engineer",

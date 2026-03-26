@@ -5,6 +5,8 @@ type TContactInfo = {
 	email?: string
 	phone?: string
 	linkedIn?: string
+	github?: string
+	personalWebsite?: string
 	location?: string
 }
 
@@ -43,6 +45,8 @@ export async function buildCoverLetterDocx(
 			contactInfo.phone,
 			contactInfo.email,
 			contactInfo.linkedIn,
+			contactInfo.github,
+			contactInfo.personalWebsite,
 			contactInfo.location,
 		].filter(Boolean)
 		if (parts.length > 0) {
