@@ -77,11 +77,7 @@ export function AddInteractionForm({
 
 	if (!expanded) {
 		return (
-			<Button
-				variant="outline"
-				size="sm"
-				onClick={() => setExpanded(true)}
-			>
+			<Button variant="outline" onClick={() => setExpanded(true)}>
 				+ Add Interaction
 			</Button>
 		)

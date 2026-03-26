@@ -188,11 +188,7 @@ export function AddPersonToRole({
 							</div>
 						)}
 					</div>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={handleStartCreate}
-					>
+					<Button variant="outline" onClick={handleStartCreate}>
 						+ Create new person
 					</Button>
 				</>
