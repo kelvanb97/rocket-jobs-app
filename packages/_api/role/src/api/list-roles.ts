@@ -2,86 +2,35 @@ import type { Database } from "@aja-app/supabase"
 import { errFrom, ok, type TResult } from "@aja-core/result"
 import { supabaseAdminClient } from "@aja-core/supabase/admin"
 import { unmarshalRole } from "#schema/role-marshallers"
-import type { TListRoles, TRole } from "#schema/role-schema"
-
-async function getScoreFilteredRoleIds(
-	supabase: ReturnType<typeof supabaseAdminClient<Database>>,
-	scoreMin?: number,
-	scoreMax?: number,
-	sortByScore?: boolean,
-	ascending?: boolean,
-): Promise<{
-	ids: string[] | null
-	orderedIds: string[] | null
-	error: string | null
-}> {
-	const needsScoreQuery =
-		scoreMin !== undefined || scoreMax !== undefined || sortByScore
-
-	if (!needsScoreQuery) return { ids: null, orderedIds: null, error: null }
-
-	let scoreQuery = supabase
-		.schema("app")
-		.from("score")
-		.select("role_id, score")
-
-	if (scoreMin !== undefined) {
-		scoreQuery = scoreQuery.gte("score", scoreMin)
-	}
-	if (scoreMax !== undefined) {
-		scoreQuery = scoreQuery.lte("score", scoreMax)
-	}
-
-	if (sortByScore) {
-		scoreQuery = scoreQuery.order("score", {
-			ascending: ascending ?? false,
-		})
-	}
-
-	const { data, error } = await scoreQuery
-
-	if (error) return { ids: null, orderedIds: null, error: error.message }
-
-	const ids = data
-		.map((r) => r.role_id)
-		.filter((id): id is string => id !== null)
-
-	return {
-		ids,
-		orderedIds: sortByScore ? ids : null,
-		error: null,
-	}
-}
+import type { TListRoles, TMarshalledRole, TRole } from "#schema/role-schema"
 
 export async function listRoles(
 	input: TListRoles,
 ): Promise<TResult<{ roles: TRole[]; hasNext: boolean }>> {
 	const supabase = supabaseAdminClient<Database>()
-
 	const sortByScore = input.sortBy === "score"
 	const ascending = (input.sortOrder ?? "desc") === "asc"
-
-	const scoreResult = await getScoreFilteredRoleIds(
-		supabase,
-		input.scoreMin,
-		input.scoreMax,
-		sortByScore,
-		ascending,
-	)
-
-	if (scoreResult.error)
-		return errFrom(`Error filtering by score: ${scoreResult.error}`)
+	const needsScoreJoin =
+		input.scoreMin !== undefined ||
+		input.scoreMax !== undefined ||
+		sortByScore
 
 	const start = (input.page - 1) * input.pageSize
 	const end = start + input.pageSize
 
-	let query = supabase.schema("app").from("role").select()
+	// Inner join with score table when filtering/sorting by score to avoid
+	// fetching all matching IDs via .in() which causes URI-too-long errors.
+	let query = needsScoreJoin
+		? supabase.schema("app").from("role").select("*, score!inner(score)")
+		: supabase.schema("app").from("role").select()
 
-	if (scoreResult.ids !== null) {
-		if (scoreResult.ids.length === 0) {
-			return ok({ roles: [], hasNext: false })
+	if (needsScoreJoin) {
+		if (input.scoreMin !== undefined) {
+			query = query.gte("score.score", input.scoreMin)
 		}
-		query = query.in("id", scoreResult.ids)
+		if (input.scoreMax !== undefined) {
+			query = query.lte("score.score", input.scoreMax)
+		}
 	}
 
 	if (input.search) {
@@ -100,33 +49,19 @@ export async function listRoles(
 		query = query.eq("source", input.source)
 	}
 
-	if (!sortByScore) {
-		const sortColumn = input.sortBy ?? "created_at"
-		const { data, error } = await query
-			.order(sortColumn, { ascending })
-			.order("id")
-			.range(start, end)
-
-		if (error) return errFrom(`Error listing roles: ${error.message}`)
-
-		const hasNext = data.length > input.pageSize
-		const roles = data.slice(0, input.pageSize).map(unmarshalRole)
-		return ok({ roles, hasNext })
+	if (sortByScore) {
+		// PostgREST table(column) syntax orders parent rows by embedded column
+		query = query.order("score(score)", { ascending })
+	} else {
+		query = query.order(input.sortBy ?? "created_at", { ascending })
 	}
 
-	// Sort by score: fetch all matching roles, reorder by score order
-	const { data, error } = await query
+	const { data, error } = await query.order("id").range(start, end)
 
 	if (error) return errFrom(`Error listing roles: ${error.message}`)
 
-	const roleMap = new Map(data.map((r) => [r.id, r]))
-	const orderedIds = scoreResult.orderedIds ?? []
-	const ordered = orderedIds
-		.map((id) => roleMap.get(id))
-		.filter((r) => r !== undefined)
-
-	const hasNext = ordered.length > end
-	const page = ordered.slice(start, end).map(unmarshalRole)
-
-	return ok({ roles: page, hasNext })
+	const rows = data as TMarshalledRole[]
+	const hasNext = rows.length > input.pageSize
+	const roles = rows.slice(0, input.pageSize).map(unmarshalRole)
+	return ok({ roles, hasNext })
 }
