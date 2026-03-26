@@ -21,8 +21,8 @@ services:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - DOCKER=true
     depends_on:
-      db:
-        condition: service_healthy
+      db-migrate:
+        condition: service_completed_successfully
       kong:
         condition: service_started
 
@@ -38,8 +38,8 @@ services:
       - SUPABASE_SECRET_KEY=${SUPABASE_SECRET_KEY}
       - DOCKER=true
     depends_on:
-      db:
-        condition: service_healthy
+      db-migrate:
+        condition: service_completed_successfully
       kong:
         condition: service_started
 
@@ -56,8 +56,8 @@ services:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - DOCKER=true
     depends_on:
-      db:
-        condition: service_healthy
+      db-migrate:
+        condition: service_completed_successfully
       kong:
         condition: service_started
 
@@ -72,12 +72,36 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
     volumes:
       - supabase-db:/var/lib/postgresql/data
-      - ./apps/supabase/migrations:/docker-entrypoint-initdb.d/
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
+
+
+  db-migrate:
+    image: postgres:15-alpine
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGHOST: db
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: "${POSTGRES_PASSWORD}"
+      PGDATABASE: postgres
+    volumes:
+      - ./apps/supabase/migrations:/app-migrations:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        echo "Applying app migrations..."
+        for f in /app-migrations/*.sql; do
+          echo "Running $$f..."
+          psql -v ON_ERROR_STOP=1 -f "$$f"
+        done
+        echo "Migrations complete."
+    restart: "no"
 
 
   rest:
@@ -88,8 +112,8 @@ services:
       PGRST_DB_SCHEMA: "public,app"
       PGRST_DB_ANON_ROLE: "anon"
     depends_on:
-      db:
-        condition: service_healthy
+      db-migrate:
+        condition: service_completed_successfully
 
 
   storage:
