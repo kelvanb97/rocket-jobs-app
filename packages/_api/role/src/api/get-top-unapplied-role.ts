@@ -4,6 +4,8 @@ import { supabaseAdminClient } from "@aja-core/supabase/admin"
 import { unmarshalRole } from "#schema/role-marshallers"
 import type { TRole } from "#schema/role-schema"
 
+const POSTGREST_NO_ROWS = "PGRST116"
+
 export type TRoleWithScore = TRole & { score: number }
 
 export async function getTopUnappliedRole(): Promise<
@@ -11,73 +13,26 @@ export async function getTopUnappliedRole(): Promise<
 > {
 	const supabase = supabaseAdminClient<Database>()
 
-	// Get all role IDs that already have applications
-	const { data: appliedRows, error: appliedError } = await supabase
-		.schema("app")
-		.from("application")
-		.select("role_id")
-
-	if (appliedError)
-		return errFrom(
-			`Error fetching applied role IDs: ${appliedError.message}`,
-		)
-
-	const appliedIds = appliedRows
-		.map((r) => r.role_id)
-		.filter((id): id is string => id !== null)
-
-	// Get role IDs with wont_do status
-	const { data: wontDoRows, error: wontDoError } = await supabase
+	const { data, error } = await supabase
 		.schema("app")
 		.from("role")
-		.select("id")
-		.eq("status", "wont_do")
-
-	if (wontDoError)
-		return errFrom(
-			`Error fetching wont_do role IDs: ${wontDoError.message}`,
-		)
-
-	const wontDoIds = wontDoRows.map((r) => r.id)
-	const excludedIds = [...appliedIds, ...wontDoIds]
-
-	// Get all scores ordered by score descending
-	let scoreQuery = supabase
-		.schema("app")
-		.from("score")
-		.select("role_id, score")
-		.order("score", { ascending: false })
-
-	if (excludedIds.length > 0) {
-		scoreQuery = scoreQuery.not(
-			"role_id",
-			"in",
-			`(${excludedIds.join(",")})`,
-		)
-	}
-
-	const { data: scores, error: scoreError } = await scoreQuery.limit(1)
-
-	if (scoreError)
-		return errFrom(`Error fetching top score: ${scoreError.message}`)
-
-	if (scores.length === 0) return ok(null)
-
-	const topScore = scores[0]!
-	if (!topScore.role_id) return ok(null)
-
-	// Fetch the full role
-	const { data: roleRow, error: roleError } = await supabase
-		.schema("app")
-		.from("role")
-		.select()
-		.eq("id", topScore.role_id)
+		.select("*, score(score)")
+		.eq("status", "pending")
+		.not("score", "is", null)
+		.order("score(score)", { ascending: false })
+		.limit(1)
 		.single()
 
-	if (roleError) return errFrom(`Error fetching role: ${roleError.message}`)
+	if (error) {
+		if (error.code === POSTGREST_NO_ROWS) return ok(null)
+		return errFrom(`Error fetching top unapplied role: ${error.message}`)
+	}
+
+	const { score, ...roleRow } = data
+	if (score == null) return ok(null)
 
 	return ok({
 		...unmarshalRole(roleRow),
-		score: topScore.score,
+		score: score.score,
 	})
 }
