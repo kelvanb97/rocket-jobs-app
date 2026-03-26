@@ -3,7 +3,7 @@ import type { NextConfig } from "next"
 
 try {
 	process.loadEnvFile(resolve(import.meta.dirname, "../../.env"))
-} catch (e) {
+} catch {
 	// Root .env file not found, skipping (expected in Docker build/CI)
 }
 

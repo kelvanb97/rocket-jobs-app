@@ -4,11 +4,6 @@ import { z } from "zod"
 
 const scoreResponseSchema = z.object({
 	score: z.number().min(0).max(100),
-	isTitleFit: z.boolean().nullable(),
-	isSeniorityAppropriate: z.boolean().nullable(),
-	doSkillsAlign: z.boolean().nullable(),
-	isLocationAcceptable: z.boolean().nullable(),
-	isSalaryAcceptable: z.boolean().nullable(),
 	positive: z.array(z.string()),
 	negative: z.array(z.string()),
 })

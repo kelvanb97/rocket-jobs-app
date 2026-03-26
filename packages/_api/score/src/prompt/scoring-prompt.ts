@@ -100,11 +100,6 @@ Important scoring rules:
 Respond with ONLY valid JSON:
 {
   "score": <number 0-100>,
-  "isTitleFit": <boolean>,
-  "isSeniorityAppropriate": <boolean>,
-  "doSkillsAlign": <boolean>,
-  "isLocationAcceptable": <boolean>,
-  "isSalaryAcceptable": <boolean>,
   "positive": [<1-4 concise reasons this is a good match>],
   "negative": [<1-4 concise reasons this is a poor match or concerns>]
 }

@@ -13,6 +13,6 @@ export async function generateCoverLetterContent(
 		system,
 		user,
 		maxTokens: 2048,
-		schema: coverLetterResponseSchema as any,
+		schema: coverLetterResponseSchema,
 	})
 }

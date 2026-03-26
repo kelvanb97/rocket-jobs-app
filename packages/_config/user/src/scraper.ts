@@ -7,7 +7,6 @@ export type TSourceName =
 	| "linkedin"
 	| "jobright"
 
-
 export type TScraperConfig = {
 	relevantKeywords: string[]
 	blockedKeywords: string[]
@@ -93,14 +92,19 @@ export const SCRAPER_CONFIG: TScraperConfig = {
 		"principal",
 		"staff",
 	],
-	blockedCompanies: ["flexionis", "underdog.io", "jack & jill", "ukjobspoint"],
+	blockedCompanies: [
+		"flexionis",
+		"underdog.io",
+		"jack & jill",
+		"ukjobspoint",
+	],
 	enabledSources: [
 		// "remoteok",
 		// "weworkremotely",
 		// "himalayas",
 		// "jobicy",
-		"google-jobs",
-		"linkedin",
+		// "google-jobs",
+		// "linkedin",
 		"jobright",
 	],
 }

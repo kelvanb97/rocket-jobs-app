@@ -241,9 +241,9 @@ importers:
       '@aja-config/user':
         specifier: workspace:*
         version: link:../../_config/user
-      '@aja-integrations/anthropic':
+      '@aja-integrations/llm':
         specifier: workspace:*
-        version: link:../../_integrations/anthropic
+        version: link:../../_integrations/llm
       docx:
         specifier: 9.5.0
         version: 9.5.0
@@ -340,9 +340,9 @@ importers:
       '@aja-config/user':
         specifier: workspace:*
         version: link:../../_config/user
-      '@aja-integrations/anthropic':
+      '@aja-integrations/llm':
         specifier: workspace:*
-        version: link:../../_integrations/anthropic
+        version: link:../../_integrations/llm
       docx:
         specifier: 9.5.0
         version: 9.5.0
@@ -442,9 +442,9 @@ importers:
       '@aja-core/result':
         specifier: workspace:*
         version: link:../../_core/result
-      '@aja-integrations/anthropic':
+      '@aja-integrations/llm':
         specifier: workspace:*
-        version: link:../../_integrations/anthropic
+        version: link:../../_integrations/llm
     devDependencies:
       '@aja-app/supabase':
         specifier: workspace:*
@@ -525,9 +525,9 @@ importers:
       '@aja-core/result':
         specifier: workspace:*
         version: link:../../_core/result
-      '@aja-integrations/anthropic':
+      '@aja-integrations/llm':
         specifier: workspace:*
-        version: link:../../_integrations/anthropic
+        version: link:../../_integrations/llm
     devDependencies:
       '@aja-core/eslint':
         specifier: workspace:*
@@ -1004,6 +1004,59 @@ importers:
       '@anthropic-ai/sdk':
         specifier: 0.80.0
         version: 0.80.0(zod@4.3.6)
+      zod:
+        specifier: 4.3.6
+        version: 4.3.6
+    devDependencies:
+      '@aja-core/eslint':
+        specifier: workspace:*
+        version: link:../../_core/eslint
+      '@aja-core/tsconfig':
+        specifier: workspace:*
+        version: link:../../_core/tsconfig
+      '@types/node':
+        specifier: 25.5.0
+        version: 25.5.0
+      eslint:
+        specifier: 9.24.0
+        version: 9.24.0(jiti@2.6.1)
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/_integrations/llm:
+    dependencies:
+      '@aja-integrations/anthropic':
+        specifier: workspace:*
+        version: link:../anthropic
+      '@aja-integrations/ollama':
+        specifier: workspace:*
+        version: link:../ollama
+      zod:
+        specifier: 4.3.6
+        version: 4.3.6
+    devDependencies:
+      '@aja-core/eslint':
+        specifier: workspace:*
+        version: link:../../_core/eslint
+      '@aja-core/tsconfig':
+        specifier: workspace:*
+        version: link:../../_core/tsconfig
+      '@types/node':
+        specifier: 25.5.0
+        version: 25.5.0
+      eslint:
+        specifier: 9.24.0
+        version: 9.24.0(jiti@2.6.1)
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/_integrations/ollama:
+    dependencies:
+      ollama:
+        specifier: 0.5.14
+        version: 0.5.14
       zod:
         specifier: 4.3.6
         version: 4.3.6
@@ -4021,6 +4074,9 @@ packages:
     resolution: {integrity: sha512-gXah6aZrcUxjWg2zR2MwouP2eHlCBzdV4pygudehaKXSGW4v2AsRQUK+lwwXhii6KFZcunEnmSUoYp5CXibxtA==}
     engines: {node: '>= 0.4'}
 
+  ollama@0.5.14:
+    resolution: {integrity: sha512-pvOuEYa2WkkAumxzJP0RdEYHkbZ64AYyyUszXVX7ruLvk5L+EiO2G71da2GqEQ4IAk4j6eLoUbGk5arzFT1wJA==}
+
   onetime@7.0.0:
     resolution: {integrity: sha512-VXJjc87FScF88uafS3JllDgvAm+c/Slfz06lorj2uAY34rlUu0Nt+v8wreiImcrgAjjIHp1rXpTDlLOGw29WwQ==}
     engines: {node: '>=18'}
@@ -4658,6 +4714,9 @@ packages:
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
+
+  whatwg-fetch@3.6.20:
+    resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}
 
   whatwg-url@5.0.0:
     resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
@@ -6979,8 +7038,8 @@ snapshots:
       '@next/eslint-plugin-next': 16.1.6
       eslint: 9.24.0(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.24.0(jiti@2.6.1))
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.6.1))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1))
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.24.0(jiti@2.6.1))
       eslint-plugin-react: 7.37.5(eslint@9.24.0(jiti@2.6.1))
       eslint-plugin-react-hooks: 7.0.1(eslint@9.24.0(jiti@2.6.1))
@@ -7006,7 +7065,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.24.0(jiti@2.6.1)):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1)):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.3
@@ -7017,22 +7076,22 @@ snapshots:
       tinyglobby: 0.2.15
       unrs-resolver: 1.11.1
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.6.1))
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.6.1)):
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.24.0(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.24.0(jiti@2.6.1))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.6.1)):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
@@ -7043,7 +7102,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.24.0(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.6.1))
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.0(eslint@9.24.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1)))(eslint@9.24.0(jiti@2.6.1))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -7919,6 +7978,10 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.1.1
 
+  ollama@0.5.14:
+    dependencies:
+      whatwg-fetch: 3.6.20
+
   onetime@7.0.0:
     dependencies:
       mimic-function: 5.0.1
@@ -8636,6 +8699,8 @@ snapshots:
   uzip@0.20201231.0: {}
 
   webidl-conversions@3.0.1: {}
+
+  whatwg-fetch@3.6.20: {}
 
   whatwg-url@5.0.0:
     dependencies:

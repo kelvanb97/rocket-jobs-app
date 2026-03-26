@@ -21,10 +21,10 @@ export async function createMessage<T>(
 ): Promise<T> {
 	const env = envSchema.parse(process.env)
 
-	if (env.LLM_PROVIDER === "ollama") {
-		return createOllamaMessage(params)
+	switch (env.LLM_PROVIDER) {
+		case "anthropic":
+			return createAnthropicMessage(params)
+		case "ollama":
+			return createOllamaMessage(params)
 	}
-
-	// Fallback to anthropic
-	return createAnthropicMessage(params as any)
 }
