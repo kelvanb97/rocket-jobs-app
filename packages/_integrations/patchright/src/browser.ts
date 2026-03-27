@@ -11,19 +11,26 @@ export type BrowserOptions = {
 export async function createBrowserContext(
 	options: BrowserOptions = {},
 ): Promise<BrowserContext> {
-	const launchOptions: any = {
-		channel: process.env["BROWSER_CHANNEL"] as any, // "chrome", "msedge", or undefined for chromium
-		headless: options.headless ?? (process.env["NODE_ENV"] === "production" || !!process.env["DOCKER"]),
+	type TLaunchOptions = Parameters<typeof chromium.launchPersistentContext>[1]
+
+	const launchOptions: TLaunchOptions = {
+		channel: process.env["BROWSER_CHANNEL"] ?? ("chrome" as string), // "chrome", "msedge", or undefined for chromium
+		headless:
+			options.headless ??
+			(process.env["NODE_ENV"] === "production" ||
+				!!process.env["DOCKER"]),
 		locale: "en-US",
 		timezoneId: "America/Los_Angeles",
 		viewport: { width: 1280, height: 900 },
+		...(process.env["PUPPETEER_EXECUTABLE_PATH"]
+			? { executablePath: process.env["PUPPETEER_EXECUTABLE_PATH"] }
+			: {}),
 	}
 
-	if (process.env["PUPPETEER_EXECUTABLE_PATH"]) {
-		launchOptions.executablePath = process.env["PUPPETEER_EXECUTABLE_PATH"]
-	}
-
-	const context = await chromium.launchPersistentContext(USER_DATA_DIR, launchOptions)
+	const context = await chromium.launchPersistentContext(
+		USER_DATA_DIR,
+		launchOptions,
+	)
 	return context
 }
 
