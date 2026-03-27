@@ -30,6 +30,7 @@ export const ROLE_STATUSES = [
 	"applied",
 	"rejected",
 	"wont_do",
+	"deferred",
 ] as const
 
 export type TRoleStatus = (typeof ROLE_STATUSES)[number]

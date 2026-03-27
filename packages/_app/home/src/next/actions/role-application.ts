@@ -135,7 +135,10 @@ export async function uploadApplicationFile(
 		throw new Error(updateResult.error.message)
 	}
 
-	return { url: storageUrl(storagePath) ?? storagePath, application: updateResult.data }
+	return {
+		url: storageUrl(storagePath) ?? storagePath,
+		application: updateResult.data,
+	}
 }
 
 export async function removeApplicationFile(
