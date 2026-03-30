@@ -5,21 +5,21 @@ import { listRoleUrls } from "@aja-api/role/api/list-role-urls"
 import { scoreRoleById } from "@aja-api/score/api/score-role-by-id"
 import type { ScrapedRole } from "#types"
 
-async function resolveCompanyId(
+function resolveCompanyId(
 	name: string,
-	cache: Map<string, string>,
-): Promise<string | null> {
+	cache: Map<string, number>,
+): number | null {
 	const normalized = name.trim().toLowerCase()
 	const cached = cache.get(normalized)
 	if (cached) return cached
 
-	const findResult = await findCompanyByName(normalized)
+	const findResult = findCompanyByName(normalized)
 	if (findResult.ok && findResult.data) {
 		cache.set(normalized, findResult.data.id)
 		return findResult.data.id
 	}
 
-	const createResult = await createCompany({ name: name.trim() })
+	const createResult = createCompany({ name: name.trim() })
 	if (!createResult.ok) {
 		console.warn(
 			`Failed to create company "${name}": ${createResult.error.message}`,
@@ -31,7 +31,13 @@ async function resolveCompanyId(
 	return createResult.data.id
 }
 
-const DUPLICATE_VIOLATION = "duplicate key value violates unique constraint"
+function parsePostedAt(value: string | null): Date | null {
+	if (!value) return null
+	const date = new Date(value)
+	return isNaN(date.getTime()) ? null : date
+}
+
+const DUPLICATE_VIOLATION = "UNIQUE constraint failed"
 
 export async function insertRoles(
 	roles: ScrapedRole[],
@@ -53,7 +59,7 @@ export async function insertRoles(
 
 	for (let i = 0; i < urls.length; i += BATCH_SIZE) {
 		const batch = urls.slice(i, i + BATCH_SIZE)
-		const urlResult = await listRoleUrls(batch)
+		const urlResult = listRoleUrls(batch)
 
 		if (!urlResult.ok) {
 			throw new Error(urlResult.error.message)
@@ -71,7 +77,7 @@ export async function insertRoles(
 	}
 
 	// Resolve companies and create roles
-	const companyCache = new Map<string, string>()
+	const companyCache = new Map<string, number>()
 	let inserted = 0
 	let conflicts = 0
 
@@ -79,10 +85,10 @@ export async function insertRoles(
 		if (signal?.aborted) break
 
 		const companyId = role.company
-			? await resolveCompanyId(role.company, companyCache)
+			? resolveCompanyId(role.company, companyCache)
 			: null
 
-		const result = await createRole({
+		const result = createRole({
 			companyId,
 			title: role.title,
 			url: role.url,
@@ -92,7 +98,7 @@ export async function insertRoles(
 			location: role.location,
 			salaryMin: role.salary_min,
 			salaryMax: role.salary_max,
-			postedAt: role.posted_at,
+			postedAt: parsePostedAt(role.posted_at),
 		})
 
 		if (result.ok) {
