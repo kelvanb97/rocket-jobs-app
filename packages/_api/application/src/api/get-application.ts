@@ -1,22 +1,21 @@
-import type { Database } from "@aja-app/supabase"
+import { application } from "@aja-app/drizzle"
+import { db } from "@aja-core/drizzle"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
-import { unmarshalApplication } from "#schema/application-marshallers"
 import type { TApplication } from "#schema/application-schema"
+import { eq } from "drizzle-orm"
 
-export async function getApplication(
-	id: string,
-): Promise<TResult<TApplication>> {
-	const supabase = supabaseAdminClient<Database>()
-
-	const { data, error } = await supabase
-		.schema("app")
-		.from("application")
-		.select()
-		.eq("id", id)
-		.single()
-
-	if (error) return errFrom(`Error fetching application: ${error.message}`)
-
-	return ok(unmarshalApplication(data))
+export function getApplication(id: number): TResult<TApplication> {
+	try {
+		const row = db()
+			.select()
+			.from(application)
+			.where(eq(application.id, id))
+			.get()
+		if (!row) return errFrom(`Application not found: ${id}`)
+		return ok(row)
+	} catch (e) {
+		return errFrom(
+			`Error fetching application: ${e instanceof Error ? e.message : String(e)}`,
+		)
+	}
 }

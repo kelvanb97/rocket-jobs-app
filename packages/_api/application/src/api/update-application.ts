@@ -1,29 +1,27 @@
-import type { Database } from "@aja-app/supabase"
+import { application } from "@aja-app/drizzle"
+import { db } from "@aja-core/drizzle"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
-import {
-	marshalUpdateApplication,
-	unmarshalApplication,
-} from "#schema/application-marshallers"
 import type {
 	TApplication,
 	TUpdateApplication,
 } from "#schema/application-schema"
+import { eq } from "drizzle-orm"
 
-export async function updateApplication(
+export function updateApplication(
 	input: TUpdateApplication,
-): Promise<TResult<TApplication>> {
-	const supabase = supabaseAdminClient<Database>()
-
-	const { data, error } = await supabase
-		.schema("app")
-		.from("application")
-		.update(marshalUpdateApplication(input))
-		.eq("id", input.id)
-		.select()
-		.single()
-
-	if (error) return errFrom(`Error updating application: ${error.message}`)
-
-	return ok(unmarshalApplication(data))
+): TResult<TApplication> {
+	try {
+		const row = db()
+			.update(application)
+			.set(input)
+			.where(eq(application.id, input.id))
+			.returning()
+			.get()
+		if (!row) return errFrom(`Application not found: ${input.id}`)
+		return ok(row)
+	} catch (e) {
+		return errFrom(
+			`Error updating application: ${e instanceof Error ? e.message : String(e)}`,
+		)
+	}
 }

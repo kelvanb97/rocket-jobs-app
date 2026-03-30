@@ -1,19 +1,15 @@
-import type { Database } from "@aja-app/supabase"
+import { application } from "@aja-app/drizzle"
+import { db } from "@aja-core/drizzle"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
+import { eq } from "drizzle-orm"
 
-export async function deleteApplication(
-	id: string,
-): Promise<TResult<{ id: string }>> {
-	const supabase = supabaseAdminClient<Database>()
-
-	const { error } = await supabase
-		.schema("app")
-		.from("application")
-		.delete()
-		.eq("id", id)
-
-	if (error) return errFrom(`Error deleting application: ${error.message}`)
-
-	return ok({ id })
+export function deleteApplication(id: number): TResult<{ id: number }> {
+	try {
+		db().delete(application).where(eq(application.id, id)).run()
+		return ok({ id })
+	} catch (e) {
+		return errFrom(
+			`Error deleting application: ${e instanceof Error ? e.message : String(e)}`,
+		)
+	}
 }

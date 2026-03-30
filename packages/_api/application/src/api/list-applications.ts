@@ -1,38 +1,43 @@
-import type { Database } from "@aja-app/supabase"
+import { application } from "@aja-app/drizzle"
+import { db } from "@aja-core/drizzle"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
-import { unmarshalApplication } from "#schema/application-marshallers"
 import type {
 	TApplication,
 	TListApplications,
 } from "#schema/application-schema"
+import { and, desc, eq } from "drizzle-orm"
 
-export async function listApplications(
+export function listApplications(
 	input: TListApplications,
-): Promise<TResult<{ applications: TApplication[]; hasNext: boolean }>> {
-	const supabase = supabaseAdminClient<Database>()
+): TResult<{ applications: TApplication[]; hasNext: boolean }> {
+	try {
+		const conditions = []
 
-	const start = (input.page - 1) * input.pageSize
-	const end = start + input.pageSize
+		if (input.roleId) {
+			conditions.push(eq(application.roleId, input.roleId))
+		}
+		if (input.status) {
+			conditions.push(eq(application.status, input.status))
+		}
 
-	let query = supabase.schema("app").from("application").select()
+		const offset = (input.page - 1) * input.pageSize
 
-	if (input.roleId) {
-		query = query.eq("role_id", input.roleId)
+		const rows = db()
+			.select()
+			.from(application)
+			.where(conditions.length > 0 ? and(...conditions) : undefined)
+			.orderBy(desc(application.createdAt), application.id)
+			.limit(input.pageSize + 1)
+			.offset(offset)
+			.all()
+
+		const hasNext = rows.length > input.pageSize
+		const applications = rows.slice(0, input.pageSize)
+
+		return ok({ applications, hasNext })
+	} catch (e) {
+		return errFrom(
+			`Error listing applications: ${e instanceof Error ? e.message : String(e)}`,
+		)
 	}
-	if (input.status) {
-		query = query.eq("status", input.status)
-	}
-
-	const { data, error } = await query
-		.order("created_at", { ascending: false })
-		.order("id")
-		.range(start, end)
-
-	if (error) return errFrom(`Error listing applications: ${error.message}`)
-
-	const hasNext = data.length > input.pageSize
-	const applications = data.slice(0, input.pageSize).map(unmarshalApplication)
-
-	return ok({ applications, hasNext })
 }
