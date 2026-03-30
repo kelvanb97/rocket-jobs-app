@@ -3,8 +3,8 @@ import { getTopUnappliedRole } from "@aja-api/role/api/get-top-unapplied-role"
 import { ok, type TResult } from "@aja-core/result"
 import type { TTopRoleResult } from "./types"
 
-export async function getTopRole(): Promise<TResult<TTopRoleResult | null>> {
-	const result = await getTopUnappliedRole()
+export function getTopRole(): TResult<TTopRoleResult | null> {
+	const result = getTopUnappliedRole()
 	if (!result.ok) return result
 
 	const roleWithScore = result.data
@@ -12,7 +12,7 @@ export async function getTopRole(): Promise<TResult<TTopRoleResult | null>> {
 
 	let companyName = "Unknown Company"
 	if (roleWithScore.companyId) {
-		const c = await getCompany(roleWithScore.companyId)
+		const c = getCompany(roleWithScore.companyId)
 		if (c.ok && c.data) companyName = c.data.name
 	}
 

@@ -3,24 +3,22 @@ import { updateRole } from "@aja-api/role/api/update-role"
 import { errFrom, ok, type TResult } from "@aja-core/result"
 
 type TSubmitInput = {
-	applicationId: string
-	roleId: string
+	applicationId: number
+	roleId: number
 }
 
-export async function submitApplication(
-	input: TSubmitInput,
-): Promise<TResult<void>> {
-	const appResult = await updateApplication({
+export function submitApplication(input: TSubmitInput): TResult<void> {
+	const appResult = updateApplication({
 		id: input.applicationId,
 		status: "submitted",
-		submittedAt: new Date().toISOString(),
+		submittedAt: new Date(),
 	})
 	if (!appResult.ok)
 		return errFrom(
 			`Failed to update application: ${appResult.error.message}`,
 		)
 
-	const roleResult = await updateRole({
+	const roleResult = updateRole({
 		id: input.roleId,
 		status: "applied",
 	})

@@ -10,23 +10,20 @@ type TDownloadDocumentsInput = {
 	slug: string
 }
 
-export async function downloadDocuments(
+export function downloadDocuments(
 	input: TDownloadDocumentsInput,
-): Promise<TResult<TDownloadDocumentsResult>> {
+): TResult<TDownloadDocumentsResult> {
 	const dir = resolve(process.cwd(), "data", "applications", input.slug)
 	mkdirSync(dir, { recursive: true })
 
-	const resume = await downloadFile("applications", input.resumePath)
+	const resume = downloadFile("applications", input.resumePath)
 	if (!resume.ok)
 		return errFrom(`Failed to download resume: ${resume.error.message}`)
 
 	const resumeLocal = resolve(dir, "resume.docx")
 	writeFileSync(resumeLocal, resume.data)
 
-	const coverLetter = await downloadFile(
-		"applications",
-		input.coverLetterPath,
-	)
+	const coverLetter = downloadFile("applications", input.coverLetterPath)
 	if (!coverLetter.ok)
 		return errFrom(
 			`Failed to download cover letter: ${coverLetter.error.message}`,

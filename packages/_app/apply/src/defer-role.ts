@@ -2,14 +2,12 @@ import { updateRole } from "@aja-api/role/api/update-role"
 import { ok, type TResult } from "@aja-core/result"
 
 type TDeferRoleInput = {
-	roleId: string
+	roleId: number
 	reason?: string | undefined
 }
 
-export async function deferRole(
-	input: TDeferRoleInput,
-): Promise<TResult<void>> {
-	const result = await updateRole({
+export function deferRole(input: TDeferRoleInput): TResult<void> {
+	const result = updateRole({
 		id: input.roleId,
 		status: "deferred",
 		...(input.reason !== undefined && { notes: input.reason }),

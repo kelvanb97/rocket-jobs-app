@@ -3,14 +3,14 @@ import { ok, type TResult } from "@aja-core/result"
 import type { TCreateDraftResult } from "./types"
 
 type TCreateDraftInput = {
-	roleId: string
+	roleId: number
 	notes?: string | undefined
 }
 
-export async function createDraft(
+export function createDraft(
 	input: TCreateDraftInput,
-): Promise<TResult<TCreateDraftResult>> {
-	const result = await createApplication({
+): TResult<TCreateDraftResult> {
+	const result = createApplication({
 		roleId: input.roleId,
 		status: "draft",
 		notes: input.notes ?? null,

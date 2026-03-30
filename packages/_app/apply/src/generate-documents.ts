@@ -32,21 +32,20 @@ function sanitize(text: string): string {
 }
 
 type TGenerateDocumentsInput = {
-	roleId: string
-	applicationId: string
+	roleId: number
+	applicationId: number
 }
 
 export async function generateDocuments(
 	input: TGenerateDocumentsInput,
 ): Promise<TResult<TGenerateDocumentsResult>> {
-	const roleResult = await getRole(input.roleId)
+	const roleResult = getRole(input.roleId)
 	if (!roleResult.ok)
 		return errFrom(`Failed to fetch role: ${roleResult.error.message}`)
 	const role = roleResult.data
 
-	const company = role.companyId
-		? await getCompany(role.companyId).then((r) => (r.ok ? r.data : null))
-		: null
+	const companyResult = role.companyId ? getCompany(role.companyId) : null
+	const company = companyResult?.ok ? companyResult.data : null
 	const companyName = company?.name ?? "Unknown Company"
 
 	// Extract keywords
@@ -136,7 +135,7 @@ export async function generateDocuments(
 		)
 
 	// Update application record with document paths
-	const appUpdate = await updateApplication({
+	const appUpdate = updateApplication({
 		id: input.applicationId,
 		resumePath,
 		coverLetterPath,

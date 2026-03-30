@@ -1,7 +1,7 @@
 export type TTopRoleResult = {
-	id: string
+	id: number
 	title: string
-	companyId: string | null
+	companyId: number | null
 	companyName: string
 	score: number
 	url: string | null
@@ -13,7 +13,7 @@ export type TTopRoleResult = {
 }
 
 export type TCreateDraftResult = {
-	applicationId: string
+	applicationId: number
 	resumePath: string | null
 	coverLetterPath: string | null
 }

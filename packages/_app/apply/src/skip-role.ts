@@ -2,12 +2,12 @@ import { updateRole } from "@aja-api/role/api/update-role"
 import { ok, type TResult } from "@aja-core/result"
 
 type TSkipRoleInput = {
-	roleId: string
+	roleId: number
 	reason?: string | undefined
 }
 
-export async function skipRole(input: TSkipRoleInput): Promise<TResult<void>> {
-	const result = await updateRole({
+export function skipRole(input: TSkipRoleInput): TResult<void> {
+	const result = updateRole({
 		id: input.roleId,
 		status: "wont_do",
 		...(input.reason !== undefined && { notes: input.reason }),

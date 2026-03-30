@@ -15,15 +15,15 @@ function sanitize(text: string): string {
 }
 
 type TUploadScreenshotInput = {
-	roleId: string
-	applicationId: string
+	roleId: number
+	applicationId: number
 	localPath: string
 }
 
 export async function uploadScreenshot(
 	input: TUploadScreenshotInput,
 ): Promise<TResult<{ screenshotUrl: string }>> {
-	const roleResult = await getRole(input.roleId)
+	const roleResult = getRole(input.roleId)
 	if (!roleResult.ok)
 		return errFrom(`Failed to fetch role: ${roleResult.error.message}`)
 
@@ -43,7 +43,7 @@ export async function uploadScreenshot(
 	if (!upload.ok)
 		return errFrom(`Failed to upload screenshot: ${upload.error.message}`)
 
-	const updateResult = await updateApplication({
+	const updateResult = updateApplication({
 		id: input.applicationId,
 		screenshotPath: storagePath,
 	})
