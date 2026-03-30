@@ -1,20 +1,17 @@
-import type { Database } from "@aja-app/supabase"
-import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
+import { existsSync, readdirSync } from "node:fs"
+import { resolve } from "node:path"
+import { ok, type TResult } from "@aja-core/result"
 
-export async function listFiles(
+export function listFiles(
 	bucket: string,
 	folder: string,
 	options?: { search?: string },
-): Promise<TResult<Array<{ name: string }>>> {
-	const supabase = supabaseAdminClient<Database>()
-
-	const { data, error } = await supabase.storage.from(bucket).list(folder, {
-		...(options?.search !== undefined && { search: options.search }),
-	})
-
-	if (error)
-		return errFrom(`Error listing files in ${folder}: ${error.message}`)
-
-	return ok(data.map((f) => ({ name: f.name })))
+): TResult<Array<{ name: string }>> {
+	const dir = resolve(process.cwd(), "data", "storage", bucket, folder)
+	if (!existsSync(dir)) return ok([])
+	let entries = readdirSync(dir)
+	if (options?.search) {
+		entries = entries.filter((name) => name.includes(options.search!))
+	}
+	return ok(entries.map((name) => ({ name })))
 }

@@ -1,16 +1,23 @@
-import type { Database } from "@aja-app/supabase"
+import { existsSync, unlinkSync } from "node:fs"
+import { resolve } from "node:path"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
 
-export async function removeFiles(
-	bucket: string,
-	paths: string[],
-): Promise<TResult<void>> {
-	const supabase = supabaseAdminClient<Database>()
-
-	const { error } = await supabase.storage.from(bucket).remove(paths)
-
-	if (error) return errFrom(`Error removing files: ${error.message}`)
-
-	return ok(undefined)
+export function removeFiles(bucket: string, paths: string[]): TResult<void> {
+	try {
+		for (const path of paths) {
+			const fullPath = resolve(
+				process.cwd(),
+				"data",
+				"storage",
+				bucket,
+				path,
+			)
+			if (existsSync(fullPath)) unlinkSync(fullPath)
+		}
+		return ok(undefined)
+	} catch (err) {
+		return errFrom(
+			`Error removing files: ${err instanceof Error ? err.message : String(err)}`,
+		)
+	}
 }
