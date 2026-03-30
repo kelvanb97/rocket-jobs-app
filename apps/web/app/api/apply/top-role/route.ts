@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 export async function GET() {
 	try {
-		const result = await getTopRole()
+		const result = getTopRole()
 
 		if (!result.ok) {
 			return NextResponse.json(

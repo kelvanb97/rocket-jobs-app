@@ -15,8 +15,8 @@ export async function POST(request: Request) {
 			)
 		}
 
-		const result = await deferRole({
-			roleId: body.roleId,
+		const result = deferRole({
+			roleId: Number(body.roleId),
 			reason: body.reason,
 		})
 

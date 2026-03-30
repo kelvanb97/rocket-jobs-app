@@ -18,8 +18,8 @@ export async function POST(request: Request) {
 		}
 
 		const result = await generateDocuments({
-			roleId: body.roleId,
-			applicationId: body.applicationId,
+			roleId: Number(body.roleId),
+			applicationId: Number(body.applicationId),
 		})
 
 		if (!result.ok) {

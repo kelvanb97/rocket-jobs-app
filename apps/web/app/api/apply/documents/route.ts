@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 			)
 		}
 
-		const result = await listDocuments(roleId)
+		const result = listDocuments(Number(roleId))
 
 		if (!result.ok) {
 			return NextResponse.json(

@@ -17,8 +17,8 @@ export async function POST(request: Request) {
 		}
 
 		const result = await uploadScreenshot({
-			roleId: body.roleId,
-			applicationId: body.applicationId,
+			roleId: Number(body.roleId),
+			applicationId: Number(body.applicationId),
 			localPath: body.localPath,
 		})
 

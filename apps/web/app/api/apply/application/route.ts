@@ -15,8 +15,8 @@ export async function POST(request: Request) {
 			)
 		}
 
-		const result = await createDraft({
-			roleId: body.roleId,
+		const result = createDraft({
+			roleId: Number(body.roleId),
 			notes: body.notes,
 		})
 

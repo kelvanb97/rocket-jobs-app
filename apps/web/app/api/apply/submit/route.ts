@@ -15,9 +15,9 @@ export async function PATCH(request: Request) {
 			)
 		}
 
-		const result = await submitApplication({
-			applicationId: body.applicationId,
-			roleId: body.roleId,
+		const result = submitApplication({
+			applicationId: Number(body.applicationId),
+			roleId: Number(body.roleId),
 		})
 
 		if (!result.ok) {

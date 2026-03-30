@@ -15,8 +15,8 @@ export async function POST(request: Request) {
 			)
 		}
 
-		const result = await skipRole({
-			roleId: body.roleId,
+		const result = skipRole({
+			roleId: Number(body.roleId),
 			reason: body.reason,
 		})
 

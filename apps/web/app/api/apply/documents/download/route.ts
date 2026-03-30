@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 			)
 		}
 
-		const result = await downloadDocuments({
+		const result = downloadDocuments({
 			resumePath: body.resumePath,
 			coverLetterPath: body.coverLetterPath,
 			slug: body.slug,
