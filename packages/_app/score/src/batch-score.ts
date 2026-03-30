@@ -24,7 +24,7 @@ export async function runBatchScore(
 ): Promise<TScoreSummary> {
 	const { signal, onProgress, batchSize = 5, rateLimitMs = 500 } = options
 
-	const result = await listUnscoredRoles()
+	const result = listUnscoredRoles()
 	if (!result.ok) {
 		throw new Error(result.error.message)
 	}
