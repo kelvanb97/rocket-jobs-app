@@ -1,20 +1,17 @@
-import type { Database } from "@aja-app/supabase"
+import { person } from "@aja-app/drizzle"
+import { db } from "@aja-core/drizzle"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
-import { unmarshalPerson } from "#schema/person-marshallers"
 import type { TPerson } from "#schema/person-schema"
+import { eq } from "drizzle-orm"
 
-export async function getPerson(id: string): Promise<TResult<TPerson>> {
-	const supabase = supabaseAdminClient<Database>()
-
-	const { data, error } = await supabase
-		.schema("app")
-		.from("person")
-		.select()
-		.eq("id", id)
-		.single()
-
-	if (error) return errFrom(`Error fetching person: ${error.message}`)
-
-	return ok(unmarshalPerson(data))
+export function getPerson(id: number): TResult<TPerson> {
+	try {
+		const row = db().select().from(person).where(eq(person.id, id)).get()
+		if (!row) return errFrom(`Person not found: ${id}`)
+		return ok(row)
+	} catch (e) {
+		return errFrom(
+			`Error fetching person: ${e instanceof Error ? e.message : String(e)}`,
+		)
+	}
 }

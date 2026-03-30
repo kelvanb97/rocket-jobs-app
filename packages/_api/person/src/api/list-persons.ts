@@ -1,38 +1,43 @@
-import type { Database } from "@aja-app/supabase"
+import { person } from "@aja-app/drizzle"
+import { db } from "@aja-core/drizzle"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
-import { unmarshalPerson } from "#schema/person-marshallers"
 import type { TListPersons, TPerson } from "#schema/person-schema"
+import { and, desc, eq, like } from "drizzle-orm"
 
-export async function listPersons(
+export function listPersons(
 	input: TListPersons,
-): Promise<TResult<{ persons: TPerson[]; hasNext: boolean }>> {
-	const supabase = supabaseAdminClient<Database>()
+): TResult<{ persons: TPerson[]; hasNext: boolean }> {
+	try {
+		const conditions = []
 
-	const start = (input.page - 1) * input.pageSize
-	const end = start + input.pageSize
+		if (input.search) {
+			conditions.push(like(person.name, `%${input.search}%`))
+		}
+		if (input.email) {
+			conditions.push(like(person.email, `%${input.email}%`))
+		}
+		if (input.companyId) {
+			conditions.push(eq(person.companyId, input.companyId))
+		}
 
-	let query = supabase.schema("app").from("person").select()
+		const offset = (input.page - 1) * input.pageSize
 
-	if (input.search) {
-		query = query.ilike("name", `%${input.search}%`)
+		const rows = db()
+			.select()
+			.from(person)
+			.where(conditions.length > 0 ? and(...conditions) : undefined)
+			.orderBy(desc(person.createdAt), person.id)
+			.limit(input.pageSize + 1)
+			.offset(offset)
+			.all()
+
+		const hasNext = rows.length > input.pageSize
+		const persons = rows.slice(0, input.pageSize)
+
+		return ok({ persons, hasNext })
+	} catch (e) {
+		return errFrom(
+			`Error listing persons: ${e instanceof Error ? e.message : String(e)}`,
+		)
 	}
-	if (input.email) {
-		query = query.ilike("email", `%${input.email}%`)
-	}
-	if (input.companyId) {
-		query = query.eq("company_id", input.companyId)
-	}
-
-	const { data, error } = await query
-		.order("created_at", { ascending: false })
-		.order("id")
-		.range(start, end)
-
-	if (error) return errFrom(`Error listing persons: ${error.message}`)
-
-	const hasNext = data.length > input.pageSize
-	const persons = data.slice(0, input.pageSize).map(unmarshalPerson)
-
-	return ok({ persons, hasNext })
 }

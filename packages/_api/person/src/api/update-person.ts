@@ -1,26 +1,22 @@
-import type { Database } from "@aja-app/supabase"
+import { person } from "@aja-app/drizzle"
+import { db } from "@aja-core/drizzle"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
-import {
-	marshalUpdatePerson,
-	unmarshalPerson,
-} from "#schema/person-marshallers"
 import type { TPerson, TUpdatePerson } from "#schema/person-schema"
+import { eq } from "drizzle-orm"
 
-export async function updatePerson(
-	input: TUpdatePerson,
-): Promise<TResult<TPerson>> {
-	const supabase = supabaseAdminClient<Database>()
-
-	const { data, error } = await supabase
-		.schema("app")
-		.from("person")
-		.update(marshalUpdatePerson(input))
-		.eq("id", input.id)
-		.select()
-		.single()
-
-	if (error) return errFrom(`Error updating person: ${error.message}`)
-
-	return ok(unmarshalPerson(data))
+export function updatePerson(input: TUpdatePerson): TResult<TPerson> {
+	try {
+		const row = db()
+			.update(person)
+			.set(input)
+			.where(eq(person.id, input.id))
+			.returning()
+			.get()
+		if (!row) return errFrom(`Person not found: ${input.id}`)
+		return ok(row)
+	} catch (e) {
+		return errFrom(
+			`Error updating person: ${e instanceof Error ? e.message : String(e)}`,
+		)
+	}
 }
