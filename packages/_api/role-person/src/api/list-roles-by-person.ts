@@ -1,21 +1,20 @@
-import type { Database } from "@aja-app/supabase"
+import { rolePerson } from "@aja-app/drizzle"
+import { db } from "@aja-core/drizzle"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
-import { unmarshalRolePerson } from "#schema/role-person-marshallers"
 import type { TRolePerson } from "#schema/role-person-schema"
+import { eq } from "drizzle-orm"
 
-export async function listRolesByPerson(
-	personId: string,
-): Promise<TResult<TRolePerson[]>> {
-	const supabase = supabaseAdminClient<Database>()
-
-	const { data, error } = await supabase
-		.schema("app")
-		.from("role_person")
-		.select()
-		.eq("person_id", personId)
-
-	if (error) return errFrom(`Error listing roles by person: ${error.message}`)
-
-	return ok(data.map(unmarshalRolePerson))
+export function listRolesByPerson(personId: number): TResult<TRolePerson[]> {
+	try {
+		const rows = db()
+			.select()
+			.from(rolePerson)
+			.where(eq(rolePerson.personId, personId))
+			.all()
+		return ok(rows)
+	} catch (e) {
+		return errFrom(
+			`Error listing roles by person: ${e instanceof Error ? e.message : String(e)}`,
+		)
+	}
 }

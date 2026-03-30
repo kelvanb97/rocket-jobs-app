@@ -1,21 +1,26 @@
-import type { Database } from "@aja-app/supabase"
+import { rolePerson } from "@aja-app/drizzle"
+import { db } from "@aja-core/drizzle"
 import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
+import { and, eq } from "drizzle-orm"
 
-export async function unlinkRolePerson(
-	roleId: string,
-	personId: string,
-): Promise<TResult<{ roleId: string; personId: string }>> {
-	const supabase = supabaseAdminClient<Database>()
-
-	const { error } = await supabase
-		.schema("app")
-		.from("role_person")
-		.delete()
-		.eq("role_id", roleId)
-		.eq("person_id", personId)
-
-	if (error) return errFrom(`Error unlinking role-person: ${error.message}`)
-
-	return ok({ roleId, personId })
+export function unlinkRolePerson(
+	roleId: number,
+	personId: number,
+): TResult<{ roleId: number; personId: number }> {
+	try {
+		db()
+			.delete(rolePerson)
+			.where(
+				and(
+					eq(rolePerson.roleId, roleId),
+					eq(rolePerson.personId, personId),
+				),
+			)
+			.run()
+		return ok({ roleId, personId })
+	} catch (e) {
+		return errFrom(
+			`Error unlinking role-person: ${e instanceof Error ? e.message : String(e)}`,
+		)
+	}
 }

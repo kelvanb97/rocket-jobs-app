@@ -12,17 +12,14 @@
 		"check-types": "tsc --noEmit",
 		"lint": "eslint ./src"
 	},
-	"peerDependencies": {
-		"@aja-core/supabase": "workspace:*",
-		"zod": "^4.3.6"
-	},
 	"dependencies": {
-		"@aja-core/result": "workspace:*"
+		"@aja-app/drizzle": "workspace:*",
+		"@aja-core/drizzle": "workspace:*",
+		"@aja-core/result": "workspace:*",
+		"drizzle-orm": "0.44.2"
 	},
 	"devDependencies": {
-		"@aja-app/supabase": "workspace:*",
 		"@aja-core/eslint": "workspace:*",
-		"@aja-core/supabase": "workspace:*",
 		"@aja-core/tsconfig": "workspace:*",
 		"eslint": "9.24.0",
 		"@types/node": "25.5.0",
