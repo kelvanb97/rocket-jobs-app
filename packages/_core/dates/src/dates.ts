@@ -1,6 +1,6 @@
 // returns a date formatted as "Month DayOrdinal, Year", e.g., "January 1st, 2023"
-export function formatDateWithOrdinal(dateString: string): string {
-	const date = new Date(dateString)
+export function formatDateWithOrdinal(dateString: string | Date): string {
+	const date = dateString instanceof Date ? dateString : new Date(dateString)
 	const day = date.getDate()
 	const month = date.toLocaleString("en-US", { month: "long" })
 	const year = date.getFullYear()
@@ -17,9 +17,9 @@ export function formatDateWithOrdinal(dateString: string): string {
 	return `${month} ${day}${ordinal}, ${year}`
 }
 
-export function timeAgo(isoString: string): string {
+export function timeAgo(isoString: string | Date): string {
 	const now = new Date()
-	const then = new Date(isoString)
+	const then = isoString instanceof Date ? isoString : new Date(isoString)
 	const diffSeconds = Math.floor((now.getTime() - then.getTime()) / 1000)
 
 	if (diffSeconds < 60) {
