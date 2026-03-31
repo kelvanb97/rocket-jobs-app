@@ -13,7 +13,7 @@ type RemoteOkJob = {
 
 export async function scrape(): Promise<ScrapedRole[]> {
 	const response = await fetch("https://remoteok.com/api", {
-		headers: { "User-Agent": "aja-scraper/1.0" },
+		headers: { "User-Agent": "rja-scraper/1.0" },
 	})
 
 	if (!response.ok) {
