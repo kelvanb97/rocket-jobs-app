@@ -137,6 +137,16 @@ SQLite database via Drizzle ORM + better-sqlite3. No Docker or external services
 - Foreign keys use `PRAGMA foreign_keys = ON` (enabled per connection)
 - WAL mode enabled for read concurrency
 
+### Migrations
+
+Migrations run automatically on app startup via `apps/web/instrumentation.ts`. After changing the schema:
+
+```bash
+pnpm --filter @aja-app/drizzle generate   # generate a new migration SQL file
+```
+
+The next `pnpm dev` applies pending migrations automatically. CLI fallback: `pnpm --filter @aja-app/drizzle migrate`.
+
 ## Documentation
 
 When making changes, update any README that is affected by the change. This includes:

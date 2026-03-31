@@ -319,11 +319,11 @@ function useRoleApplication(roleId: number | null) {
 		}
 	}
 
-	const handleRemove = (fileType: "resume" | "cover_letter") => {
+	const handleRemove = async (fileType: "resume" | "cover_letter") => {
 		if (!roleId || !applicationId) return
 		setRemovingType(fileType)
 		try {
-			const updated = removeApplicationFile(
+			const updated = await removeApplicationFile(
 				roleId,
 				applicationId,
 				fileType,

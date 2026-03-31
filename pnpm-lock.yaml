@@ -63,6 +63,9 @@ importers:
       '@aja-config/user':
         specifier: workspace:*
         version: link:../../packages/_config/user
+      '@aja-core/drizzle':
+        specifier: workspace:*
+        version: link:../../packages/_core/drizzle
       '@aja-design/ui':
         specifier: workspace:*
         version: link:../../packages/_design/ui
@@ -508,6 +511,9 @@ importers:
       '@aja-core/tsconfig':
         specifier: workspace:*
         version: link:../../_core/tsconfig
+      '@types/node':
+        specifier: 25.5.0
+        version: 25.5.0
       drizzle-kit:
         specifier: 0.31.5
         version: 0.31.5

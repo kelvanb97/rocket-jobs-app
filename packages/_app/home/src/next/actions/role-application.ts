@@ -71,7 +71,9 @@ export const saveRoleApplicationAction = actionClient
 		return result.data
 	})
 
-export function getOrCreateApplication(roleId: number): TApplication {
+export async function getOrCreateApplication(
+	roleId: number,
+): Promise<TApplication> {
 	const listResult = listApplications({
 		roleId,
 		page: 1,
@@ -111,15 +113,13 @@ export async function uploadApplicationFile(
 	const ext = getExtension(file.name) || ".pdf"
 	const storagePath = `${roleId}/${fileType}${ext}`
 
-	const uploadResult = await uploadFile(BUCKET, storagePath, file, {
-		upsert: true,
-	})
+	const uploadResult = await uploadFile(BUCKET, storagePath, file)
 
 	if (!uploadResult.ok) {
 		throw new Error(`Upload failed: ${uploadResult.error.message}`)
 	}
 
-	const application = getOrCreateApplication(roleId)
+	const application = await getOrCreateApplication(roleId)
 
 	const updateFields =
 		fileType === "resume"
@@ -140,11 +140,11 @@ export async function uploadApplicationFile(
 	}
 }
 
-export function removeApplicationFile(
+export async function removeApplicationFile(
 	roleId: number,
 	applicationId: number,
 	fileType: "resume" | "cover_letter",
-): TApplication {
+): Promise<TApplication> {
 	const listResult = listFiles(BUCKET, String(roleId), { search: fileType })
 
 	if (listResult.ok && listResult.data.length > 0) {

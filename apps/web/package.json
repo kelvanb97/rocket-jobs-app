@@ -15,6 +15,7 @@
 		"@aja-app/home": "workspace:*",
 		"@aja-app/score": "workspace:*",
 		"@aja-app/scraper": "workspace:*",
+		"@aja-core/drizzle": "workspace:*",
 		"@aja-config/user": "workspace:*",
 		"@aja-design/ui": "workspace:*",
 		"next": "16.1.6",

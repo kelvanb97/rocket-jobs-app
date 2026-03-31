@@ -20,8 +20,6 @@ import { getOrCreateApplication } from "./role-application"
 const KEYWORD_MODEL = "claude-haiku-4-5-20251001" as const
 const RESUME_MODEL = "claude-opus-4-6" as const
 const STORAGE_BUCKET = "applications"
-const DOCX_CONTENT_TYPE =
-	"application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
 function sanitize(text: string): string {
 	return text
@@ -122,7 +120,6 @@ export const generateApplicationDocsAction = actionClient
 			STORAGE_BUCKET,
 			resumePath,
 			resumeBuffer,
-			{ contentType: DOCX_CONTENT_TYPE, upsert: true },
 		)
 		if (!resumeUpload.ok)
 			throw new SafeForClientError(resumeUpload.error.message)
@@ -131,13 +128,12 @@ export const generateApplicationDocsAction = actionClient
 			STORAGE_BUCKET,
 			coverLetterPath,
 			coverLetterBuffer,
-			{ contentType: DOCX_CONTENT_TYPE, upsert: true },
 		)
 		if (!coverLetterUpload.ok)
 			throw new SafeForClientError(coverLetterUpload.error.message)
 
 		// Get or create application and update with paths
-		const application = getOrCreateApplication(roleId)
+		const application = await getOrCreateApplication(roleId)
 		const updateResult = updateApplication({
 			id: application.id,
 			resumePath,

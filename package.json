@@ -15,6 +15,7 @@
 		"dev": "turbo run dev",
 		"format": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,css}\"",
 		"lint": "turbo run lint",
+		"postinstall": "pnpm rebuild better-sqlite3",
 		"prepare": "husky",
 		"purge": "rm -rf node_modules; find . -type d -path '*/*/node_modules' -print0 | xargs -0 rm -rf",
 		"test": "turbo run test",

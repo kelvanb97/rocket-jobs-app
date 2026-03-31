@@ -36,10 +36,7 @@ export async function uploadScreenshot(
 
 	const buffer = readFileSync(input.localPath)
 
-	const upload = await uploadFile(STORAGE_BUCKET, storagePath, buffer, {
-		contentType: "image/png",
-		upsert: true,
-	})
+	const upload = await uploadFile(STORAGE_BUCKET, storagePath, buffer)
 	if (!upload.ok)
 		return errFrom(`Failed to upload screenshot: ${upload.error.message}`)
 

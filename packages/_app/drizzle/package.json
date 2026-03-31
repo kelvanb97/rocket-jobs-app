@@ -9,6 +9,7 @@
 	"scripts": {
 		"check-types": "tsc --noEmit",
 		"generate": "drizzle-kit generate",
+		"migrate": "drizzle-kit migrate",
 		"lint": "eslint ."
 	},
 	"dependencies": {
@@ -17,6 +18,7 @@
 	"devDependencies": {
 		"@aja-core/eslint": "workspace:*",
 		"@aja-core/tsconfig": "workspace:*",
+		"@types/node": "25.5.0",
 		"drizzle-kit": "0.31.5",
 		"eslint": "9.24.0",
 		"typescript": "5.9.3"

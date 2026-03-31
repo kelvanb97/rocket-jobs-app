@@ -20,8 +20,6 @@ const KEYWORD_MODEL = (process.env["APPLY_KEYWORD_MODEL"] ??
 const RESUME_MODEL = (process.env["APPLY_RESUME_MODEL"] ??
 	"claude-opus-4-6") as TAnthropicModel
 const STORAGE_BUCKET = "applications"
-const DOCX_CONTENT_TYPE =
-	"application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
 function sanitize(text: string): string {
 	return text
@@ -118,7 +116,6 @@ export async function generateDocuments(
 		STORAGE_BUCKET,
 		resumePath,
 		resumeBuffer,
-		{ contentType: DOCX_CONTENT_TYPE, upsert: true },
 	)
 	if (!resumeUpload.ok)
 		return errFrom(`Failed to upload resume: ${resumeUpload.error.message}`)
@@ -127,7 +124,6 @@ export async function generateDocuments(
 		STORAGE_BUCKET,
 		coverLetterPath,
 		coverLetterBuffer,
-		{ contentType: DOCX_CONTENT_TYPE, upsert: true },
 	)
 	if (!coverLetterUpload.ok)
 		return errFrom(
