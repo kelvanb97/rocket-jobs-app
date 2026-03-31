@@ -1,6 +1,6 @@
-import { application } from "@aja-app/drizzle"
-import { db } from "@aja-core/drizzle"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { application } from "@rja-app/drizzle"
+import { db } from "@rja-core/drizzle"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 import type {
 	TApplication,
 	TCreateApplication,

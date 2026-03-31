@@ -1,4 +1,4 @@
-# @aja-core/result
+# @rja-core/result
 
 Result type for explicit error handling without exceptions, inspired by Rust's `Result`.
 

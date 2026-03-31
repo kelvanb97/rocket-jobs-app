@@ -1,5 +1,5 @@
 {
-	"name": "@aja-design/ui",
+	"name": "@rja-design/ui",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -61,7 +61,7 @@
 		"react": "^19.2.4"
 	},
 	"dependencies": {
-		"@aja-core/localstorage": "workspace:*",
+		"@rja-core/localstorage": "workspace:*",
 		"@radix-ui/react-accordion": "1.2.11",
 		"@radix-ui/react-avatar": "1.1.10",
 		"@radix-ui/react-checkbox": "1.3.2",
@@ -90,8 +90,8 @@
 		"tw-animate-css": "1.3.4"
 	},
 	"devDependencies": {
-		"@aja-core/eslint": "workspace:*",
-		"@aja-core/tsconfig": "workspace:*",
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
 		"@tailwindcss/postcss": "4.1.11",
 		"@types/react": "19.2.14",
 		"eslint": "9.24.0",

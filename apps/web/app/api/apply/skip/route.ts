@@ -1,4 +1,4 @@
-import { skipRole } from "@aja-app/apply/skip-role"
+import { skipRole } from "@rja-app/apply/skip-role"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {

@@ -1,16 +1,16 @@
 "use server"
 
-import { createCompany } from "@aja-api/company/api/create-company"
+import { createCompany } from "@rja-api/company/api/create-company"
 import {
 	companySizeSchema,
 	companyStageSchema,
-} from "@aja-api/company/schema/company-schema"
-import { createRole } from "@aja-api/role/api/create-role"
+} from "@rja-api/company/schema/company-schema"
+import { createRole } from "@rja-api/role/api/create-role"
 import {
 	locationTypeSchema,
 	roleSourceSchema,
-} from "@aja-api/role/schema/role-schema"
-import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
+} from "@rja-api/role/schema/role-schema"
+import { actionClient, SafeForClientError } from "@rja-core/next-safe-action"
 import { z } from "zod"
 
 const createRoleWithCompanySchema = z.object({

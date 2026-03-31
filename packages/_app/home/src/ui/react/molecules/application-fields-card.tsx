@@ -1,18 +1,18 @@
 "use client"
 
-import { Button } from "@aja-design/ui/library/button"
+import { Button } from "@rja-design/ui/library/button"
 import {
 	Card,
 	CardContent,
 	CardHeader,
 	CardTitle,
-} from "@aja-design/ui/library/card"
-import { DocumentUpload } from "@aja-design/ui/library/document-upload"
-import { InputGroup } from "@aja-design/ui/library/input-group"
-import { Label } from "@aja-design/ui/library/label"
-import { Textarea } from "@aja-design/ui/library/text-area"
-import { XStack } from "@aja-design/ui/primitives/x-stack"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+} from "@rja-design/ui/library/card"
+import { DocumentUpload } from "@rja-design/ui/library/document-upload"
+import { InputGroup } from "@rja-design/ui/library/input-group"
+import { Label } from "@rja-design/ui/library/label"
+import { Textarea } from "@rja-design/ui/library/text-area"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { useState } from "react"
 
 interface IApplicationFieldsCardProps {

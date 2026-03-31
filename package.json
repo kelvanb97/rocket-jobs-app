@@ -1,5 +1,5 @@
 {
-	"name": "auto-job-app",
+	"name": "rocket-jobs-app",
 	"private": true,
 	"version": "0.0.0",
 	"engines": {
@@ -15,7 +15,7 @@
 		"dev": "turbo run dev",
 		"format": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,css}\"",
 		"lint": "turbo run lint",
-		"postinstall": "pnpm rebuild better-sqlite3",
+		"postinstall": "cd $(find node_modules/.pnpm -path '*/better-sqlite3/package.json' -print -quit | xargs dirname) && npm run build-release",
 		"prepare": "husky",
 		"purge": "rm -rf node_modules; find . -type d -path '*/*/node_modules' -print0 | xargs -0 rm -rf",
 		"test": "turbo run test",

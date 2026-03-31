@@ -1,6 +1,6 @@
 "use client"
 
-import { Toaster, type ToasterTheme } from "@aja-design/ui/library/toast"
+import { Toaster, type ToasterTheme } from "@rja-design/ui/library/toast"
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes"
 
 interface IProviderProps {

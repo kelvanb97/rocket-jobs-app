@@ -1,20 +1,20 @@
 import {
 	type TLocationType,
 	type TRoleSource,
-} from "@aja-api/role/schema/role-schema"
+} from "@rja-api/role/schema/role-schema"
 import {
 	Card,
 	CardContent,
 	CardHeader,
 	CardTitle,
-} from "@aja-design/ui/library/card"
-import { Input } from "@aja-design/ui/library/input"
-import { InputGroup } from "@aja-design/ui/library/input-group"
-import { Label } from "@aja-design/ui/library/label"
-import { Select } from "@aja-design/ui/library/select"
-import { Textarea } from "@aja-design/ui/library/text-area"
-import { XStack } from "@aja-design/ui/primitives/x-stack"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+} from "@rja-design/ui/library/card"
+import { Input } from "@rja-design/ui/library/input"
+import { InputGroup } from "@rja-design/ui/library/input-group"
+import { Label } from "@rja-design/ui/library/label"
+import { Select } from "@rja-design/ui/library/select"
+import { Textarea } from "@rja-design/ui/library/text-area"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 
 export interface IRoleFieldsValues {
 	title: string

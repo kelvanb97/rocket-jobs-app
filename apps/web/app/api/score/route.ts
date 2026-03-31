@@ -1,5 +1,5 @@
-import { runBatchScore } from "@aja-app/score/batch-score"
-import type { TScoreProgressEvent } from "@aja-app/score/types"
+import { runBatchScore } from "@rja-app/score/batch-score"
+import type { TScoreProgressEvent } from "@rja-app/score/types"
 
 export async function GET(request: Request) {
 	const encoder = new TextEncoder()

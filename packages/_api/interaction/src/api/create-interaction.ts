@@ -1,6 +1,6 @@
-import { interaction } from "@aja-app/drizzle"
-import { db } from "@aja-core/drizzle"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { interaction } from "@rja-app/drizzle"
+import { db } from "@rja-core/drizzle"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 import type {
 	TCreateInteraction,
 	TInteraction,

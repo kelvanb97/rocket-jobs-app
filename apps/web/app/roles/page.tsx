@@ -1,3 +1,3 @@
-import { RolesScreen } from "@aja-app/home/roles-screen"
+import { RolesScreen } from "@rja-app/home/roles-screen"
 
 export default RolesScreen

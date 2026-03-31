@@ -1,4 +1,4 @@
-import { uploadScreenshot } from "@aja-app/apply/upload-screenshot"
+import { uploadScreenshot } from "@rja-app/apply/upload-screenshot"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {

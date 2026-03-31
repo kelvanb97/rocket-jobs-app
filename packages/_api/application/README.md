@@ -1,4 +1,4 @@
-# @aja-api/application
+# @rja-api/application
 
 CRUD operations for job applications.
 

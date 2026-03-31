@@ -1,1 +1,1 @@
-export { default } from "@aja-design/ui/postcss.config"
+export { default } from "@rja-design/ui/postcss.config"

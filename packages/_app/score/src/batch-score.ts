@@ -1,5 +1,5 @@
-import { listUnscoredRoles } from "@aja-api/role/api/list-unscored-roles"
-import { scoreRoleById } from "@aja-api/score/api/score-role-by-id"
+import { listUnscoredRoles } from "@rja-api/role/api/list-unscored-roles"
+import { scoreRoleById } from "@rja-api/score/api/score-role-by-id"
 import type { TScoreProgressCallback } from "./types"
 
 function delay(ms: number): Promise<void> {

@@ -1,5 +1,5 @@
 {
-	"name": "@aja-core/result",
+	"name": "@rja-core/result",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -11,8 +11,8 @@
 		"lint": "eslint ."
 	},
 	"devDependencies": {
-		"@aja-core/eslint": "workspace:*",
-		"@aja-core/tsconfig": "workspace:*",
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
 		"eslint": "9.24.0",
 		"typescript": "5.9.3"
 	}

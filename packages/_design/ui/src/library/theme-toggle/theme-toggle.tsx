@@ -3,7 +3,7 @@
 import {
 	getLocalStorageItem,
 	setLocalStorageItem,
-} from "@aja-core/localstorage"
+} from "@rja-core/localstorage"
 import { Button } from "#library/button/button"
 import { cn } from "#utils/cn"
 import { Moon, Sun } from "lucide-react"

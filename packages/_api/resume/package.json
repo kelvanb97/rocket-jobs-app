@@ -1,5 +1,5 @@
 {
-	"name": "@aja-api/resume",
+	"name": "@rja-api/resume",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -13,18 +13,18 @@
 		"lint": "eslint ./src"
 	},
 	"dependencies": {
-		"@aja-api/company": "workspace:*",
-		"@aja-api/role": "workspace:*",
-		"@aja-config/user": "workspace:*",
-		"@aja-integrations/anthropic": "workspace:*",
+		"@rja-api/company": "workspace:*",
+		"@rja-api/role": "workspace:*",
+		"@rja-config/user": "workspace:*",
+		"@rja-integrations/anthropic": "workspace:*",
 		"docx": "9.5.0"
 	},
 	"peerDependencies": {
 		"zod": "^4.3.6"
 	},
 	"devDependencies": {
-		"@aja-core/eslint": "workspace:*",
-		"@aja-core/tsconfig": "workspace:*",
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
 		"@types/node": "25.5.0",
 		"eslint": "9.24.0",
 		"typescript": "5.9.3",

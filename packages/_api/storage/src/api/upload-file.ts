@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs"
 import { dirname, resolve } from "node:path"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 
 export async function uploadFile(
 	bucket: string,

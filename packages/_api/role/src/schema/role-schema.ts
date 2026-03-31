@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export type { TRole, TNewRole } from "@aja-app/drizzle"
+export type { TRole, TNewRole } from "@rja-app/drizzle"
 
 export const ROLE_SOURCES = [
 	"himalayas",

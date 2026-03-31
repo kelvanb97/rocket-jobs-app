@@ -7,10 +7,10 @@ import {
 	Play,
 	Plus,
 	Users,
-} from "@aja-design/ui/assets/lucide"
-import { cn } from "@aja-design/ui/cn"
-import { TextBody } from "@aja-design/ui/library/text"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+} from "@rja-design/ui/assets/lucide"
+import { cn } from "@rja-design/ui/cn"
+import { TextBody } from "@rja-design/ui/library/text"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 import type { TPage } from "#templates/app-shell"
 import Link from "next/link"
 
@@ -55,7 +55,7 @@ export function Sidebar({ activePage }: ISidebarProps) {
 						variant="foreground"
 						className="tracking-widest font-semibold"
 					>
-						auto-job-app
+						rocket-jobs-app
 					</TextBody>
 					<TextBody
 						size="2xs"
@@ -83,7 +83,7 @@ export function Sidebar({ activePage }: ISidebarProps) {
 					variant="muted-foreground"
 					className="mt-3 text-center"
 				>
-					Auto Job App
+					Rocket Jobs App
 				</TextBody>
 			</div>
 		</YStack>

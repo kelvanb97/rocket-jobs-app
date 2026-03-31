@@ -1,4 +1,4 @@
-# @aja-core/dates
+# @rja-core/dates
 
 Date and time formatting utilities for human-readable display.
 

@@ -1,4 +1,4 @@
-# @aja-core/numbers
+# @rja-core/numbers
 
 Number formatting utilities.
 

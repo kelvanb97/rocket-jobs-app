@@ -1,7 +1,7 @@
 import type {
 	TLocationType,
 	TRoleSource,
-} from "@aja-api/role/schema/role-schema"
+} from "@rja-api/role/schema/role-schema"
 
 export type ScrapedRole = {
 	title: string

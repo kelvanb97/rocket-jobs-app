@@ -1,17 +1,17 @@
 "use server"
 
-import { updateCompany } from "@aja-api/company/api/update-company"
+import { updateCompany } from "@rja-api/company/api/update-company"
 import {
 	companySizeSchema,
 	companyStageSchema,
-} from "@aja-api/company/schema/company-schema"
-import { updateRole } from "@aja-api/role/api/update-role"
+} from "@rja-api/company/schema/company-schema"
+import { updateRole } from "@rja-api/role/api/update-role"
 import {
 	locationTypeSchema,
 	roleSourceSchema,
 	roleStatusSchema,
-} from "@aja-api/role/schema/role-schema"
-import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
+} from "@rja-api/role/schema/role-schema"
+import { actionClient, SafeForClientError } from "@rja-core/next-safe-action"
 import { z } from "zod"
 
 const updateRoleWithCompanySchema = z.object({

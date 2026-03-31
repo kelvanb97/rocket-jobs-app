@@ -1,5 +1,5 @@
-import { listFiles } from "@aja-api/storage/api/list-files"
-import type { TResult } from "@aja-core/result"
+import { listFiles } from "@rja-api/storage/api/list-files"
+import type { TResult } from "@rja-core/result"
 
 export function listDocuments(
 	roleId: number,

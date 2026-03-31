@@ -1,5 +1,5 @@
 {
-	"name": "@aja-app/scraper",
+	"name": "@rja-app/scraper",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -13,16 +13,16 @@
 		"lint": "eslint ./src"
 	},
 	"dependencies": {
-		"@aja-api/company": "workspace:*",
-		"@aja-api/role": "workspace:*",
-		"@aja-api/score": "workspace:*",
-		"@aja-config/user": "workspace:*",
-		"@aja-integrations/patchright": "workspace:*",
+		"@rja-api/company": "workspace:*",
+		"@rja-api/role": "workspace:*",
+		"@rja-api/score": "workspace:*",
+		"@rja-config/user": "workspace:*",
+		"@rja-integrations/patchright": "workspace:*",
 		"rss-parser": "3.13.0"
 	},
 	"devDependencies": {
-		"@aja-core/eslint": "workspace:*",
-		"@aja-core/tsconfig": "workspace:*",
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
 		"eslint": "9.24.0",
 		"typescript": "5.9.3"
 	},

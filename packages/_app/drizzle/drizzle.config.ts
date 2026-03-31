@@ -5,6 +5,6 @@ export default defineConfig({
 	schema: "./src/schema.ts",
 	dialect: "sqlite",
 	dbCredentials: {
-		url: "../../data/aja.db",
+		url: "../../data/rja.db",
 	},
 })

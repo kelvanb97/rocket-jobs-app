@@ -1,6 +1,6 @@
-import { getCompany } from "@aja-api/company/api/get-company"
-import { getRole } from "@aja-api/role/api/get-role"
-import { errFrom, type TResult } from "@aja-core/result"
+import { getCompany } from "@rja-api/company/api/get-company"
+import { getRole } from "@rja-api/role/api/get-role"
+import { errFrom, type TResult } from "@rja-core/result"
 import type { TScore } from "#schema/score-schema"
 import { scoreRoleData } from "./score-role-data"
 

@@ -1,4 +1,4 @@
-# @aja-config/user
+# @rja-config/user
 
 User-specific configuration for scoring, scraping, and profile data. Acts as the configuration seam — all user preferences live here rather than in the database.
 

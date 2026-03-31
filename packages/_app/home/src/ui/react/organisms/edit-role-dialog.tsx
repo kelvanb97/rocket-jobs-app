@@ -4,29 +4,29 @@ import type {
 	TCompany,
 	TCompanySize,
 	TCompanyStage,
-} from "@aja-api/company/schema/company-schema"
-import type { TInteraction } from "@aja-api/interaction/schema/interaction-schema"
-import type { TPerson } from "@aja-api/person/schema/person-schema"
-import type { TRolePerson } from "@aja-api/role-person/schema/role-person-schema"
-import type { TRole } from "@aja-api/role/schema/role-schema"
-import type { TScore } from "@aja-api/score/schema/score-schema"
+} from "@rja-api/company/schema/company-schema"
+import type { TInteraction } from "@rja-api/interaction/schema/interaction-schema"
+import type { TPerson } from "@rja-api/person/schema/person-schema"
+import type { TRolePerson } from "@rja-api/role-person/schema/role-person-schema"
+import type { TRole } from "@rja-api/role/schema/role-schema"
+import type { TScore } from "@rja-api/score/schema/score-schema"
 import {
 	useAction,
 	useActionError,
 	useIsLoading,
 	useToastOnError,
-} from "@aja-core/next-safe-action/hooks"
-import { Button } from "@aja-design/ui/library/button"
+} from "@rja-core/next-safe-action/hooks"
+import { Button } from "@rja-design/ui/library/button"
 import {
 	Dialog,
 	DialogContent,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@aja-design/ui/library/dialog"
-import { toast } from "@aja-design/ui/library/toast"
-import { XStack } from "@aja-design/ui/primitives/x-stack"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+} from "@rja-design/ui/library/dialog"
+import { toast } from "@rja-design/ui/library/toast"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { generateApplicationDocsAction } from "#actions/generate-application-docs"
 import {
 	getRoleApplicationAction,

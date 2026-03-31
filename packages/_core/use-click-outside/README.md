@@ -1,4 +1,4 @@
-# @aja-core/use-click-outside
+# @rja-core/use-click-outside
 
 React hook for detecting clicks outside specified DOM elements.
 

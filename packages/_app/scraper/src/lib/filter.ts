@@ -1,4 +1,4 @@
-import { SCRAPER_CONFIG } from "@aja-config/user/scraper"
+import { SCRAPER_CONFIG } from "@rja-config/user/scraper"
 import type { ScrapedRole } from "#types"
 
 const RELEVANT_TITLE_RE = new RegExp(

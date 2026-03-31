@@ -1,4 +1,4 @@
-import { createDraft } from "@aja-app/apply/create-draft"
+import { createDraft } from "@rja-app/apply/create-draft"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {

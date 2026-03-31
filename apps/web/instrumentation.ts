@@ -1,11 +1,13 @@
-import { dirname, resolve } from "node:path"
-import { fileURLToPath } from "node:url"
-import { initDb } from "@aja-core/drizzle"
+export async function register() {
+	if (process.env["NEXT_RUNTIME"] === "nodejs") {
+		const { dirname, resolve } = await import("node:path")
+		const { fileURLToPath } = await import("node:url")
+		const { initDb } = await import("@rja-core/drizzle")
 
-export function register() {
-	const migrationsFolder = resolve(
-		dirname(fileURLToPath(import.meta.url)),
-		"../../packages/_app/drizzle/migrations",
-	)
-	initDb({ migrationsFolder })
+		const migrationsFolder = resolve(
+			dirname(fileURLToPath(import.meta.url)),
+			"../../packages/_app/drizzle/migrations",
+		)
+		initDb({ migrationsFolder })
+	}
 }

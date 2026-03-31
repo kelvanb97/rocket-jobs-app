@@ -1,4 +1,4 @@
-# @aja-core/types
+# @rja-core/types
 
 Shared TypeScript type definitions and type guards.
 

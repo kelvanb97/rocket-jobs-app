@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export type { TScore, TNewScore } from "@aja-app/drizzle"
+export type { TScore, TNewScore } from "@rja-app/drizzle"
 
 export const getScoreByRoleSchema = z.object({
 	roleId: z.number(),

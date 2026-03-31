@@ -1,6 +1,6 @@
 "use client"
 
-import { toast } from "@aja-design/ui/library/toast"
+import { toast } from "@rja-design/ui/library/toast"
 import type { HookActionStatus } from "next-safe-action/hooks"
 import { useCallback, useEffect, useMemo } from "react"
 import { DEFAULT_ERROR_MESSAGE } from "./action-client"

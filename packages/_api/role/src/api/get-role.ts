@@ -1,6 +1,6 @@
-import { role } from "@aja-app/drizzle"
-import { db } from "@aja-core/drizzle"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { role } from "@rja-app/drizzle"
+import { db } from "@rja-core/drizzle"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 import type { TRole } from "#schema/role-schema"
 import { eq } from "drizzle-orm"
 

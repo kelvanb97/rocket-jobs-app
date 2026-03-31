@@ -1,7 +1,7 @@
-import type { TInteraction } from "@aja-api/interaction/schema/interaction-schema"
-import { Button } from "@aja-design/ui/library/button"
-import { XStack } from "@aja-design/ui/primitives/x-stack"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+import type { TInteraction } from "@rja-api/interaction/schema/interaction-schema"
+import { Button } from "@rja-design/ui/library/button"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 
 function formatDate(date: Date | null): string {
 	if (!date) return "—"

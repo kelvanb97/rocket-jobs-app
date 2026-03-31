@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export type { TNewRolePerson, TRolePerson } from "@aja-app/drizzle"
+export type { TNewRolePerson, TRolePerson } from "@rja-app/drizzle"
 
 export const ROLE_PERSON_RELATIONSHIPS = [
 	"Recruiter",

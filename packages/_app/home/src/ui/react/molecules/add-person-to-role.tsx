@@ -1,21 +1,21 @@
 "use client"
 
-import type { TPerson } from "@aja-api/person/schema/person-schema"
-import { ROLE_PERSON_RELATIONSHIPS } from "@aja-api/role-person/schema/role-person-schema"
+import type { TPerson } from "@rja-api/person/schema/person-schema"
+import { ROLE_PERSON_RELATIONSHIPS } from "@rja-api/role-person/schema/role-person-schema"
 import {
 	useAction,
 	useActionError,
 	useIsLoading,
 	useToastOnError,
-} from "@aja-core/next-safe-action/hooks"
-import { Button } from "@aja-design/ui/library/button"
-import { Input } from "@aja-design/ui/library/input"
-import { InputGroup } from "@aja-design/ui/library/input-group"
-import { Label } from "@aja-design/ui/library/label"
-import { Textarea } from "@aja-design/ui/library/text-area"
-import { toast } from "@aja-design/ui/library/toast"
-import { XStack } from "@aja-design/ui/primitives/x-stack"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+} from "@rja-core/next-safe-action/hooks"
+import { Button } from "@rja-design/ui/library/button"
+import { Input } from "@rja-design/ui/library/input"
+import { InputGroup } from "@rja-design/ui/library/input-group"
+import { Label } from "@rja-design/ui/library/label"
+import { Textarea } from "@rja-design/ui/library/text-area"
+import { toast } from "@rja-design/ui/library/toast"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 import {
 	createAndLinkPersonAction,
 	linkPersonToRoleAction,

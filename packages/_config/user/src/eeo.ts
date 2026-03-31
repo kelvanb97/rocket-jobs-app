@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// @aja-config/user — eeo.ts
+// @rja-config/user — eeo.ts
 // ---------------------------------------------------------------------------
 // EEO (Equal Employment Opportunity) and work authorization configuration.
 // Used by the auto-apply skill to fill demographic and work authorization

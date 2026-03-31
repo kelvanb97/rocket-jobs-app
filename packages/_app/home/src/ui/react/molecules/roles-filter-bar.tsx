@@ -2,12 +2,12 @@ import {
 	type TLocationType,
 	type TRoleSource,
 	type TRoleStatus,
-} from "@aja-api/role/schema/role-schema"
-import { Button } from "@aja-design/ui/library/button"
-import { Input } from "@aja-design/ui/library/input"
-import { Select } from "@aja-design/ui/library/select"
-import { XStack } from "@aja-design/ui/primitives/x-stack"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+} from "@rja-api/role/schema/role-schema"
+import { Button } from "@rja-design/ui/library/button"
+import { Input } from "@rja-design/ui/library/input"
+import { Select } from "@rja-design/ui/library/select"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { useRef, useState } from "react"
 
 export type TSortOption =

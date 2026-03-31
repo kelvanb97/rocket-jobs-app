@@ -1,4 +1,4 @@
-# @aja-core/use-initial-load
+# @rja-core/use-initial-load
 
 React hook that executes a callback exactly once on component mount.
 

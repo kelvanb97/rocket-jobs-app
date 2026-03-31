@@ -25,12 +25,12 @@ quickly in this monorepo.
 | Layer                     | Scope                 | Belongs here                                          |
 | ------------------------- | --------------------- | ----------------------------------------------------- |
 | `apps/`                   | --                    | Orchestration glue, env config, entry points **only** |
-| `packages/_api/`          | `@aja-api/*`          | All Supabase/database CRUD                            |
-| `packages/_app/`          | `@aja-app/*`          | React components, server actions (internal only)      |
-| `packages/_config/`       | `@aja-config/*`       | User-specific configuration                           |
-| `packages/_core/`         | `@aja-core/*`         | Shared utilities, result types, supabase client       |
-| `packages/_design/`       | `@aja-design/*`       | Component library (Radix UI + Tailwind)               |
-| `packages/_integrations/` | `@aja-integrations/*` | Third-party SDK wrappers                              |
+| `packages/_api/`          | `@rja-api/*`          | All Supabase/database CRUD                            |
+| `packages/_app/`          | `@rja-app/*`          | React components, server actions (internal only)      |
+| `packages/_config/`       | `@rja-config/*`       | User-specific configuration                           |
+| `packages/_core/`         | `@rja-core/*`         | Shared utilities, result types, supabase client       |
+| `packages/_design/`       | `@rja-design/*`       | Component library (Radix UI + Tailwind)               |
+| `packages/_integrations/` | `@rja-integrations/*` | Third-party SDK wrappers                              |
 
 ### Dependency arrows (never invert these)
 
@@ -71,12 +71,12 @@ Ask these questions in order:
 ```typescript
 // BAD -- Supabase access directly in an app or _app package
 // apps/web/src/upload.ts
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
+import { supabaseAdminClient } from "@rja-core/supabase/admin"
 const supabase = supabaseAdminClient<Database>()
 const { data } = await supabase.schema("app").from("file").insert({ ... })
 ```
 
-This MUST live in a `@aja-api/*` package instead, even for "simple" one-off queries.
+This MUST live in a `@rja-api/*` package instead, even for "simple" one-off queries.
 
 ---
 
@@ -84,7 +84,7 @@ This MUST live in a `@aja-api/*` package instead, even for "simple" one-off quer
 
 - **Only `_api` packages** import `supabaseAdminClient` or any Supabase query builder.
 - All queries use `.schema("app")` -- tables live in the `app` schema, not `public`.
-- The `Database` type comes from `@aja-app/supabase` (the generated types package).
+- The `Database` type comes from `@rja-app/supabase` (the generated types package).
 - Row types are extracted as: `Database["app"]["Tables"]["<table>"]["Row" | "Insert" | "Update"]`
 
 ---
@@ -126,15 +126,15 @@ packages/_api/<entity>/
 }
 ```
 
-External consumers import via subpath: `import { createRole } from "@aja-api/role/api/create-role"`
+External consumers import via subpath: `import { createRole } from "@rja-api/role/api/create-role"`
 Internal imports use `#` aliases: `import { unmarshalRole } from "#schema/role-marshallers"`
 
 ### Canonical API function template
 
 ```typescript
-import type { Database } from "@aja-app/supabase"
-import { errFrom, ok, type TResult } from "@aja-core/result"
-import { supabaseAdminClient } from "@aja-core/supabase/admin"
+import type { Database } from "@rja-app/supabase"
+import { errFrom, ok, type TResult } from "@rja-core/result"
+import { supabaseAdminClient } from "@rja-core/supabase/admin"
 import {
     marshalCreateEntity,
     unmarshalEntity,
@@ -212,7 +212,7 @@ If a parameter could be one of several known strings, it MUST NOT be typed as `s
 All API functions return `Promise<TResult<T>>`. Never throw from API functions.
 
 ```typescript
-import { err, errFrom, ok, type TResult } from "@aja-core/result"
+import { err, errFrom, ok, type TResult } from "@rja-core/result"
 
 // Success
 return ok(unmarshalledData)

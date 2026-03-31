@@ -1,3 +1,3 @@
-import { PeopleScreen } from "@aja-app/home/people-screen"
+import { PeopleScreen } from "@rja-app/home/people-screen"
 
 export default PeopleScreen

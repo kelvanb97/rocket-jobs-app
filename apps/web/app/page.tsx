@@ -1,3 +1,3 @@
-import { HomeScreen } from "@aja-app/home/home-screen"
+import { HomeScreen } from "@rja-app/home/home-screen"
 
 export default HomeScreen

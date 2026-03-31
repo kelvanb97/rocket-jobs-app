@@ -1,5 +1,5 @@
-import { type TRoleStatus } from "@aja-api/role/schema/role-schema"
-import { Select } from "@aja-design/ui/library/select"
+import { type TRoleStatus } from "@rja-api/role/schema/role-schema"
+import { Select } from "@rja-design/ui/library/select"
 
 const STATUS_OPTIONS: { label: string; value: TRoleStatus }[] = [
 	{ label: "Pending", value: "pending" },

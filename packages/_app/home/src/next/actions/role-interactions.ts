@@ -1,10 +1,10 @@
 "use server"
 
-import { createInteraction } from "@aja-api/interaction/api/create-interaction"
-import { deleteInteraction } from "@aja-api/interaction/api/delete-interaction"
-import { listInteractions } from "@aja-api/interaction/api/list-interactions"
-import { interactionTypeSchema } from "@aja-api/interaction/schema/interaction-schema"
-import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
+import { createInteraction } from "@rja-api/interaction/api/create-interaction"
+import { deleteInteraction } from "@rja-api/interaction/api/delete-interaction"
+import { listInteractions } from "@rja-api/interaction/api/list-interactions"
+import { interactionTypeSchema } from "@rja-api/interaction/schema/interaction-schema"
+import { actionClient, SafeForClientError } from "@rja-core/next-safe-action"
 import { z } from "zod"
 
 export const listRoleInteractionsAction = actionClient

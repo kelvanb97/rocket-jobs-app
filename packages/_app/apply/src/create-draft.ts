@@ -1,5 +1,5 @@
-import { createApplication } from "@aja-api/application/api/create-application"
-import { ok, type TResult } from "@aja-core/result"
+import { createApplication } from "@rja-api/application/api/create-application"
+import { ok, type TResult } from "@rja-core/result"
 import type { TCreateDraftResult } from "./types"
 
 type TCreateDraftInput = {

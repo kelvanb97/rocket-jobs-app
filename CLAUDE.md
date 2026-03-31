@@ -17,8 +17,8 @@ pnpm test
 To run checks for a single package:
 
 ```bash
-pnpm --filter @aja-api/role check-types
-pnpm --filter @aja-api/role lint
+pnpm --filter @rja-api/role check-types
+pnpm --filter @rja-api/role lint
 ```
 
 ## Running Apps
@@ -36,12 +36,12 @@ Turborepo monorepo with pnpm workspaces. Six package layers:
 | Layer                     | Scope                 | Purpose                                                 |
 | ------------------------- | --------------------- | ------------------------------------------------------- |
 | `apps/`                   | —                     | Deployable applications (web)                           |
-| `packages/_api/`          | `@aja-api/*`          | Entity CRUD operations against SQLite via Drizzle       |
-| `packages/_app/`          | `@aja-app/*`          | Feature modules (React components, server actions)      |
-| `packages/_config/`       | `@aja-config/*`       | User-specific configuration (profile, scoring, scraper) |
-| `packages/_core/`         | `@aja-core/*`         | Shared utilities and config                             |
-| `packages/_design/`       | `@aja-design/*`       | Component library (Radix UI + Tailwind)                 |
-| `packages/_integrations/` | `@aja-integrations/*` | Third-party SDK wrappers (Anthropic, Patchright)        |
+| `packages/_api/`          | `@rja-api/*`          | Entity CRUD operations against SQLite via Drizzle       |
+| `packages/_app/`          | `@rja-app/*`          | Feature modules (React components, server actions)      |
+| `packages/_config/`       | `@rja-config/*`       | User-specific configuration (profile, scoring, scraper) |
+| `packages/_core/`         | `@rja-core/*`         | Shared utilities and config                             |
+| `packages/_design/`       | `@rja-design/*`       | Component library (Radix UI + Tailwind)                 |
+| `packages/_integrations/` | `@rja-integrations/*` | Third-party SDK wrappers (Anthropic, Patchright)        |
 
 ### Dependency hierarchy
 
@@ -67,7 +67,7 @@ API packages export via subpath patterns in package.json:
 }
 ```
 
-Import like: `import { createRole } from "@aja-api/role/api/create-role"`
+Import like: `import { createRole } from "@rja-api/role/api/create-role"`
 
 Internal imports within a package use `#` aliases defined in the `imports` field of each package's `package.json`:
 
@@ -79,13 +79,13 @@ Internal imports within a package use `#` aliases defined in the `imports` field
 
 ### Apps
 
-- **web** — Next.js 16 (App Router, Turbopack). Routes delegate to screens from `@aja-app/home`.
+- **web** — Next.js 16 (App Router, Turbopack). Routes delegate to screens from `@rja-app/home`.
 
 ## Key Patterns
 
 ### TResult
 
-Database API functions return `TResult<T>` (synchronous). Functions calling external services (Anthropic API) return `Promise<TResult<T>>`. Defined in `@aja-core/result`:
+Database API functions return `TResult<T>` (synchronous). Functions calling external services (Anthropic API) return `Promise<TResult<T>>`. Defined in `@rja-core/result`:
 
 ```typescript
 type TResult<T, E = Error> =
@@ -122,13 +122,13 @@ src/
   schema/     # Zod schemas, TypeScript types, constants
 ```
 
-API functions use `db()` from `@aja-core/drizzle` and table schemas from `@aja-app/drizzle`.
+API functions use `db()` from `@rja-core/drizzle` and table schemas from `@rja-app/drizzle`.
 
 ## Database
 
 SQLite database via Drizzle ORM + better-sqlite3. No Docker or external services required.
 
-- Database file: `data/aja.db` (auto-created on first run, gitignored)
+- Database file: `data/rja.db` (auto-created on first run, gitignored)
 - File storage: `data/storage/` (local filesystem, gitignored)
 - Schema defined in `packages/_app/drizzle/src/schema.ts`
 - Connection factory in `packages/_core/drizzle/src/db.ts`
@@ -142,10 +142,10 @@ SQLite database via Drizzle ORM + better-sqlite3. No Docker or external services
 Migrations run automatically on app startup via `apps/web/instrumentation.ts`. After changing the schema:
 
 ```bash
-pnpm --filter @aja-app/drizzle generate   # generate a new migration SQL file
+pnpm --filter @rja-app/drizzle generate   # generate a new migration SQL file
 ```
 
-The next `pnpm dev` applies pending migrations automatically. CLI fallback: `pnpm --filter @aja-app/drizzle migrate`.
+The next `pnpm dev` applies pending migrations automatically. CLI fallback: `pnpm --filter @rja-app/drizzle migrate`.
 
 ## Documentation
 

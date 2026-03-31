@@ -1,6 +1,6 @@
-import type { TCompany } from "@aja-api/company/schema/company-schema"
-import type { TRole } from "@aja-api/role/schema/role-schema"
-import type { TUserProfile } from "@aja-config/user/experience"
+import type { TCompany } from "@rja-api/company/schema/company-schema"
+import type { TRole } from "@rja-api/role/schema/role-schema"
+import type { TUserProfile } from "@rja-config/user/experience"
 
 export function buildCoverLetterPrompt(
 	role: TRole,

@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 
 export function downloadFile(bucket: string, path: string): TResult<Buffer> {
 	try {

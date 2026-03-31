@@ -1,8 +1,8 @@
 import { readFileSync } from "node:fs"
-import { updateApplication } from "@aja-api/application/api/update-application"
-import { getRole } from "@aja-api/role/api/get-role"
-import { uploadFile } from "@aja-api/storage/api/upload-file"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { updateApplication } from "@rja-api/application/api/update-application"
+import { getRole } from "@rja-api/role/api/get-role"
+import { uploadFile } from "@rja-api/storage/api/upload-file"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 
 const STORAGE_BUCKET = "applications"
 

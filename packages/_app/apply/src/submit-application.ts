@@ -1,6 +1,6 @@
-import { updateApplication } from "@aja-api/application/api/update-application"
-import { updateRole } from "@aja-api/role/api/update-role"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { updateApplication } from "@rja-api/application/api/update-application"
+import { updateRole } from "@rja-api/role/api/update-role"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 
 type TSubmitInput = {
 	applicationId: number

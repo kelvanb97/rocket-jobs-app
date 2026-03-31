@@ -1,4 +1,4 @@
-# @aja-api/role
+# @rja-api/role
 
 CRUD operations for job roles with advanced filtering and sorting.
 

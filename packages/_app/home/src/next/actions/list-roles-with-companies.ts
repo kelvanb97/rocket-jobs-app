@@ -1,11 +1,11 @@
 "use server"
 
-import { getCompany } from "@aja-api/company/api/get-company"
-import { listRoles } from "@aja-api/role/api/list-roles"
-import { listRolesSchema } from "@aja-api/role/schema/role-schema"
-import { listScoresByRoles } from "@aja-api/score/api/list-scores-by-roles"
-import type { TScore } from "@aja-api/score/schema/score-schema"
-import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
+import { getCompany } from "@rja-api/company/api/get-company"
+import { listRoles } from "@rja-api/role/api/list-roles"
+import { listRolesSchema } from "@rja-api/role/schema/role-schema"
+import { listScoresByRoles } from "@rja-api/score/api/list-scores-by-roles"
+import type { TScore } from "@rja-api/score/schema/score-schema"
+import { actionClient, SafeForClientError } from "@rja-core/next-safe-action"
 
 export const listRolesWithCompaniesAction = actionClient
 	.inputSchema(listRolesSchema)

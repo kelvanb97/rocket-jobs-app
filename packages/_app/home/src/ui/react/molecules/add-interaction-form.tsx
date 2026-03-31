@@ -4,21 +4,21 @@ import {
 	INTERACTION_TYPES,
 	type TInteraction,
 	type TInteractionType,
-} from "@aja-api/interaction/schema/interaction-schema"
+} from "@rja-api/interaction/schema/interaction-schema"
 import {
 	useAction,
 	useActionError,
 	useIsLoading,
 	useToastOnError,
-} from "@aja-core/next-safe-action/hooks"
-import { Button } from "@aja-design/ui/library/button"
-import { InputGroup } from "@aja-design/ui/library/input-group"
-import { Label } from "@aja-design/ui/library/label"
-import { Select } from "@aja-design/ui/library/select"
-import { Textarea } from "@aja-design/ui/library/text-area"
-import { toast } from "@aja-design/ui/library/toast"
-import { XStack } from "@aja-design/ui/primitives/x-stack"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+} from "@rja-core/next-safe-action/hooks"
+import { Button } from "@rja-design/ui/library/button"
+import { InputGroup } from "@rja-design/ui/library/input-group"
+import { Label } from "@rja-design/ui/library/label"
+import { Select } from "@rja-design/ui/library/select"
+import { Textarea } from "@rja-design/ui/library/text-area"
+import { toast } from "@rja-design/ui/library/toast"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { createRoleInteractionAction } from "#actions/role-interactions"
 import { useState } from "react"
 

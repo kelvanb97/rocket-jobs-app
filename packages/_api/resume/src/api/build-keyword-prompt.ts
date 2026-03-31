@@ -1,5 +1,5 @@
-import type { TCompany } from "@aja-api/company/schema/company-schema"
-import type { TRole } from "@aja-api/role/schema/role-schema"
+import type { TCompany } from "@rja-api/company/schema/company-schema"
+import type { TRole } from "@rja-api/role/schema/role-schema"
 
 export function buildKeywordPrompt(
 	role: TRole,

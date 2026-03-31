@@ -1,4 +1,4 @@
-import { SCRAPER_CONFIG, type TSourceName } from "@aja-config/user/scraper"
+import { SCRAPER_CONFIG, type TSourceName } from "@rja-config/user/scraper"
 import { filterRoles } from "#lib/filter"
 import { insertRoles } from "#lib/insert"
 import * as googleJobs from "#sources/google-jobs/index"

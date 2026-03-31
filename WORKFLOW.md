@@ -2,7 +2,7 @@
 tracker:
     kind: github
     api_key: $GITHUB_TOKEN # export GITHUB_TOKEN=ghp_...
-    project_slug: kelvanb97/auto-job-app
+    project_slug: kelvanb97/rocket-jobs-app
     active_states: ["symphony:active"]
     terminal_states: ["symphony:done"]
     working_state: "symphony:in-progress"
@@ -21,11 +21,11 @@ agent:
     stall_timeout_ms: 300000
 
 workspace:
-    root: ~/.simphony/workspaces/auto-job-app
+    root: ~/.simphony/workspaces/rocket-jobs-app
 
 hooks:
     after_create: |
-        git clone git@github.com:kelvanb97/auto-job-app.git .
+        git clone git@github.com:kelvanb97/rocket-jobs-app.git .
     before_run: |
         git fetch origin
         git checkout -B main origin/main
@@ -35,7 +35,7 @@ server:
     port: 8090
 ---
 
-You are an expert engineer working on **auto-job-app**.
+You are an expert engineer working on **rocket-jobs-app**.
 
 ## Your issue
 

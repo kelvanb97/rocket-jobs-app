@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export type { TInteraction, TNewInteraction } from "@aja-app/drizzle"
+export type { TInteraction, TNewInteraction } from "@rja-app/drizzle"
 
 export const INTERACTION_TYPES = [
 	"Email",

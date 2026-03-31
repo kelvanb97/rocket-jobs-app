@@ -1,3 +1,3 @@
-import { nextJsConfig } from "@aja-core/eslint/next"
+import { nextJsConfig } from "@rja-core/eslint/next"
 
 export default nextJsConfig

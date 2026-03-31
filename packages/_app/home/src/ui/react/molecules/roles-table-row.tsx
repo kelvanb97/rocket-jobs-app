@@ -1,7 +1,7 @@
-import type { TRole, TRoleStatus } from "@aja-api/role/schema/role-schema"
-import { timeAgo } from "@aja-core/dates"
-import { Badge } from "@aja-design/ui/library/badge"
-import { TableCell, TableRow } from "@aja-design/ui/library/table"
+import type { TRole, TRoleStatus } from "@rja-api/role/schema/role-schema"
+import { timeAgo } from "@rja-core/dates"
+import { Badge } from "@rja-design/ui/library/badge"
+import { TableCell, TableRow } from "@rja-design/ui/library/table"
 import { RoleStatusSelect } from "#molecules/role-status-select"
 
 function formatSalary(min: number | null, max: number | null): string {

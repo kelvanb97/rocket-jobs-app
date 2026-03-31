@@ -1,5 +1,5 @@
 {
-	"name": "@aja-core/use-click-outside",
+	"name": "@rja-core/use-click-outside",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -15,8 +15,8 @@
 		"react": "^19.2.4"
 	},
 	"devDependencies": {
-		"@aja-core/eslint": "workspace:*",
-		"@aja-core/tsconfig": "workspace:*",
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
 		"@types/react": "19.2.14",
 		"eslint": "9.24.0",
 		"react": "19.2.4"

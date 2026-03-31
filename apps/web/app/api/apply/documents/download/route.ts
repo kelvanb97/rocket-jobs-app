@@ -1,4 +1,4 @@
-import { downloadDocuments } from "@aja-app/apply/download-documents"
+import { downloadDocuments } from "@rja-app/apply/download-documents"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {

@@ -1,4 +1,4 @@
-# @aja-integrations/anthropic
+# @rja-integrations/anthropic
 
 Thin wrapper around the Anthropic SDK for structured message creation.
 
@@ -9,7 +9,7 @@ Thin wrapper around the Anthropic SDK for structured message creation.
 Sends a single user message to the Anthropic API and parses the response against a Zod schema.
 
 ```typescript
-import { createMessage } from "@aja-integrations/anthropic/client"
+import { createMessage } from "@rja-integrations/anthropic/client"
 import { z } from "zod"
 
 const result = await createMessage({
@@ -26,5 +26,5 @@ const result = await createMessage({
 Type alias for `Anthropic.Messages.Model` — the union of valid model ID strings.
 
 ```typescript
-import type { TAnthropicModel } from "@aja-integrations/anthropic/client"
+import type { TAnthropicModel } from "@rja-integrations/anthropic/client"
 ```

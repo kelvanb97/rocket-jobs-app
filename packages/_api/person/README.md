@@ -1,4 +1,4 @@
-# @aja-api/person
+# @rja-api/person
 
 CRUD operations for people (contacts at companies).
 

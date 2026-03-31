@@ -1,4 +1,4 @@
-# @aja-core/localstorage
+# @rja-core/localstorage
 
 Type-safe localStorage wrapper with error handling.
 

@@ -1,7 +1,7 @@
 "use client"
 
-import { XStack } from "@aja-design/ui/primitives/x-stack"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { Sidebar } from "#organisms/sidebar"
 import { TopBar } from "#organisms/top-bar"
 

@@ -1,7 +1,7 @@
 "use client"
 
-import { TextBody } from "@aja-design/ui/library/text"
-import { XStack } from "@aja-design/ui/primitives/x-stack"
+import { TextBody } from "@rja-design/ui/library/text"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
 import type { TPage } from "#templates/app-shell"
 
 const TITLE_MAP: Record<TPage, string> = {

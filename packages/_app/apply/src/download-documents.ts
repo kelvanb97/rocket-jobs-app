@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs"
 import { resolve } from "node:path"
-import { downloadFile } from "@aja-api/storage/api/download-file"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { downloadFile } from "@rja-api/storage/api/download-file"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 import type { TDownloadDocumentsResult } from "./types"
 
 type TDownloadDocumentsInput = {

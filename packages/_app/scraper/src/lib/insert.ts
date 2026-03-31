@@ -1,8 +1,8 @@
-import { createCompany } from "@aja-api/company/api/create-company"
-import { findCompanyByName } from "@aja-api/company/api/find-company-by-name"
-import { createRole } from "@aja-api/role/api/create-role"
-import { listRoleUrls } from "@aja-api/role/api/list-role-urls"
-import { scoreRoleById } from "@aja-api/score/api/score-role-by-id"
+import { createCompany } from "@rja-api/company/api/create-company"
+import { findCompanyByName } from "@rja-api/company/api/find-company-by-name"
+import { createRole } from "@rja-api/role/api/create-role"
+import { listRoleUrls } from "@rja-api/role/api/list-role-urls"
+import { scoreRoleById } from "@rja-api/score/api/score-role-by-id"
 import type { ScrapedRole } from "#types"
 
 function resolveCompanyId(

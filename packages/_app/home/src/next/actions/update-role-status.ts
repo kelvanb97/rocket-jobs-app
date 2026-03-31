@@ -1,8 +1,8 @@
 "use server"
 
-import { updateRole } from "@aja-api/role/api/update-role"
-import { roleStatusSchema } from "@aja-api/role/schema/role-schema"
-import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
+import { updateRole } from "@rja-api/role/api/update-role"
+import { roleStatusSchema } from "@rja-api/role/schema/role-schema"
+import { actionClient, SafeForClientError } from "@rja-core/next-safe-action"
 import { z } from "zod"
 
 const updateRoleStatusSchema = z.object({

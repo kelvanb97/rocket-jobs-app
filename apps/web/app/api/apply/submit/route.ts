@@ -1,4 +1,4 @@
-import { submitApplication } from "@aja-app/apply/submit-application"
+import { submitApplication } from "@rja-app/apply/submit-application"
 import { NextResponse } from "next/server"
 
 export async function PATCH(request: Request) {

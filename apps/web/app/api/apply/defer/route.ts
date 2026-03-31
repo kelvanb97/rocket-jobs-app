@@ -1,4 +1,4 @@
-import { deferRole } from "@aja-app/apply/defer-role"
+import { deferRole } from "@rja-app/apply/defer-role"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {

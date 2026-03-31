@@ -1,6 +1,6 @@
 import { existsSync, unlinkSync } from "node:fs"
 import { resolve } from "node:path"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 
 export function removeFiles(bucket: string, paths: string[]): TResult<void> {
 	try {

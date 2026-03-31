@@ -1,12 +1,12 @@
-import type { TRole, TRoleStatus } from "@aja-api/role/schema/role-schema"
+import type { TRole, TRoleStatus } from "@rja-api/role/schema/role-schema"
 import {
 	Table,
 	TableBody,
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@aja-design/ui/library/table"
-import { TextBody } from "@aja-design/ui/library/text"
+} from "@rja-design/ui/library/table"
+import { TextBody } from "@rja-design/ui/library/text"
 import { RolesTableRow } from "#molecules/roles-table-row"
 
 interface IRolesTableProps {

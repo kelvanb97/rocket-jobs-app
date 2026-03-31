@@ -1,4 +1,4 @@
-# @aja-api/company
+# @rja-api/company
 
 CRUD operations for companies.
 

@@ -1,3 +1,3 @@
-import { eslintConfig } from "@aja-core/eslint/react"
+import { eslintConfig } from "@rja-core/eslint/react"
 
 export default [...eslintConfig]

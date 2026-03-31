@@ -1,5 +1,5 @@
-import { updateRole } from "@aja-api/role/api/update-role"
-import { ok, type TResult } from "@aja-core/result"
+import { updateRole } from "@rja-api/role/api/update-role"
+import { ok, type TResult } from "@rja-core/result"
 
 type TSkipRoleInput = {
 	roleId: number

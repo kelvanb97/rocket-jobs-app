@@ -1,5 +1,5 @@
 {
-	"extends": "@aja-core/tsconfig/next.json",
+	"extends": "@rja-core/tsconfig/next.json",
 	"compilerOptions": {
 		"plugins": [
 			{

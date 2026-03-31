@@ -1,4 +1,4 @@
-# @aja-integrations/patchright
+# @rja-integrations/patchright
 
 Browser automation wrapper around [patchright](https://github.com/nicedomain/patchright) with human-like interaction utilities and bot-detection handling.
 

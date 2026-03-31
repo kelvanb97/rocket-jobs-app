@@ -1,15 +1,15 @@
-import { GOOGLE_JOBS_SEARCH } from "@aja-config/user/scraper"
+import { GOOGLE_JOBS_SEARCH } from "@rja-config/user/scraper"
 import {
 	closeBrowserContext,
 	createBrowserContext,
-} from "@aja-integrations/patchright/browser"
-import { CaptchaDetectedError } from "@aja-integrations/patchright/errors"
+} from "@rja-integrations/patchright/browser"
+import { CaptchaDetectedError } from "@rja-integrations/patchright/errors"
 import {
 	humanScroll,
 	randomWait,
-} from "@aja-integrations/patchright/interaction"
-import { checkForBlocks } from "@aja-integrations/patchright/page"
-import type { Page } from "@aja-integrations/patchright/page"
+} from "@rja-integrations/patchright/interaction"
+import { checkForBlocks } from "@rja-integrations/patchright/page"
+import type { Page } from "@rja-integrations/patchright/page"
 import type { ScrapedRole, TSourceScrapeOptions } from "#types"
 import { extractJobFromCard, extractJobFromPanel } from "./extract"
 import { CARD_SELECTOR, DETAIL_PANEL_SELECTOR } from "./selectors"

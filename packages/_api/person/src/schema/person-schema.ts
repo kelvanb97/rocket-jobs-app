@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export type { TNewPerson, TPerson } from "@aja-app/drizzle"
+export type { TNewPerson, TPerson } from "@rja-app/drizzle"
 
 export const getPersonSchema = z.object({
 	id: z.number(),

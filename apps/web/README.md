@@ -46,9 +46,9 @@ Environment variables are loaded from the root `.env` file via `process.loadEnvF
 
 ## Dependencies
 
-- `@aja-app/home` — dashboard screens
-- `@aja-app/apply` — auto-apply workflow
-- `@aja-app/score` — batch scoring
-- `@aja-app/scraper` — scrape triggering
-- `@aja-config/user` — user profile
-- `@aja-design/ui` — component library
+- `@rja-app/home` — dashboard screens
+- `@rja-app/apply` — auto-apply workflow
+- `@rja-app/score` — batch scoring
+- `@rja-app/scraper` — scrape triggering
+- `@rja-config/user` — user profile
+- `@rja-design/ui` — component library

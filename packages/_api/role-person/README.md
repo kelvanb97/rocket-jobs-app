@@ -1,4 +1,4 @@
-# @aja-api/role-person
+# @rja-api/role-person
 
 Manage many-to-many relationships between roles and people.
 

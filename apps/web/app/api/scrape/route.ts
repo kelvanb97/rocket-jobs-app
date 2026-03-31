@@ -1,6 +1,6 @@
-import { runScraper } from "@aja-app/scraper/scrape"
-import type { TScrapeProgressEvent } from "@aja-app/scraper/types"
-import type { TSourceName } from "@aja-config/user/scraper"
+import { runScraper } from "@rja-app/scraper/scrape"
+import type { TScrapeProgressEvent } from "@rja-app/scraper/types"
+import type { TSourceName } from "@rja-config/user/scraper"
 
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url)

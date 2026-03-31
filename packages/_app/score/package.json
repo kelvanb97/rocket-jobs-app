@@ -1,5 +1,5 @@
 {
-	"name": "@aja-app/score",
+	"name": "@rja-app/score",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -13,12 +13,12 @@
 		"lint": "eslint ./src"
 	},
 	"dependencies": {
-		"@aja-api/role": "workspace:*",
-		"@aja-api/score": "workspace:*"
+		"@rja-api/role": "workspace:*",
+		"@rja-api/score": "workspace:*"
 	},
 	"devDependencies": {
-		"@aja-core/eslint": "workspace:*",
-		"@aja-core/tsconfig": "workspace:*",
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
 		"eslint": "9.24.0",
 		"typescript": "5.9.3"
 	}

@@ -1,4 +1,4 @@
-# @aja-api/interaction
+# @rja-api/interaction
 
 CRUD operations for interactions (communications, interviews, etc.) linked to roles and people.
 

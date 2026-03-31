@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export type { TCompany, TNewCompany } from "@aja-app/drizzle"
+export type { TCompany, TNewCompany } from "@rja-app/drizzle"
 
 export const COMPANY_SIZES = [
 	"1-10",

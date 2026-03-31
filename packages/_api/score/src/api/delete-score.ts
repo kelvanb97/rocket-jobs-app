@@ -1,6 +1,6 @@
-import { score } from "@aja-app/drizzle"
-import { db } from "@aja-core/drizzle"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { score } from "@rja-app/drizzle"
+import { db } from "@rja-core/drizzle"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 import { eq } from "drizzle-orm"
 
 export function deleteScore(id: number): TResult<{ id: number }> {

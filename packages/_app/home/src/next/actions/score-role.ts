@@ -1,7 +1,7 @@
 "use server"
 
-import { scoreRoleById } from "@aja-api/score/api/score-role-by-id"
-import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
+import { scoreRoleById } from "@rja-api/score/api/score-role-by-id"
+import { actionClient, SafeForClientError } from "@rja-core/next-safe-action"
 import { z } from "zod"
 
 const scoreRoleSchema = z.object({

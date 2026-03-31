@@ -13,7 +13,7 @@ type InitDbOptions = {
 export function initDb(options?: InitDbOptions): BetterSQLite3Database {
 	if (_db) return _db
 
-	const dbPath = resolve(process.cwd(), "data", "aja.db")
+	const dbPath = resolve(process.cwd(), "data", "rja.db")
 	const dir = dirname(dbPath)
 
 	if (!existsSync(dir)) {

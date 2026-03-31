@@ -1,5 +1,5 @@
 {
-	"name": "@aja-app/drizzle",
+	"name": "@rja-app/drizzle",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -16,8 +16,8 @@
 		"drizzle-orm": "0.44.2"
 	},
 	"devDependencies": {
-		"@aja-core/eslint": "workspace:*",
-		"@aja-core/tsconfig": "workspace:*",
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
 		"@types/node": "25.5.0",
 		"drizzle-kit": "0.31.5",
 		"eslint": "9.24.0",

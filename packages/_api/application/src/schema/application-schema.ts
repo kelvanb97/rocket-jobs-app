@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export type { TApplication, TNewApplication } from "@aja-app/drizzle"
+export type { TApplication, TNewApplication } from "@rja-app/drizzle"
 
 export const APPLICATION_STATUSES = [
 	"draft",

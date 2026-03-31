@@ -1,12 +1,12 @@
 "use server"
 
-import { createPerson } from "@aja-api/person/api/create-person"
-import { getPerson } from "@aja-api/person/api/get-person"
-import { listPersons } from "@aja-api/person/api/list-persons"
-import { linkRolePerson } from "@aja-api/role-person/api/link-role-person"
-import { listPersonsByRole } from "@aja-api/role-person/api/list-persons-by-role"
-import { unlinkRolePerson } from "@aja-api/role-person/api/unlink-role-person"
-import { actionClient, SafeForClientError } from "@aja-core/next-safe-action"
+import { createPerson } from "@rja-api/person/api/create-person"
+import { getPerson } from "@rja-api/person/api/get-person"
+import { listPersons } from "@rja-api/person/api/list-persons"
+import { linkRolePerson } from "@rja-api/role-person/api/link-role-person"
+import { listPersonsByRole } from "@rja-api/role-person/api/list-persons-by-role"
+import { unlinkRolePerson } from "@rja-api/role-person/api/unlink-role-person"
+import { actionClient, SafeForClientError } from "@rja-core/next-safe-action"
 import { z } from "zod"
 
 export const listRolePeopleAction = actionClient

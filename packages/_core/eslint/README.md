@@ -1,4 +1,4 @@
-# @aja-core/eslint
+# @rja-core/eslint
 
 Shared ESLint configurations for the monorepo.
 

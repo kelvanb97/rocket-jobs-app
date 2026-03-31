@@ -1,4 +1,4 @@
-import type { Locator, Page } from "@aja-integrations/patchright/page"
+import type { Locator, Page } from "@rja-integrations/patchright/page"
 import type { ScrapedRole } from "#types"
 import { parsePostedAt, parseSalary } from "./parse"
 import { APPLY_LINK_SELECTOR, DETAIL_PANEL_SELECTOR } from "./selectors"

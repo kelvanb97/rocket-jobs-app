@@ -1,6 +1,6 @@
 import { existsSync, readdirSync } from "node:fs"
 import { resolve } from "node:path"
-import { ok, type TResult } from "@aja-core/result"
+import { ok, type TResult } from "@rja-core/result"
 
 export function listFiles(
 	bucket: string,

@@ -11,13 +11,13 @@
 		"check-types": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@aja-app/apply": "workspace:*",
-		"@aja-app/home": "workspace:*",
-		"@aja-app/score": "workspace:*",
-		"@aja-app/scraper": "workspace:*",
-		"@aja-core/drizzle": "workspace:*",
-		"@aja-config/user": "workspace:*",
-		"@aja-design/ui": "workspace:*",
+		"@rja-app/apply": "workspace:*",
+		"@rja-app/home": "workspace:*",
+		"@rja-app/score": "workspace:*",
+		"@rja-app/scraper": "workspace:*",
+		"@rja-core/drizzle": "workspace:*",
+		"@rja-config/user": "workspace:*",
+		"@rja-design/ui": "workspace:*",
 		"next": "16.1.6",
 		"next-themes": "0.4.6",
 		"react": "19.2.4",
@@ -25,8 +25,8 @@
 		"zod": "4.3.6"
 	},
 	"devDependencies": {
-		"@aja-core/eslint": "workspace:*",
-		"@aja-core/tsconfig": "workspace:*",
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
 		"@types/node": "25.5.0",
 		"@types/react": "19.2.14",
 		"@types/react-dom": "19.2.3",

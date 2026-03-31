@@ -1,5 +1,5 @@
 {
-	"name": "@aja-core/tsconfig",
+	"name": "@rja-core/tsconfig",
 	"private": true,
 	"version": "0.0.0",
 	"publishConfig": {

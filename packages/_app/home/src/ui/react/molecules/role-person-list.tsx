@@ -1,8 +1,8 @@
-import type { TPerson } from "@aja-api/person/schema/person-schema"
-import type { TRolePerson } from "@aja-api/role-person/schema/role-person-schema"
-import { Button } from "@aja-design/ui/library/button"
-import { XStack } from "@aja-design/ui/primitives/x-stack"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+import type { TPerson } from "@rja-api/person/schema/person-schema"
+import type { TRolePerson } from "@rja-api/role-person/schema/role-person-schema"
+import { Button } from "@rja-design/ui/library/button"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 
 interface IRolePersonListProps {
 	people: Array<{ rolePerson: TRolePerson; person: TPerson }>

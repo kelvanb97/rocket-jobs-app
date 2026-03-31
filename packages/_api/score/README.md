@@ -1,4 +1,4 @@
-# @aja-api/score
+# @rja-api/score
 
 Score job roles against a candidate profile using Claude. The most complex API package — combines database CRUD with AI-powered scoring.
 
@@ -28,9 +28,9 @@ All return `Promise<TResult<T>>`.
 
 ### `./lib/*`
 
-- `scoreRole(model, system, user)` — sends prompt to Claude via `@aja-integrations/anthropic` and parses structured response
+- `scoreRole(model, system, user)` — sends prompt to Claude via `@rja-integrations/anthropic` and parses structured response
 
 ## Dependencies
 
-- `@aja-integrations/anthropic` — Claude API wrapper
-- `@aja-config/user` — candidate profile and scoring weights
+- `@rja-integrations/anthropic` — Claude API wrapper
+- `@rja-config/user` — candidate profile and scoring weights

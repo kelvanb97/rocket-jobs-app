@@ -1,4 +1,4 @@
-import { generateDocuments } from "@aja-app/apply/generate-documents"
+import { generateDocuments } from "@rja-app/apply/generate-documents"
 import { NextResponse } from "next/server"
 
 export const maxDuration = 180

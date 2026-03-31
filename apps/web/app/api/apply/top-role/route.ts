@@ -1,4 +1,4 @@
-import { getTopRole } from "@aja-app/apply/get-top-role"
+import { getTopRole } from "@rja-app/apply/get-top-role"
 import { NextResponse } from "next/server"
 
 export async function GET() {

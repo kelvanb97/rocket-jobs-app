@@ -8,7 +8,7 @@
 [![Radix UI](https://img.shields.io/badge/Radix_UI-161618?logo=radixui&logoColor=white)](https://www.radix-ui.com/)
 [![Anthropic](https://img.shields.io/badge/Claude_AI-D4A574?logo=anthropic&logoColor=white)](https://www.anthropic.com/)
 
-# Auto Job App
+# Rocket Jobs App
 
 An AI-powered job search pipeline that scrapes, scores, generates tailored documents, and auto-applies to the best remote roles - so I can focus on interviewing, not searching.
 
@@ -46,32 +46,32 @@ Data Flow:
 
 ```
 Package Dependencies:
-apps/web -> @aja-app/home -> @aja-api/role -> @aja-core/result
-             @aja-app/apply   @aja-api/company  @aja-core/supabase
-             @aja-app/scraper @aja-api/score     @aja-core/types
-             @aja-app/score   @aja-api/resume
-                              @aja-api/cover-letter
-                              @aja-api/storage
-                              @aja-api/application
-                              @aja-api/person
-                              @aja-api/interaction
-                              @aja-api/role-person
+apps/web -> @rja-app/home -> @rja-api/role -> @rja-core/result
+             @rja-app/apply   @rja-api/company  @rja-core/supabase
+             @rja-app/scraper @rja-api/score     @rja-core/types
+             @rja-app/score   @rja-api/resume
+                              @rja-api/cover-letter
+                              @rja-api/storage
+                              @rja-api/application
+                              @rja-api/person
+                              @rja-api/interaction
+                              @rja-api/role-person
 
-apps/scraper -> @aja-app/scraper -> @aja-api/role
-                                    @aja-api/company
-                                    @aja-integrations/patchright
+apps/scraper -> @rja-app/scraper -> @rja-api/role
+                                    @rja-api/company
+                                    @rja-integrations/patchright
 
-apps/score -> @aja-app/score -> @aja-api/role
-                                @aja-api/score
-                                @aja-integrations/anthropic
+apps/score -> @rja-app/score -> @rja-api/role
+                                @rja-api/score
+                                @rja-integrations/anthropic
 
-@aja-config/user (consumed by score, resume, cover-letter, scraper)
+@rja-config/user (consumed by score, resume, cover-letter, scraper)
 ```
 
 ## Repository Structure
 
 ```
-auto-job-app/
+rocket-jobs-app/
   apps/
     web/                          Next.js 16 (App Router, Turbopack)
     scraper/                      Node.js cron/one-shot job scraper
@@ -79,7 +79,7 @@ auto-job-app/
     supabase/                     Supabase CLI project and migrations
 
   packages/
-    _api/                         Entity CRUD operations (@aja-api/*)
+    _api/                         Entity CRUD operations (@rja-api/*)
       application/                Application tracking
       company/                    Company data
       cover-letter/               AI cover letter generation (DOCX)
@@ -91,17 +91,17 @@ auto-job-app/
       score/                      AI scoring via Claude
       storage/                    Document storage
 
-    _app/                         Feature modules (@aja-app/*)
+    _app/                         Feature modules (@rja-app/*)
       apply/                      Auto-apply workflow
       home/                       Dashboard screens and server actions
       score/                      Batch scoring logic
       scraper/                    Multi-source scraping logic
       supabase/                   Supabase configuration
 
-    _config/                      User configuration (@aja-config/*)
+    _config/                      User configuration (@rja-config/*)
       user/                       Profile, skills, preferences
 
-    _core/                        Shared utilities (@aja-core/*)
+    _core/                        Shared utilities (@rja-core/*)
       dates/                      Date formatting
       eslint/                     Shared ESLint configs
       localstorage/               Browser storage wrapper
@@ -114,10 +114,10 @@ auto-job-app/
       use-click-outside/          React hook
       use-initial-load/           React hook
 
-    _design/                      Component library (@aja-design/*)
+    _design/                      Component library (@rja-design/*)
       ui/                         Radix UI + Tailwind (40+ components)
 
-    _integrations/                Third-party wrappers (@aja-integrations/*)
+    _integrations/                Third-party wrappers (@rja-integrations/*)
       anthropic/                  Claude AI SDK
       patchright/                 Browser automation
 ```

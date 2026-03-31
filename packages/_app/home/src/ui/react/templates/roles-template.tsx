@@ -1,15 +1,15 @@
 "use client"
 
-import type { TCompany } from "@aja-api/company/schema/company-schema"
-import type { TRole, TRoleStatus } from "@aja-api/role/schema/role-schema"
-import type { TScore } from "@aja-api/score/schema/score-schema"
+import type { TCompany } from "@rja-api/company/schema/company-schema"
+import type { TRole, TRoleStatus } from "@rja-api/role/schema/role-schema"
+import type { TScore } from "@rja-api/score/schema/score-schema"
 import {
 	useAction,
 	useActionError,
 	useIsLoading,
 	useToastOnError,
-} from "@aja-core/next-safe-action/hooks"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+} from "@rja-core/next-safe-action/hooks"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { listRolesWithCompaniesAction } from "#actions/list-roles-with-companies"
 import { updateRoleStatusAction } from "#actions/update-role-status"
 import {

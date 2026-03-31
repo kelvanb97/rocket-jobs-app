@@ -1,6 +1,6 @@
-import { getCompany } from "@aja-api/company/api/get-company"
-import { getTopUnappliedRole } from "@aja-api/role/api/get-top-unapplied-role"
-import { ok, type TResult } from "@aja-core/result"
+import { getCompany } from "@rja-api/company/api/get-company"
+import { getTopUnappliedRole } from "@rja-api/role/api/get-top-unapplied-role"
+import { ok, type TResult } from "@rja-core/result"
 import type { TTopRoleResult } from "./types"
 
 export function getTopRole(): TResult<TTopRoleResult | null> {

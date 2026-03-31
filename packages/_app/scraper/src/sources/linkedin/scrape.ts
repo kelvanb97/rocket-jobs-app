@@ -1,10 +1,10 @@
-import { LINKEDIN_SEARCH } from "@aja-config/user/scraper"
+import { LINKEDIN_SEARCH } from "@rja-config/user/scraper"
 import {
 	closeBrowserContext,
 	createBrowserContext,
-} from "@aja-integrations/patchright/browser"
-import { randomWait } from "@aja-integrations/patchright/interaction"
-import type { Locator, Page } from "@aja-integrations/patchright/page"
+} from "@rja-integrations/patchright/browser"
+import { randomWait } from "@rja-integrations/patchright/interaction"
+import type { Locator, Page } from "@rja-integrations/patchright/page"
 import type { ScrapedRole, TSourceScrapeOptions } from "#types"
 import { extractJobFromPanel } from "./extract"
 import {

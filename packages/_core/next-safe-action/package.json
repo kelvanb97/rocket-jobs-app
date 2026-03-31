@@ -1,5 +1,5 @@
 {
-	"name": "@aja-core/next-safe-action",
+	"name": "@rja-core/next-safe-action",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -12,16 +12,16 @@
 		"lint": "eslint ."
 	},
 	"peerDependencies": {
-		"@aja-design/ui": "workspace:*",
+		"@rja-design/ui": "workspace:*",
 		"react": "^19.2.4"
 	},
 	"dependencies": {
 		"next-safe-action": "8.0.7"
 	},
 	"devDependencies": {
-		"@aja-core/eslint": "workspace:*",
-		"@aja-core/tsconfig": "workspace:*",
-		"@aja-design/ui": "workspace:*",
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
+		"@rja-design/ui": "workspace:*",
 		"@types/node": "25.5.0",
 		"@types/react": "19.2.14",
 		"eslint": "9.24.0",

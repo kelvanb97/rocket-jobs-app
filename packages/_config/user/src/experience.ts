@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// @aja-config/user — experience.ts
+// @rja-config/user — experience.ts
 // ---------------------------------------------------------------------------
 // Canonical source of truth for the candidate profile. Used by:
 // - Scoring prompt (condensed view of experience for role matching)
@@ -450,7 +450,7 @@ export type TFormDefaults = {
 }
 
 export const FORM_DEFAULTS: TFormDefaults = {
-	howDidYouHear: "My project https://github.com/kelvanb97/auto-job-app",
+	howDidYouHear: "My project https://github.com/kelvanb97/rocket-jobs-app",
 	referredByEmployee: "No",
 	nonCompeteAgreement: "No",
 	previouslyEmployed: "No",

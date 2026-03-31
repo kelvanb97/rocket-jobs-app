@@ -1,6 +1,6 @@
 "use client"
 
-import { TextBody } from "@aja-design/ui/library/text"
+import { TextBody } from "@rja-design/ui/library/text"
 
 export function PeopleTemplate() {
 	return (

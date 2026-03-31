@@ -1,11 +1,11 @@
 "use client"
 
-import { Button } from "@aja-design/ui/library/button"
-import { Checkbox } from "@aja-design/ui/library/checkbox"
-import { Label } from "@aja-design/ui/library/label"
-import { TextBody } from "@aja-design/ui/library/text"
-import { XStack } from "@aja-design/ui/primitives/x-stack"
-import { YStack } from "@aja-design/ui/primitives/y-stack"
+import { Button } from "@rja-design/ui/library/button"
+import { Checkbox } from "@rja-design/ui/library/checkbox"
+import { Label } from "@rja-design/ui/library/label"
+import { TextBody } from "@rja-design/ui/library/text"
+import { XStack } from "@rja-design/ui/primitives/x-stack"
+import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { useCallback, useEffect, useRef, useState } from "react"
 
 type TSourceName =

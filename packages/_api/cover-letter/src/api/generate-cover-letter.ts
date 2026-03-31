@@ -1,5 +1,5 @@
-import { createMessage } from "@aja-integrations/anthropic/client"
-import type { TAnthropicModel } from "@aja-integrations/anthropic/client"
+import { createMessage } from "@rja-integrations/anthropic/client"
+import type { TAnthropicModel } from "@rja-integrations/anthropic/client"
 import { coverLetterResponseSchema } from "#schema/cover-letter-schema"
 import type { TCoverLetterResponse } from "#schema/cover-letter-schema"
 

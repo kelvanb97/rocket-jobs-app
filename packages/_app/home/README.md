@@ -1,4 +1,4 @@
-# @aja-app/home
+# @rja-app/home
 
 Dashboard screens and server actions for the web app, with Zustand state management.
 
@@ -13,9 +13,9 @@ Dashboard screens and server actions for the web app, with Zustand state managem
 
 ## Dependencies
 
-- `@aja-api/role`, `@aja-api/company`, `@aja-api/score`, `@aja-api/person`, `@aja-api/interaction`, `@aja-api/role-person`, `@aja-api/application`, `@aja-api/resume`, `@aja-api/cover-letter`, `@aja-api/storage` — entity CRUD
-- `@aja-config/user` — user profile configuration
-- `@aja-core/next-safe-action` — server action client
-- `@aja-core/dates` — date formatting
-- `@aja-design/ui` — UI components (peer)
+- `@rja-api/role`, `@rja-api/company`, `@rja-api/score`, `@rja-api/person`, `@rja-api/interaction`, `@rja-api/role-person`, `@rja-api/application`, `@rja-api/resume`, `@rja-api/cover-letter`, `@rja-api/storage` — entity CRUD
+- `@rja-config/user` — user profile configuration
+- `@rja-core/next-safe-action` — server action client
+- `@rja-core/dates` — date formatting
+- `@rja-design/ui` — UI components (peer)
 - `zustand` (via internal stores)

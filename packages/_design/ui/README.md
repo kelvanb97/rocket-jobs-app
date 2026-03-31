@@ -1,4 +1,4 @@
-# @aja-design/ui
+# @rja-design/ui
 
 Component library built on Radix UI primitives and styled with Tailwind CSS. Heavily influenced by [shadcn/ui](https://ui.shadcn.com/).
 
@@ -22,4 +22,4 @@ Component library built on Radix UI primitives and styled with Tailwind CSS. Hea
 
 ## Dependencies
 
-- `@aja-core/localstorage` — theme persistence
+- `@rja-core/localstorage` — theme persistence

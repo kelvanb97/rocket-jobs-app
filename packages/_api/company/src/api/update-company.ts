@@ -1,6 +1,6 @@
-import { company } from "@aja-app/drizzle"
-import { db } from "@aja-core/drizzle"
-import { errFrom, ok, type TResult } from "@aja-core/result"
+import { company } from "@rja-app/drizzle"
+import { db } from "@rja-core/drizzle"
+import { errFrom, ok, type TResult } from "@rja-core/result"
 import type { TCompany, TUpdateCompany } from "#schema/company-schema"
 import { eq } from "drizzle-orm"
 

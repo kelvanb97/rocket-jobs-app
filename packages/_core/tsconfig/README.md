@@ -1,4 +1,4 @@
-# @aja-core/tsconfig
+# @rja-core/tsconfig
 
 Shared TypeScript configurations for the monorepo.
 

@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import "@aja-design/ui/global.css"
+import "@rja-design/ui/global.css"
 import { Providers } from "../ui/react/providers"
 
 export const metadata: Metadata = {
-	title: "auto-job-app",
+	title: "rocket-jobs-app",
 	description: "Dashboard for managing role opportunities",
 	icons: {
 		icon: "/favicon.ico",

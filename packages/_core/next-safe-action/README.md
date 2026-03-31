@@ -1,4 +1,4 @@
-# @aja-core/next-safe-action
+# @rja-core/next-safe-action
 
 Wrapper around `next-safe-action` providing a configured action client with consistent error handling.
 
