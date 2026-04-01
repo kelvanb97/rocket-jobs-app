@@ -1,0 +1,44 @@
+{
+	"name": "@rja-api/settings",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"sideEffects": false,
+	"exports": {
+		"./api/*": "./src/api/*.ts",
+		"./schema/*": "./src/schema/*.ts"
+	},
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"lint": "eslint ./src"
+	},
+	"dependencies": {
+		"@rja-app/drizzle": "workspace:*",
+		"@rja-core/drizzle": "workspace:*",
+		"@rja-core/result": "workspace:*",
+		"drizzle-orm": "0.44.2",
+		"zod": "4.3.6"
+	},
+	"devDependencies": {
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
+		"eslint": "9.24.0",
+		"@types/node": "25.5.0",
+		"typescript": "5.9.3"
+	},
+	"imports": {
+		"#*": [
+			"./src/*",
+			"./src/*.ts",
+			"./src/*.tsx"
+		],
+		"#api*": [
+			"./src/api*",
+			"./src/api*.ts"
+		],
+		"#schema*": [
+			"./src/schema*",
+			"./src/schema*.ts"
+		]
+	}
+}

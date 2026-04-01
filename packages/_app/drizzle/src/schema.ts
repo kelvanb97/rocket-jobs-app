@@ -226,3 +226,279 @@ export const application = sqliteTable(
 
 export type TApplication = typeof application.$inferSelect
 export type TNewApplication = typeof application.$inferInsert
+
+// =============================================================
+// USER PROFILE
+// =============================================================
+
+export const userProfile = sqliteTable("user_profile", {
+	id: int("id").primaryKey({ autoIncrement: true }),
+	name: text("name").notNull(),
+	email: text("email").notNull(),
+	phone: text("phone").notNull(),
+	linkedin: text("linkedin").notNull().default(""),
+	github: text("github").notNull().default(""),
+	personalWebsite: text("personal_website").notNull().default(""),
+	location: text("location").notNull().default(""),
+	address: text("address").notNull().default(""),
+	jobTitle: text("job_title").notNull(),
+	seniority: text("seniority").notNull().default("mid"),
+	yearsOfExperience: int("years_of_experience").notNull().default(0),
+	summary: text("summary").notNull().default(""),
+	skills: text("skills", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	preferredSkills: text("preferred_skills", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	preferredLocationTypes: text("preferred_location_types", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	preferredLocations: text("preferred_locations", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	salaryMin: int("salary_min").notNull().default(0),
+	salaryMax: int("salary_max").notNull().default(0),
+	desiredSalary: int("desired_salary").notNull().default(0),
+	startDateWeeksOut: int("start_date_weeks_out").notNull().default(2),
+	industries: text("industries", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	dealbreakers: text("dealbreakers", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	notes: text("notes").notNull().default(""),
+	domainExpertise: text("domain_expertise", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
+		() => new Date(),
+	),
+	updatedAt: int("updated_at", { mode: "timestamp" })
+		.$defaultFn(() => new Date())
+		.$onUpdate(() => new Date()),
+})
+
+export type TUserProfile = typeof userProfile.$inferSelect
+export type TNewUserProfile = typeof userProfile.$inferInsert
+
+// =============================================================
+// WORK EXPERIENCE
+// =============================================================
+
+export const workExperience = sqliteTable(
+	"work_experience",
+	{
+		id: int("id").primaryKey({ autoIncrement: true }),
+		userProfileId: int("user_profile_id")
+			.notNull()
+			.references(() => userProfile.id, { onDelete: "cascade" }),
+		sortOrder: int("sort_order").notNull().default(0),
+		company: text("company").notNull(),
+		title: text("title").notNull(),
+		startDate: text("start_date").notNull(),
+		endDate: text("end_date").notNull(),
+		type: text("type").notNull().default("full-time"),
+		platforms: text("platforms", { mode: "json" })
+			.$type<string[]>()
+			.notNull()
+			.default([]),
+		techStack: text("tech_stack", { mode: "json" })
+			.$type<string[]>()
+			.notNull()
+			.default([]),
+		summary: text("summary").notNull().default(""),
+		highlights: text("highlights", { mode: "json" })
+			.$type<string[]>()
+			.notNull()
+			.default([]),
+		createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
+			() => new Date(),
+		),
+		updatedAt: int("updated_at", { mode: "timestamp" })
+			.$defaultFn(() => new Date())
+			.$onUpdate(() => new Date()),
+	},
+	(table) => [
+		index("idx_work_experience_user_profile_id").on(table.userProfileId),
+	],
+)
+
+export type TWorkExperience = typeof workExperience.$inferSelect
+export type TNewWorkExperience = typeof workExperience.$inferInsert
+
+// =============================================================
+// EDUCATION
+// =============================================================
+
+export const education = sqliteTable(
+	"education",
+	{
+		id: int("id").primaryKey({ autoIncrement: true }),
+		userProfileId: int("user_profile_id")
+			.notNull()
+			.references(() => userProfile.id, { onDelete: "cascade" }),
+		sortOrder: int("sort_order").notNull().default(0),
+		degree: text("degree").notNull(),
+		field: text("field").notNull(),
+		institution: text("institution").notNull(),
+		createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
+			() => new Date(),
+		),
+		updatedAt: int("updated_at", { mode: "timestamp" })
+			.$defaultFn(() => new Date())
+			.$onUpdate(() => new Date()),
+	},
+	(table) => [index("idx_education_user_profile_id").on(table.userProfileId)],
+)
+
+export type TEducation = typeof education.$inferSelect
+export type TNewEducation = typeof education.$inferInsert
+
+// =============================================================
+// EEO CONFIG
+// =============================================================
+
+export const eeoConfig = sqliteTable("eeo_config", {
+	id: int("id").primaryKey({ autoIncrement: true }),
+	userProfileId: int("user_profile_id")
+		.unique()
+		.notNull()
+		.references(() => userProfile.id, { onDelete: "cascade" }),
+	gender: text("gender"),
+	ethnicity: text("ethnicity"),
+	veteranStatus: text("veteran_status"),
+	disabilityStatus: text("disability_status"),
+	workAuthorization: text("work_authorization"),
+	requiresVisaSponsorship: int("requires_visa_sponsorship", {
+		mode: "boolean",
+	})
+		.notNull()
+		.default(false),
+	createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
+		() => new Date(),
+	),
+	updatedAt: int("updated_at", { mode: "timestamp" })
+		.$defaultFn(() => new Date())
+		.$onUpdate(() => new Date()),
+})
+
+export type TEeoConfig = typeof eeoConfig.$inferSelect
+export type TNewEeoConfig = typeof eeoConfig.$inferInsert
+
+// =============================================================
+// FORM DEFAULTS
+// =============================================================
+
+export const formDefaults = sqliteTable("form_defaults", {
+	id: int("id").primaryKey({ autoIncrement: true }),
+	userProfileId: int("user_profile_id")
+		.unique()
+		.notNull()
+		.references(() => userProfile.id, { onDelete: "cascade" }),
+	howDidYouHear: text("how_did_you_hear").notNull().default(""),
+	referredByEmployee: text("referred_by_employee").notNull().default("No"),
+	nonCompeteAgreement: text("non_compete_agreement").notNull().default("No"),
+	previouslyEmployed: text("previously_employed").notNull().default("No"),
+	professionalReferences: text("professional_references")
+		.notNull()
+		.default(""),
+	employmentType: text("employment_type").notNull().default("Full-Time"),
+	createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
+		() => new Date(),
+	),
+	updatedAt: int("updated_at", { mode: "timestamp" })
+		.$defaultFn(() => new Date())
+		.$onUpdate(() => new Date()),
+})
+
+export type TFormDefaults = typeof formDefaults.$inferSelect
+export type TNewFormDefaults = typeof formDefaults.$inferInsert
+
+// =============================================================
+// SCORING CONFIG
+// =============================================================
+
+export const scoringConfig = sqliteTable("scoring_config", {
+	id: int("id").primaryKey({ autoIncrement: true }),
+	userProfileId: int("user_profile_id")
+		.unique()
+		.notNull()
+		.references(() => userProfile.id, { onDelete: "cascade" }),
+	titleAndSeniority: text("title_and_seniority").notNull().default("high"),
+	skills: text("skills").notNull().default("high"),
+	salary: text("salary").notNull().default("high"),
+	location: text("location").notNull().default("medium"),
+	industry: text("industry").notNull().default("low"),
+	createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
+		() => new Date(),
+	),
+	updatedAt: int("updated_at", { mode: "timestamp" })
+		.$defaultFn(() => new Date())
+		.$onUpdate(() => new Date()),
+})
+
+export type TScoringConfig = typeof scoringConfig.$inferSelect
+export type TNewScoringConfig = typeof scoringConfig.$inferInsert
+
+// =============================================================
+// SCRAPER CONFIG
+// =============================================================
+
+export const scraperConfig = sqliteTable("scraper_config", {
+	id: int("id").primaryKey({ autoIncrement: true }),
+	userProfileId: int("user_profile_id")
+		.unique()
+		.notNull()
+		.references(() => userProfile.id, { onDelete: "cascade" }),
+	relevantKeywords: text("relevant_keywords", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	blockedKeywords: text("blocked_keywords", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	blockedCompanies: text("blocked_companies", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	enabledSources: text("enabled_sources", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	googleTitles: text("google_titles", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	googleRemote: int("google_remote", { mode: "boolean" })
+		.notNull()
+		.default(true),
+	googleFullTimeOnly: int("google_full_time_only", { mode: "boolean" })
+		.notNull()
+		.default(true),
+	googleFreshnessDays: int("google_freshness_days").notNull().default(3),
+	googleMaxPages: int("google_max_pages").notNull().default(5),
+	linkedinUrls: text("linkedin_urls", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
+	linkedinMaxPages: int("linkedin_max_pages").notNull().default(5),
+	linkedinMaxPerPage: int("linkedin_max_per_page").notNull().default(25),
+	createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
+		() => new Date(),
+	),
+	updatedAt: int("updated_at", { mode: "timestamp" })
+		.$defaultFn(() => new Date())
+		.$onUpdate(() => new Date()),
+})
+
+export type TScraperConfig = typeof scraperConfig.$inferSelect
+export type TNewScraperConfig = typeof scraperConfig.$inferInsert

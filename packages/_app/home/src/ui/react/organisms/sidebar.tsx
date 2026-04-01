@@ -6,6 +6,7 @@ import {
 	MessageSquare,
 	Play,
 	Plus,
+	Settings,
 	Users,
 } from "@rja-design/ui/assets/lucide"
 import { cn } from "@rja-design/ui/cn"
@@ -38,6 +39,12 @@ const SECONDARY_NAV_ITEMS = [
 		href: "/operations",
 		label: "Operations",
 		icon: Play,
+	},
+	{
+		page: "settings" as const,
+		href: "/settings",
+		label: "Settings",
+		icon: Settings,
 	},
 ]
 

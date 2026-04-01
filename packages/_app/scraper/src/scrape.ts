@@ -1,4 +1,5 @@
-import { SCRAPER_CONFIG, type TSourceName } from "@rja-config/user/scraper"
+import { getScraperConfig } from "@rja-api/settings/api/get-scraper-config"
+import type { TSourceName } from "@rja-api/settings/schema/scraper-config-schema"
 import { filterRoles } from "#lib/filter"
 import { insertRoles } from "#lib/insert"
 import * as googleJobs from "#sources/google-jobs/index"
@@ -14,7 +15,7 @@ import type {
 } from "#types"
 
 type SourceModule = {
-	scrape: (options?: TSourceScrapeOptions) => Promise<ScrapedRole[]>
+	scrape: (...args: never[]) => Promise<ScrapedRole[]>
 }
 
 const ALL_SOURCES: Record<TSourceName, SourceModule> = {
@@ -55,11 +56,29 @@ export type TScrapeOptions = {
 export async function runScraper(
 	options: TScrapeOptions = {},
 ): Promise<TScrapeSummary> {
+	const configResult = getScraperConfig()
+	if (!configResult.ok) {
+		throw new Error(configResult.error.message)
+	}
+	if (!configResult.data) {
+		throw new Error(
+			"Scraper config not found. Please configure scraper settings first.",
+		)
+	}
+
+	const config = configResult.data
+
 	const {
-		sources = SCRAPER_CONFIG.enabledSources,
+		sources = config.enabledSources as TSourceName[],
 		signal,
 		onProgress,
 	} = options
+
+	const filterConfig = {
+		relevantKeywords: config.relevantKeywords,
+		blockedKeywords: config.blockedKeywords,
+		blockedCompanies: config.blockedCompanies,
+	}
 
 	const summary: TScrapeSummary = {
 		total: { found: 0, filtered: 0, inserted: 0, skipped: 0, errors: 0 },
@@ -90,7 +109,10 @@ export async function runScraper(
 				batchPageCount++
 				sourceSummary.found += roles.length
 
-				const { filtered, removedCount } = filterRoles(roles)
+				const { filtered, removedCount } = filterRoles(
+					roles,
+					filterConfig,
+				)
 				const { inserted, skipped } = await insertRoles(
 					filtered,
 					signal,
@@ -115,10 +137,36 @@ export async function runScraper(
 				)
 			}
 
-			const allRoles = await sourceModule.scrape({
-				onBatch,
-				signal,
-			})
+			const scrapeOptions: TSourceScrapeOptions = { onBatch, signal }
+
+			let allRoles: ScrapedRole[]
+			if (name === "google-jobs") {
+				allRoles = await googleJobs.scrape(
+					{
+						titles: config.googleTitles,
+						remote: config.googleRemote,
+						fullTimeOnly: config.googleFullTimeOnly,
+						freshnessDays: config.googleFreshnessDays,
+						maxPagesPerQuery: config.googleMaxPages,
+					},
+					scrapeOptions,
+				)
+			} else if (name === "linkedin") {
+				allRoles = await linkedin.scrape(
+					{
+						urls: config.linkedinUrls,
+						maxPages: config.linkedinMaxPages,
+						maxPerPage: config.linkedinMaxPerPage,
+					},
+					scrapeOptions,
+				)
+			} else {
+				allRoles = await (
+					sourceModule.scrape as (
+						options?: TSourceScrapeOptions,
+					) => Promise<ScrapedRole[]>
+				)(scrapeOptions)
+			}
 
 			if (batchPageCount === 0 && allRoles.length > 0) {
 				// Source did not use onBatch — process in bulk
@@ -128,7 +176,10 @@ export async function runScraper(
 					count: allRoles.length,
 				})
 
-				const { filtered: roles, removedCount } = filterRoles(allRoles)
+				const { filtered: roles, removedCount } = filterRoles(
+					allRoles,
+					filterConfig,
+				)
 				const { inserted, skipped } = await insertRoles(roles, signal)
 
 				sourceSummary.found = allRoles.length

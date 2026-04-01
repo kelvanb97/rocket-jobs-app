@@ -21,7 +21,7 @@
 		"@rja-api/company": "workspace:*",
 		"@rja-api/role": "workspace:*",
 		"@rja-app/drizzle": "workspace:*",
-		"@rja-config/user": "workspace:*",
+		"@rja-api/settings": "workspace:*",
 		"@rja-core/drizzle": "workspace:*",
 		"@rja-core/result": "workspace:*",
 		"@rja-integrations/anthropic": "workspace:*",

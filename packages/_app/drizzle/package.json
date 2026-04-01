@@ -10,6 +10,7 @@
 		"check-types": "tsc --noEmit",
 		"generate": "drizzle-kit generate",
 		"migrate": "drizzle-kit migrate",
+		"studio": "drizzle-kit studio",
 		"lint": "eslint ."
 	},
 	"dependencies": {

@@ -1,4 +1,3 @@
-import { GOOGLE_JOBS_SEARCH } from "@rja-config/user/scraper"
 import {
 	closeBrowserContext,
 	createBrowserContext,
@@ -14,12 +13,20 @@ import type { ScrapedRole, TSourceScrapeOptions } from "#types"
 import { extractJobFromCard, extractJobFromPanel } from "./extract"
 import { CARD_SELECTOR, DETAIL_PANEL_SELECTOR } from "./selectors"
 
-function buildSearchUrl(title: string): string {
+export type TGoogleJobsConfig = {
+	titles: string[]
+	remote: boolean
+	fullTimeOnly: boolean
+	freshnessDays: number
+	maxPagesPerQuery: number
+}
+
+function buildSearchUrl(title: string, config: TGoogleJobsConfig): string {
 	const queryParts = [title]
-	if (GOOGLE_JOBS_SEARCH.remote) queryParts.push("remote")
-	if (GOOGLE_JOBS_SEARCH.freshnessdays)
-		queryParts.push(`in the last ${GOOGLE_JOBS_SEARCH.freshnessdays} days`)
-	if (GOOGLE_JOBS_SEARCH.fullTimeOnly) queryParts.push("Full time")
+	if (config.remote) queryParts.push("remote")
+	if (config.freshnessDays)
+		queryParts.push(`in the last ${config.freshnessDays} days`)
+	if (config.fullTimeOnly) queryParts.push("Full time")
 
 	const params = new URLSearchParams({
 		udm: "8",
@@ -95,6 +102,7 @@ async function scrollForMoreCards(
 }
 
 export async function scrape(
+	config: TGoogleJobsConfig,
 	options?: TSourceScrapeOptions,
 ): Promise<ScrapedRole[]> {
 	const { onBatch, signal } = options ?? {}
@@ -104,12 +112,12 @@ export async function scrape(
 	const seen = new Set<string>()
 
 	try {
-		for (const title of GOOGLE_JOBS_SEARCH.titles) {
+		for (const title of config.titles) {
 			if (signal?.aborted) break
 
 			console.log(`[google-jobs] Searching: "${title}"`)
 
-			const searchUrl = buildSearchUrl(title)
+			const searchUrl = buildSearchUrl(title, config)
 			await page.goto(searchUrl, { waitUntil: "domcontentloaded" })
 
 			try {
@@ -148,7 +156,7 @@ export async function scrape(
 			let scrollAttempts = 0
 			let previousPanelTitle: string | null = null
 
-			while (scrollAttempts < GOOGLE_JOBS_SEARCH.maxPagesPerQuery) {
+			while (scrollAttempts < config.maxPagesPerQuery) {
 				if (signal?.aborted) break
 
 				const cardCount = await cards.count()
@@ -187,8 +195,7 @@ export async function scrape(
 				const grew = await scrollForMoreCards(page, cardCount)
 				if (!grew) {
 					scrollAttempts++
-					if (scrollAttempts >= GOOGLE_JOBS_SEARCH.maxPagesPerQuery)
-						break
+					if (scrollAttempts >= config.maxPagesPerQuery) break
 				}
 			}
 

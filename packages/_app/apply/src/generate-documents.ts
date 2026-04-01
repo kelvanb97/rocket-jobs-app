@@ -9,8 +9,8 @@ import { buildResumePrompt } from "@rja-api/resume/api/build-resume-prompt"
 import { extractKeywords } from "@rja-api/resume/api/extract-keywords"
 import { generateResumeContent } from "@rja-api/resume/api/generate-resume"
 import { getRole } from "@rja-api/role/api/get-role"
+import { getUserProfile } from "@rja-api/settings/api/get-user-profile"
 import { uploadFile } from "@rja-api/storage/api/upload-file"
-import { USER_PROFILE } from "@rja-config/user/experience"
 import { errFrom, ok, type TResult } from "@rja-core/result"
 import type { TAnthropicModel } from "@rja-integrations/anthropic/client"
 import type { TGenerateDocumentsResult } from "./types"
@@ -37,6 +37,13 @@ type TGenerateDocumentsInput = {
 export async function generateDocuments(
 	input: TGenerateDocumentsInput,
 ): Promise<TResult<TGenerateDocumentsResult>> {
+	const profileResult = getUserProfile()
+	if (!profileResult.ok)
+		return errFrom(
+			`Failed to fetch user profile: ${profileResult.error.message}`,
+		)
+	const profile = profileResult.data
+
 	const roleResult = getRole(input.roleId)
 	if (!roleResult.ok)
 		return errFrom(`Failed to fetch role: ${roleResult.error.message}`)
@@ -55,51 +62,38 @@ export async function generateDocuments(
 	)
 
 	// Generate resume
-	const resumePrompt = buildResumePrompt(
-		role,
-		company,
-		USER_PROFILE,
-		keywords,
-	)
+	const resumePrompt = buildResumePrompt(role, company, profile, keywords)
 	const resumeContent = await generateResumeContent(
 		RESUME_MODEL,
 		resumePrompt.system,
 		resumePrompt.user,
 	)
-	const resumeBuffer = await buildResumeDocx(
-		USER_PROFILE.name,
-		resumeContent,
-		{
-			email: USER_PROFILE.email,
-			phone: USER_PROFILE.phone,
-			linkedIn: USER_PROFILE.linkedIn,
-			github: USER_PROFILE.github,
-			personalWebsite: USER_PROFILE.personalWebsite,
-			location: USER_PROFILE.location,
-		},
-	)
+	const resumeBuffer = await buildResumeDocx(profile.name, resumeContent, {
+		email: profile.email,
+		phone: profile.phone,
+		linkedIn: profile.linkedin,
+		github: profile.github,
+		personalWebsite: profile.personalWebsite,
+		location: profile.location,
+	})
 
 	// Generate cover letter
-	const coverLetterPrompt = buildCoverLetterPrompt(
-		role,
-		company,
-		USER_PROFILE,
-	)
+	const coverLetterPrompt = buildCoverLetterPrompt(role, company, profile)
 	const coverLetterContent = await generateCoverLetterContent(
 		RESUME_MODEL,
 		coverLetterPrompt.system,
 		coverLetterPrompt.user,
 	)
 	const coverLetterBuffer = await buildCoverLetterDocx(
-		USER_PROFILE.name,
+		profile.name,
 		coverLetterContent,
 		{
-			email: USER_PROFILE.email,
-			phone: USER_PROFILE.phone,
-			linkedIn: USER_PROFILE.linkedIn,
-			github: USER_PROFILE.github,
-			personalWebsite: USER_PROFILE.personalWebsite,
-			location: USER_PROFILE.location,
+			email: profile.email,
+			phone: profile.phone,
+			linkedIn: profile.linkedin,
+			github: profile.github,
+			personalWebsite: profile.personalWebsite,
+			location: profile.location,
 		},
 	)
 

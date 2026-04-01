@@ -16,7 +16,7 @@
 		"@rja-api/company": "workspace:*",
 		"@rja-api/role": "workspace:*",
 		"@rja-api/score": "workspace:*",
-		"@rja-config/user": "workspace:*",
+		"@rja-api/settings": "workspace:*",
 		"@rja-integrations/patchright": "workspace:*",
 		"rss-parser": "3.13.0"
 	},

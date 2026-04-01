@@ -13,6 +13,7 @@
 		"depcheck": "pnpm -r --workspace-concurrency=1 exec -- sh -c 'echo \"\n$PNPM_PACKAGE_NAME\" && depcheck || true'",
 		"destroy-cache": "rm -rf .turbo; find . -type d -path '*/*/.turbo' -print0 | xargs -0 rm -rf; rm -rf .next; find . -type d -path '*/*/.next' -print0 | xargs -0 rm -rf",
 		"dev": "turbo run dev",
+		"studio": "pnpm --filter @rja-app/drizzle studio",
 		"format": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,css}\"",
 		"lint": "turbo run lint",
 		"postinstall": "cd $(find node_modules/.pnpm -path '*/better-sqlite3/package.json' -print -quit | xargs dirname) && npm run build-release",

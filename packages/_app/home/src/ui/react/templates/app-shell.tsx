@@ -12,6 +12,7 @@ export type TPage =
 	| "follow-ups"
 	| "create"
 	| "operations"
+	| "settings"
 
 interface IAppShellProps {
 	activePage: TPage

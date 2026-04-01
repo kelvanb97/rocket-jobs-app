@@ -48,6 +48,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@rja-api/settings':
+        specifier: workspace:*
+        version: link:../../packages/_api/settings
       '@rja-app/apply':
         specifier: workspace:*
         version: link:../../packages/_app/apply
@@ -60,9 +63,6 @@ importers:
       '@rja-app/scraper':
         specifier: workspace:*
         version: link:../../packages/_app/scraper
-      '@rja-config/user':
-        specifier: workspace:*
-        version: link:../../packages/_config/user
       '@rja-core/drizzle':
         specifier: workspace:*
         version: link:../../packages/_core/drizzle
@@ -186,9 +186,9 @@ importers:
       '@rja-api/role':
         specifier: workspace:*
         version: link:../role
-      '@rja-config/user':
+      '@rja-api/settings':
         specifier: workspace:*
-        version: link:../../_config/user
+        version: link:../settings
       '@rja-integrations/anthropic':
         specifier: workspace:*
         version: link:../../_integrations/anthropic
@@ -291,9 +291,9 @@ importers:
       '@rja-api/role':
         specifier: workspace:*
         version: link:../role
-      '@rja-config/user':
+      '@rja-api/settings':
         specifier: workspace:*
-        version: link:../../_config/user
+        version: link:../settings
       '@rja-integrations/anthropic':
         specifier: workspace:*
         version: link:../../_integrations/anthropic
@@ -396,12 +396,12 @@ importers:
       '@rja-api/role':
         specifier: workspace:*
         version: link:../role
+      '@rja-api/settings':
+        specifier: workspace:*
+        version: link:../settings
       '@rja-app/drizzle':
         specifier: workspace:*
         version: link:../../_app/drizzle
-      '@rja-config/user':
-        specifier: workspace:*
-        version: link:../../_config/user
       '@rja-core/drizzle':
         specifier: workspace:*
         version: link:../../_core/drizzle
@@ -433,6 +433,40 @@ importers:
       zod:
         specifier: 4.3.6
         version: 4.3.6
+
+  packages/_api/settings:
+    dependencies:
+      '@rja-app/drizzle':
+        specifier: workspace:*
+        version: link:../../_app/drizzle
+      '@rja-core/drizzle':
+        specifier: workspace:*
+        version: link:../../_core/drizzle
+      '@rja-core/result':
+        specifier: workspace:*
+        version: link:../../_core/result
+      drizzle-orm:
+        specifier: 0.44.2
+        version: 0.44.2(@types/better-sqlite3@7.6.13)(better-sqlite3@11.10.0)
+      zod:
+        specifier: 4.3.6
+        version: 4.3.6
+    devDependencies:
+      '@rja-core/eslint':
+        specifier: workspace:*
+        version: link:../../_core/eslint
+      '@rja-core/tsconfig':
+        specifier: workspace:*
+        version: link:../../_core/tsconfig
+      '@types/node':
+        specifier: 25.5.0
+        version: 25.5.0
+      eslint:
+        specifier: 9.24.0
+        version: 9.24.0(jiti@2.6.1)
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
 
   packages/_api/storage:
     dependencies:
@@ -473,12 +507,12 @@ importers:
       '@rja-api/role':
         specifier: workspace:*
         version: link:../../_api/role
+      '@rja-api/settings':
+        specifier: workspace:*
+        version: link:../../_api/settings
       '@rja-api/storage':
         specifier: workspace:*
         version: link:../../_api/storage
-      '@rja-config/user':
-        specifier: workspace:*
-        version: link:../../_config/user
       '@rja-core/result':
         specifier: workspace:*
         version: link:../../_core/result
@@ -553,12 +587,12 @@ importers:
       '@rja-api/score':
         specifier: workspace:*
         version: link:../../_api/score
+      '@rja-api/settings':
+        specifier: workspace:*
+        version: link:../../_api/settings
       '@rja-api/storage':
         specifier: workspace:*
         version: link:../../_api/storage
-      '@rja-config/user':
-        specifier: workspace:*
-        version: link:../../_config/user
       '@rja-core/dates':
         specifier: workspace:*
         version: link:../../_core/dates
@@ -627,9 +661,9 @@ importers:
       '@rja-api/score':
         specifier: workspace:*
         version: link:../../_api/score
-      '@rja-config/user':
+      '@rja-api/settings':
         specifier: workspace:*
-        version: link:../../_config/user
+        version: link:../../_api/settings
       '@rja-integrations/patchright':
         specifier: workspace:*
         version: link:../../_integrations/patchright
@@ -643,24 +677,6 @@ importers:
       '@rja-core/tsconfig':
         specifier: workspace:*
         version: link:../../_core/tsconfig
-      eslint:
-        specifier: 9.24.0
-        version: 9.24.0(jiti@2.6.1)
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
-
-  packages/_config/user:
-    devDependencies:
-      '@rja-core/eslint':
-        specifier: workspace:*
-        version: link:../../_core/eslint
-      '@rja-core/tsconfig':
-        specifier: workspace:*
-        version: link:../../_core/tsconfig
-      '@types/node':
-        specifier: 25.5.0
-        version: 25.5.0
       eslint:
         specifier: 9.24.0
         version: 9.24.0(jiti@2.6.1)

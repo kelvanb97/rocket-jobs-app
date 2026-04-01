@@ -1,7 +1,7 @@
 import type { TCompany } from "@rja-api/company/schema/company-schema"
 import type { TRole } from "@rja-api/role/schema/role-schema"
-import type { TUserProfile } from "@rja-config/user/experience"
-import type { TScoringWeights } from "@rja-config/user/scoring"
+import type { TScoringConfig } from "@rja-api/settings/schema/scoring-config-schema"
+import type { TUserProfileFull } from "@rja-api/settings/schema/user-profile-schema"
 
 function formatSalary(min: number | null, max: number | null): string {
 	if (min === null && max === null) return "Not listed"
@@ -11,7 +11,7 @@ function formatSalary(min: number | null, max: number | null): string {
 	return `Up to ${fmt(max!)}`
 }
 
-function buildCandidateContext(profile: TUserProfile): string {
+function buildCandidateContext(profile: TUserProfileFull): string {
 	const sections: string[] = []
 
 	// Identity + summary
@@ -69,8 +69,8 @@ function buildCandidateContext(profile: TUserProfile): string {
 export function buildScoringPrompt(
 	role: TRole,
 	company: TCompany | null,
-	profile: TUserProfile,
-	weights: TScoringWeights,
+	profile: TUserProfileFull,
+	weights: TScoringConfig,
 ): { system: string; user: string } {
 	const system = `You are a job match scoring assistant. Score how well a job posting matches a candidate on a 0-100 scale.
 

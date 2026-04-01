@@ -1,1 +1,1 @@
-export { scrape } from "./scrape"
+export { scrape, type TGoogleJobsConfig } from "./scrape"

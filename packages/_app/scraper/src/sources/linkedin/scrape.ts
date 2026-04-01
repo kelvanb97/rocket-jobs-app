@@ -1,4 +1,3 @@
-import { LINKEDIN_SEARCH } from "@rja-config/user/scraper"
 import {
 	closeBrowserContext,
 	createBrowserContext,
@@ -186,7 +185,14 @@ async function scrapeResultsPage(
 	return pageRoles
 }
 
+export type TLinkedinConfig = {
+	urls: string[]
+	maxPages: number
+	maxPerPage: number
+}
+
 export async function scrape(
+	config: TLinkedinConfig,
 	options?: TSourceScrapeOptions,
 ): Promise<ScrapedRole[]> {
 	const { onBatch, signal } = options ?? {}
@@ -197,7 +203,7 @@ export async function scrape(
 	let totalPages = 0
 
 	try {
-		for (const searchUrl of LINKEDIN_SEARCH.urls) {
+		for (const searchUrl of config.urls) {
 			if (signal?.aborted) break
 
 			console.log(`[linkedin] Navigating to: ${searchUrl}`)
@@ -215,7 +221,7 @@ export async function scrape(
 
 			let pagesScraped = 0
 
-			while (pagesScraped < LINKEDIN_SEARCH.maxPages) {
+			while (pagesScraped < config.maxPages) {
 				if (signal?.aborted) break
 
 				const state =
@@ -226,7 +232,7 @@ export async function scrape(
 					page,
 					cards,
 					seen,
-					LINKEDIN_SEARCH.maxPerPage,
+					config.maxPerPage,
 				)
 
 				pagesScraped++
@@ -242,7 +248,7 @@ export async function scrape(
 					allRoles.push(...pageRoles)
 				}
 
-				if (pagesScraped >= LINKEDIN_SEARCH.maxPages) break
+				if (pagesScraped >= config.maxPages) break
 
 				const moved = await goToNextResultsPage(page, cards)
 				if (!moved) break

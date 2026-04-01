@@ -1,9 +1,9 @@
 import type { TCompany } from "@rja-api/company/schema/company-schema"
 import type { TRole } from "@rja-api/role/schema/role-schema"
-import type { TUserProfile } from "@rja-config/user/experience"
+import type { TUserProfileFull } from "@rja-api/settings/schema/user-profile-schema"
 import type { TKeywordExtraction } from "#schema/keyword-schema"
 
-function buildFullProfile(profile: TUserProfile): string {
+function buildFullProfile(profile: TUserProfileFull): string {
 	const sections: string[] = []
 
 	sections.push(
@@ -54,7 +54,7 @@ function buildFullProfile(profile: TUserProfile): string {
 export function buildResumePrompt(
 	role: TRole,
 	company: TCompany | null,
-	profile: TUserProfile,
+	profile: TUserProfileFull,
 	keywords: TKeywordExtraction | null,
 ): { system: string; user: string } {
 	const keywordGuidance = keywords

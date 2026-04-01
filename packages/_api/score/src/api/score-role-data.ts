@@ -1,7 +1,7 @@
 import type { TCompany } from "@rja-api/company/schema/company-schema"
 import type { TRole } from "@rja-api/role/schema/role-schema"
-import { USER_PROFILE } from "@rja-config/user/experience"
-import { SCORING_WEIGHTS } from "@rja-config/user/scoring"
+import { getScoringConfig } from "@rja-api/settings/api/get-scoring-config"
+import { getUserProfile } from "@rja-api/settings/api/get-user-profile"
 import { errFrom, type TResult } from "@rja-core/result"
 import type { TAnthropicModel } from "@rja-integrations/anthropic/client"
 import { scoreRole } from "#lib/claude-client"
@@ -19,11 +19,19 @@ export async function scoreRoleData(
 ): Promise<TResult<TScore>> {
 	try {
 		const model = options?.model ?? SCORER_MODEL
+
+		const profileResult = getUserProfile()
+		if (!profileResult.ok) return errFrom("User profile not configured")
+
+		const scoringResult = getScoringConfig()
+		if (!scoringResult.ok) return errFrom("Scoring config not configured")
+		if (!scoringResult.data) return errFrom("Scoring config not configured")
+
 		const { system, user } = buildScoringPrompt(
 			role,
 			company,
-			USER_PROFILE,
-			SCORING_WEIGHTS,
+			profileResult.data,
+			scoringResult.data,
 		)
 		const response = await scoreRole(model, system, user)
 		return upsertScore({

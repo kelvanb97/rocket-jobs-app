@@ -15,7 +15,7 @@
 	"dependencies": {
 		"@rja-api/company": "workspace:*",
 		"@rja-api/role": "workspace:*",
-		"@rja-config/user": "workspace:*",
+		"@rja-api/settings": "workspace:*",
 		"@rja-integrations/anthropic": "workspace:*",
 		"docx": "9.5.0"
 	},

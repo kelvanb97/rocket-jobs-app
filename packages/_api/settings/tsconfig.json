@@ -1,0 +1,4 @@
+{
+	"$schema": "https://json-schema.store/tsconfig",
+	"extends": "@rja-core/tsconfig/strict.json"
+}
