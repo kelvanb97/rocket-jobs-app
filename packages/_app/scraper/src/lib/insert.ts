@@ -2,8 +2,13 @@ import { createCompany } from "@rja-api/company/api/create-company"
 import { findCompanyByName } from "@rja-api/company/api/find-company-by-name"
 import { createRole } from "@rja-api/role/api/create-role"
 import { listRoleUrls } from "@rja-api/role/api/list-role-urls"
-import { scoreRoleById } from "@rja-api/score/api/score-role-by-id"
 import type { ScrapedRole } from "#types"
+
+export type TInsertRoleResult =
+	| "inserted"
+	| "skipped"
+	| "duplicate"
+	| "filtered"
 
 function resolveCompanyId(
 	name: string,
@@ -39,89 +44,48 @@ function parsePostedAt(value: string | null): Date | null {
 
 const DUPLICATE_VIOLATION = "UNIQUE constraint failed"
 
-export async function insertRoles(
-	roles: ScrapedRole[],
-	signal?: AbortSignal,
-): Promise<{ inserted: number; skipped: number }> {
-	const rolesWithUrl = roles.filter(
-		(r): r is ScrapedRole & { url: string } =>
-			r.url !== null && r.url !== "",
+export function insertRole(
+	role: ScrapedRole,
+	companyCache: Map<string, number>,
+): TInsertRoleResult {
+	if (!role.url) return "skipped"
+
+	// Check if URL already exists
+	const urlResult = listRoleUrls([role.url])
+	if (!urlResult.ok) {
+		console.warn(`URL check failed: ${urlResult.error.message}`)
+		return "skipped"
+	}
+	if (urlResult.data.length > 0) return "duplicate"
+
+	// Resolve company
+	const companyId = role.company
+		? resolveCompanyId(role.company, companyCache)
+		: null
+
+	// Insert role
+	const result = createRole({
+		companyId,
+		title: role.title,
+		url: role.url,
+		description: role.description,
+		source: role.source,
+		locationType: role.location_type,
+		location: role.location,
+		salaryMin: role.salary_min,
+		salaryMax: role.salary_max,
+		postedAt: parsePostedAt(role.posted_at),
+	})
+
+	if (result.ok) return "inserted"
+
+	if (result.error.message.includes(DUPLICATE_VIOLATION)) {
+		console.log(`[skip] "${role.title}" — duplicate company+title`)
+		return "duplicate"
+	}
+
+	console.warn(
+		`Failed to insert role "${role.title}": ${result.error.message}`,
 	)
-
-	if (rolesWithUrl.length === 0) {
-		return { inserted: 0, skipped: roles.length }
-	}
-
-	// Dedup by URL against existing roles (batched to avoid URI-too-long)
-	const urls = rolesWithUrl.map((r) => r.url)
-	const existingUrls = new Set<string>()
-	const BATCH_SIZE = 20
-
-	for (let i = 0; i < urls.length; i += BATCH_SIZE) {
-		const batch = urls.slice(i, i + BATCH_SIZE)
-		const urlResult = listRoleUrls(batch)
-
-		if (!urlResult.ok) {
-			throw new Error(urlResult.error.message)
-		}
-
-		for (const url of urlResult.data) {
-			existingUrls.add(url)
-		}
-	}
-	const newRoles = rolesWithUrl.filter((r) => !existingUrls.has(r.url))
-	const skipped = roles.length - newRoles.length
-
-	if (newRoles.length === 0) {
-		return { inserted: 0, skipped }
-	}
-
-	// Resolve companies and create roles
-	const companyCache = new Map<string, number>()
-	let inserted = 0
-	let conflicts = 0
-
-	for (const role of newRoles) {
-		if (signal?.aborted) break
-
-		const companyId = role.company
-			? resolveCompanyId(role.company, companyCache)
-			: null
-
-		const result = createRole({
-			companyId,
-			title: role.title,
-			url: role.url,
-			description: role.description,
-			source: role.source,
-			locationType: role.location_type,
-			location: role.location,
-			salaryMin: role.salary_min,
-			salaryMax: role.salary_max,
-			postedAt: parsePostedAt(role.posted_at),
-		})
-
-		if (result.ok) {
-			inserted++
-			const scoreResult = await scoreRoleById(result.data.id)
-			if (scoreResult.ok) {
-				console.log(
-					`[score] "${role.title}" → ${scoreResult.data.score}`,
-				)
-			} else {
-				console.warn(
-					`[score] "${role.title}": ${scoreResult.error.message}`,
-				)
-			}
-		} else if (result.error.message.includes(DUPLICATE_VIOLATION)) {
-			conflicts++
-			console.log(`[skip] "${role.title}" — duplicate company+title`)
-		} else {
-			console.warn(
-				`Failed to insert role "${role.title}": ${result.error.message}`,
-			)
-		}
-	}
-
-	return { inserted, skipped: skipped + conflicts }
+	return "skipped"
 }

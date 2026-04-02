@@ -290,9 +290,6 @@ export function RolesTemplate() {
 				company={selectedCompany}
 				score={state.scores.get(state.selectedRole?.id ?? -1) ?? null}
 				onSaved={handleRoleSaved}
-				onScoreUpdated={(roleId, score) =>
-					dispatch({ type: "UPDATE_SCORE", roleId, score })
-				}
 			/>
 		</YStack>
 	)

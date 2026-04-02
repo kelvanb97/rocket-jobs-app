@@ -20,10 +20,8 @@
 	"dependencies": {
 		"@rja-api/application": "workspace:*",
 		"@rja-api/company": "workspace:*",
-		"@rja-api/cover-letter": "workspace:*",
 		"@rja-api/interaction": "workspace:*",
 		"@rja-api/person": "workspace:*",
-		"@rja-api/resume": "workspace:*",
 		"@rja-api/role": "workspace:*",
 		"@rja-api/score": "workspace:*",
 		"@rja-api/role-person": "workspace:*",

@@ -2,6 +2,8 @@ export {
 	BarChart3,
 	Braces,
 	Briefcase,
+	Check,
+	Copy,
 	FileText,
 	Globe,
 	GraduationCap,

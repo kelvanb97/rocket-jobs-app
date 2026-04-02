@@ -6,7 +6,7 @@ process.loadEnvFile(resolve(import.meta.dirname, "../../.env"))
 const nextConfig: NextConfig = {
 	// NOTE: This is required to support PostHog trailing slash API requests
 	skipTrailingSlashRedirect: true,
-	transpilePackages: ["@rja-design/ui", "@rja-app/scraper", "@rja-app/score"],
+	transpilePackages: ["@rja-design/ui", "@rja-app/scraper"],
 	serverExternalPackages: [
 		"patchright",
 		"patchright-core",

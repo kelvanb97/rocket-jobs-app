@@ -2,6 +2,7 @@
 
 import { Button } from "@rja-design/ui/library/button"
 import { Checkbox } from "@rja-design/ui/library/checkbox"
+import { CopyPrompt } from "@rja-design/ui/library/copy-prompt"
 import { Label } from "@rja-design/ui/library/label"
 import { TextBody } from "@rja-design/ui/library/text"
 import { XStack } from "@rja-design/ui/primitives/x-stack"
@@ -38,14 +39,28 @@ function formatScrapeEvent(data: Record<string, unknown>): string {
 			return `Starting source: ${data["source"]}`
 		case "source:found":
 			return `[${data["source"]}] Found ${data["count"]} roles`
+		case "source:role": {
+			const status = data["status"] as string
+			const title = data["title"] as string
+			const company = data["company"] as string | null
+			const label = company ? `${title} at ${company}` : title
+			if (status === "inserted") return `[${data["source"]}] + ${label}`
+			if (status === "duplicate")
+				return `[${data["source"]}] = ${label} (duplicate)`
+			if (status === "filtered")
+				return `[${data["source"]}] ~ ${label} (filtered)`
+			return `[${data["source"]}] - ${label} (${status})`
+		}
 		case "source:inserted":
-			return `[${data["source"]}] Inserted ${data["inserted"]}, skipped ${data["skipped"]}`
+			return `[${data["source"]}] Total: ${data["inserted"]} inserted, ${data["skipped"]} skipped`
 		case "source:error":
 			return `[${data["source"]}] Error: ${data["error"]}`
 		case "source:done":
 			return `[${data["source"]}] Done`
 		case "done":
 			return "Scrape complete"
+		case "idle":
+			return "No scrape in progress"
 		case "error":
 			return `Error: ${data["error"]}`
 		default:
@@ -53,20 +68,39 @@ function formatScrapeEvent(data: Record<string, unknown>): string {
 	}
 }
 
-function formatScoreEvent(data: Record<string, unknown>): string {
-	switch (data["type"]) {
-		case "score:start":
-			return `Scoring ${data["total"]} unscored roles...`
-		case "score:progress":
-			return `[${data["current"]}/${data["total"]}] Scored "${data["title"]}"`
-		case "score:error":
-			return `Error scoring "${data["title"]}": ${data["error"]}`
-		case "score:done":
-			return `Scoring complete: ${data["scored"]} scored, ${data["errors"]} errors out of ${data["total"]}`
-		case "error":
-			return `Error: ${data["error"]}`
-		default:
-			return JSON.stringify(data)
+function connectToStatus(
+	appendLog: (message: string) => void,
+	eventCountRef: React.RefObject<number>,
+	scrapeSourceRef: React.RefObject<EventSource | null>,
+	setIsScraping: (v: boolean) => void,
+) {
+	const from = eventCountRef.current
+	const eventSource = new EventSource(`/api/scrape/status?from=${from}`)
+	scrapeSourceRef.current = eventSource
+
+	eventSource.onmessage = (event) => {
+		const data = JSON.parse(event.data) as Record<string, unknown>
+
+		if (data["type"] === "idle") {
+			eventSource.close()
+			scrapeSourceRef.current = null
+			setIsScraping(false)
+			return
+		}
+
+		eventCountRef.current++
+		appendLog(formatScrapeEvent(data))
+
+		if (data["type"] === "done" || data["type"] === "error") {
+			eventSource.close()
+			scrapeSourceRef.current = null
+			setIsScraping(false)
+		}
+	}
+
+	eventSource.onerror = () => {
+		eventSource.close()
+		scrapeSourceRef.current = null
 	}
 }
 
@@ -75,11 +109,10 @@ export function OperationsTemplate() {
 		new Set(["google-jobs"]),
 	)
 	const [isScraping, setIsScraping] = useState(false)
-	const [isScoring, setIsScoring] = useState(false)
 	const [logs, setLogs] = useState<LogEntry[]>([])
 
 	const scrapeSourceRef = useRef<EventSource | null>(null)
-	const scoreSourceRef = useRef<EventSource | null>(null)
+	const eventCountRef = useRef<number>(0)
 	const logEndRef = useRef<HTMLDivElement>(null)
 
 	const appendLog = useCallback((message: string) => {
@@ -90,13 +123,37 @@ export function OperationsTemplate() {
 		logEndRef.current?.scrollIntoView({ behavior: "smooth" })
 	}, [logs])
 
-	// Cleanup on unmount
+	// On mount: check if a scrape is already running and reconnect
 	useEffect(() => {
-		return () => {
-			scrapeSourceRef.current?.close()
-			scoreSourceRef.current?.close()
+		fetch("/api/scrape/status?from=0", { method: "HEAD" }).catch(() => {})
+		// Try connecting to see if there's an active scrape
+		const eventSource = new EventSource("/api/scrape/status?from=0")
+		eventSource.onmessage = (event) => {
+			const data = JSON.parse(event.data) as Record<string, unknown>
+			if (data["type"] === "idle") {
+				eventSource.close()
+				return
+			}
+			// Active scrape found — reconnect properly
+			eventSource.close()
+			setIsScraping(true)
+			eventCountRef.current = 0
+			connectToStatus(
+				appendLog,
+				eventCountRef,
+				scrapeSourceRef,
+				setIsScraping,
+			)
 		}
-	}, [])
+		eventSource.onerror = () => {
+			eventSource.close()
+		}
+
+		return () => {
+			eventSource.close()
+			scrapeSourceRef.current?.close()
+		}
+	}, [appendLog])
 
 	const toggleSource = (source: TSourceName, checked: boolean) => {
 		setSelectedSources((prev) => {
@@ -110,75 +167,43 @@ export function OperationsTemplate() {
 		})
 	}
 
-	const startScrape = () => {
+	const startScrape = async () => {
 		if (selectedSources.size === 0) return
 
-		setIsScraping(true)
 		const sources = Array.from(selectedSources).join(",")
 		appendLog(`Starting scrape: ${sources}`)
 
-		const eventSource = new EventSource(`/api/scrape?sources=${sources}`)
-		scrapeSourceRef.current = eventSource
+		const response = await fetch("/api/scrape", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ sources }),
+		})
 
-		eventSource.onmessage = (event) => {
-			const data = JSON.parse(event.data) as Record<string, unknown>
-			appendLog(formatScrapeEvent(data))
-			if (data["type"] === "done" || data["type"] === "error") {
-				eventSource.close()
-				scrapeSourceRef.current = null
-				setIsScraping(false)
-			}
+		const data = (await response.json()) as Record<string, unknown>
+
+		if (!response.ok) {
+			appendLog(`Failed to start: ${data["error"]}`)
+			return
 		}
 
-		eventSource.onerror = () => {
-			eventSource.close()
-			scrapeSourceRef.current = null
-			if (isScraping) {
-				appendLog("Scrape connection closed")
-				setIsScraping(false)
-			}
-		}
+		setIsScraping(true)
+		eventCountRef.current = 0
+		connectToStatus(
+			appendLog,
+			eventCountRef,
+			scrapeSourceRef,
+			setIsScraping,
+		)
 	}
 
-	const cancelScrape = () => {
+	const cancelScrape = async () => {
 		scrapeSourceRef.current?.close()
 		scrapeSourceRef.current = null
+
+		await fetch("/api/scrape/cancel", { method: "POST" })
+
 		setIsScraping(false)
 		appendLog("Scrape cancelled")
-	}
-
-	const startScore = () => {
-		setIsScoring(true)
-		appendLog("Starting batch score...")
-
-		const eventSource = new EventSource("/api/score")
-		scoreSourceRef.current = eventSource
-
-		eventSource.onmessage = (event) => {
-			const data = JSON.parse(event.data) as Record<string, unknown>
-			appendLog(formatScoreEvent(data))
-			if (data["type"] === "score:done" || data["type"] === "error") {
-				eventSource.close()
-				scoreSourceRef.current = null
-				setIsScoring(false)
-			}
-		}
-
-		eventSource.onerror = () => {
-			eventSource.close()
-			scoreSourceRef.current = null
-			if (isScoring) {
-				appendLog("Score connection closed")
-				setIsScoring(false)
-			}
-		}
-	}
-
-	const cancelScore = () => {
-		scoreSourceRef.current?.close()
-		scoreSourceRef.current = null
-		setIsScoring(false)
-		appendLog("Score cancelled")
 	}
 
 	return (
@@ -210,11 +235,7 @@ export function OperationsTemplate() {
 				<XStack className="gap-2">
 					<Button
 						onClick={startScrape}
-						disabled={
-							isScraping ||
-							isScoring ||
-							selectedSources.size === 0
-						}
+						disabled={isScraping || selectedSources.size === 0}
 					>
 						{isScraping ? "Scraping..." : "Scrape"}
 					</Button>
@@ -235,19 +256,7 @@ export function OperationsTemplate() {
 				>
 					Score Roles
 				</TextBody>
-				<XStack className="gap-2">
-					<Button
-						onClick={startScore}
-						disabled={isScoring || isScraping}
-					>
-						{isScoring ? "Scoring..." : "Score All Unscored"}
-					</Button>
-					{isScoring && (
-						<Button variant="outline" onClick={cancelScore}>
-							Cancel
-						</Button>
-					)}
-				</XStack>
+				<CopyPrompt value="/score-role" />
 			</YStack>
 
 			{/* Log Area */}
@@ -277,7 +286,7 @@ export function OperationsTemplate() {
 							variant="muted-foreground"
 							className="font-mono"
 						>
-							No activity yet. Start a scrape or score operation.
+							No activity yet. Start a scrape operation.
 						</TextBody>
 					) : (
 						logs.map((entry, i) => (

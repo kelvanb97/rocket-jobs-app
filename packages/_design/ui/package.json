@@ -15,6 +15,7 @@
 		"./library/carousel": "./src/library/carousel/carousel.tsx",
 		"./library/checkbox": "./src/library/checkbox/checkbox.tsx",
 		"./library/command": "./src/library/command/command.tsx",
+		"./library/copy-prompt": "./src/library/copy-prompt/copy-prompt.tsx",
 		"./library/dialog": "./src/library/dialog/dialog.tsx",
 		"./library/document-upload": "./src/library/document-upload/document-upload.tsx",
 		"./library/dropdown-menu": "./src/library/dropdown-menu/dropdown-menu.tsx",

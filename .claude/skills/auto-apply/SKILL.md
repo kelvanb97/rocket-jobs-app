@@ -15,7 +15,6 @@ Automate a single job application end-to-end. Follow these steps sequentially.
 
 ## Prerequisites
 
-- Supabase must be running locally (`pnpm --filter supabase start`)
 - The web app must be running (`pnpm dev`)
 - Scored roles must exist in the database
 - The Playwright MCP server must be available (configured in `.claude/settings.json`)
@@ -77,7 +76,7 @@ Save the `applicationId` from the output. Also check `resumePath` and `coverLett
 
 ## Step C: Check for Existing Documents
 
-If `resumePath` and `coverLetterPath` from Step B were both null, check Supabase storage for existing files:
+If `resumePath` and `coverLetterPath` from Step B were both null, check local storage for existing files:
 
 ```bash
 curl -s 'http://localhost:3000/api/apply/documents?roleId=ROLE_ID'
@@ -92,23 +91,28 @@ Replace `ROLE_ID` with the role's ID.
 
 ## Step D: Generate Documents
 
-Generate a tailored resume and cover letter, upload to Supabase storage, and update the application record. This step is long-running (30-120 seconds):
+Invoke the `generate-docs` skill with the role ID to generate a tailored resume and cover letter:
+
+Use the Skill tool: `skill: "generate-docs", args: "ROLE_ID"`
+
+The generate-docs skill will:
+1. Fetch the role and profile data
+2. Extract keywords from the job description
+3. Generate a tailored resume
+4. Generate a tailored cover letter
+5. Build DOCX files and store them via `POST /api/apply/documents/build`
+
+After the skill completes, the documents are stored locally and the application record is updated with file paths. Fetch the updated application to get the paths:
 
 ```bash
-curl -s --max-time 180 -X POST -H 'Content-Type: application/json' \
-  -d '{"roleId":"ROLE_ID","applicationId":"APPLICATION_ID"}' \
-  http://localhost:3000/api/apply/documents/generate
+curl -s 'http://localhost:3000/api/apply/documents?roleId=ROLE_ID'
 ```
-
-Replace `ROLE_ID` and `APPLICATION_ID` with values from previous steps.
-
-**Response:** `{ "data": { "resumePath", "coverLetterPath" } }`
 
 Save the `resumePath` and `coverLetterPath` from the output.
 
 ## Step E: Download Documents to Local Disk
 
-Download the documents from Supabase storage to local disk so they can be uploaded via browser file input:
+Download the documents from local storage to a working directory so they can be uploaded via browser file input:
 
 ```bash
 curl -s -X POST -H 'Content-Type: application/json' \
@@ -290,7 +294,7 @@ Display a summary:
 | Failure | Action |
 |---------|--------|
 | No unapplied roles found | Inform user, stop |
-| Document generation fails (Anthropic API error) | Report the error. The draft application record exists for retry. |
+| Document generation skill fails | Report the error. The draft application record exists for retry. |
 | Document download fails | Report the error, ask user to check storage |
 | Page navigation fails (404, dead link) | Inform user and ask for an alternative URL |
 | Login wall detected | Tell user to log in manually in the browser window, wait for confirmation |

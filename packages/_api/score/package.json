@@ -6,9 +6,7 @@
 	"sideEffects": false,
 	"exports": {
 		"./api/*": "./src/api/*.ts",
-		"./schema/*": "./src/schema/*.ts",
-		"./prompt/*": "./src/prompt/*.ts",
-		"./lib/*": "./src/lib/*.ts"
+		"./schema/*": "./src/schema/*.ts"
 	},
 	"scripts": {
 		"check-types": "tsc --noEmit",
@@ -18,13 +16,9 @@
 		"zod": "^4.3.6"
 	},
 	"dependencies": {
-		"@rja-api/company": "workspace:*",
-		"@rja-api/role": "workspace:*",
 		"@rja-app/drizzle": "workspace:*",
-		"@rja-api/settings": "workspace:*",
 		"@rja-core/drizzle": "workspace:*",
 		"@rja-core/result": "workspace:*",
-		"@rja-integrations/anthropic": "workspace:*",
 		"drizzle-orm": "0.44.2"
 	},
 	"devDependencies": {
@@ -48,14 +42,6 @@
 		"#schema*": [
 			"./src/schema*",
 			"./src/schema*.ts"
-		],
-		"#prompt*": [
-			"./src/prompt*",
-			"./src/prompt*.ts"
-		],
-		"#lib*": [
-			"./src/lib*",
-			"./src/lib*.ts"
 		]
 	}
 }

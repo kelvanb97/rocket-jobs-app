@@ -7,6 +7,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@rja-design/ui/library/card"
+import { CopyPrompt } from "@rja-design/ui/library/copy-prompt"
 import { DocumentUpload } from "@rja-design/ui/library/document-upload"
 import { InputGroup } from "@rja-design/ui/library/input-group"
 import { Label } from "@rja-design/ui/library/label"
@@ -16,6 +17,7 @@ import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { useState } from "react"
 
 interface IApplicationFieldsCardProps {
+	roleId: number
 	resumeUrl: string | null
 	coverLetterUrl: string | null
 	screenshotUrl: string | null
@@ -25,8 +27,6 @@ interface IApplicationFieldsCardProps {
 	onRemove: (fileType: "resume" | "cover_letter") => void
 	uploadingType: "resume" | "cover_letter" | null
 	removingType: "resume" | "cover_letter" | null
-	onGenerate?: () => void
-	isGenerating?: boolean
 }
 
 function FileSlot({
@@ -104,6 +104,7 @@ function FileSlot({
 }
 
 export function ApplicationFieldsCard({
+	roleId,
 	resumeUrl,
 	coverLetterUrl,
 	screenshotUrl,
@@ -113,26 +114,13 @@ export function ApplicationFieldsCard({
 	onRemove,
 	uploadingType,
 	removingType,
-	onGenerate,
-	isGenerating,
 }: IApplicationFieldsCardProps) {
 	return (
 		<Card>
 			<CardHeader>
 				<XStack className="items-center justify-between">
 					<CardTitle>Application</CardTitle>
-					{onGenerate && (
-						<Button
-							variant="outline"
-							size="sm"
-							onClick={onGenerate}
-							disabled={isGenerating}
-						>
-							{isGenerating
-								? "Generating..."
-								: "Generate Resume & Cover Letter"}
-						</Button>
-					)}
+					<CopyPrompt value={`/generate-docs ${roleId}`} />
 				</XStack>
 			</CardHeader>
 			<CardContent>

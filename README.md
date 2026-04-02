@@ -6,7 +6,7 @@
 [![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Radix UI](https://img.shields.io/badge/Radix_UI-161618?logo=radixui&logoColor=white)](https://www.radix-ui.com/)
-[![Anthropic](https://img.shields.io/badge/Claude_AI-D4A574?logo=anthropic&logoColor=white)](https://www.anthropic.com/)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-D4A574?logo=anthropic&logoColor=white)](https://claude.ai/code)
 
 # Rocket Jobs App
 
@@ -61,10 +61,6 @@ apps/scraper -> @rja-app/scraper -> @rja-api/role
                                     @rja-api/company
                                     @rja-integrations/patchright
 
-apps/score -> @rja-app/score -> @rja-api/role
-                                @rja-api/score
-                                @rja-integrations/anthropic
-
 @rja-config/user (consumed by score, resume, cover-letter, scraper)
 ```
 
@@ -75,20 +71,18 @@ rocket-jobs-app/
   apps/
     web/                          Next.js 16 (App Router, Turbopack)
     scraper/                      Node.js cron/one-shot job scraper
-    score/                        Node.js batch scorer via Claude
-    supabase/                     Supabase CLI project and migrations
 
   packages/
     _api/                         Entity CRUD operations (@rja-api/*)
       application/                Application tracking
       company/                    Company data
-      cover-letter/               AI cover letter generation (DOCX)
+      cover-letter/               Cover letter DOCX generation
       interaction/                Follow-up tracking
       person/                     Contact management
-      resume/                     AI resume generation (DOCX)
+      resume/                     Resume DOCX generation
       role/                       Job role data and queries
       role-person/                Role-contact relationships
-      score/                      AI scoring via Claude
+      score/                      Score CRUD
       storage/                    Document storage
 
     _app/                         Feature modules (@rja-app/*)
@@ -118,7 +112,6 @@ rocket-jobs-app/
       ui/                         Radix UI + Tailwind (40+ components)
 
     _integrations/                Third-party wrappers (@rja-integrations/*)
-      anthropic/                  Claude AI SDK
       patchright/                 Browser automation
 ```
 

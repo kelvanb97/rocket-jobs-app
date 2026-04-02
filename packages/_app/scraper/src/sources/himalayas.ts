@@ -1,4 +1,4 @@
-import type { ScrapedRole } from "#types"
+import type { ScrapedRole, TSourceScrapeOptions } from "#types"
 
 type HimalayasJob = {
 	title?: string
@@ -61,7 +61,9 @@ async function fetchPage(
 	return (await response.json()) as HimalayasResponse
 }
 
-export async function scrape(): Promise<ScrapedRole[]> {
+export async function scrape(
+	options?: TSourceScrapeOptions,
+): Promise<ScrapedRole[]> {
 	const seen = new Set<string>()
 	const results: ScrapedRole[] = []
 
@@ -84,7 +86,7 @@ export async function scrape(): Promise<ScrapedRole[]> {
 				if (url && seen.has(url)) continue
 				if (url) seen.add(url)
 
-				results.push({
+				const role: ScrapedRole = {
 					title: job.title ?? "Untitled",
 					url,
 					company: job.companyName ?? null,
@@ -101,7 +103,10 @@ export async function scrape(): Promise<ScrapedRole[]> {
 							? Math.round(job.maxSalary)
 							: null,
 					posted_at: job.pubDate ? formatPubDate(job.pubDate) : null,
-				})
+				}
+
+				await options?.onRole?.(role)
+				results.push(role)
 			}
 
 			await delay(1000)

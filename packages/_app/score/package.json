@@ -5,17 +5,13 @@
 	"type": "module",
 	"sideEffects": false,
 	"exports": {
-		"./batch-score": "./src/batch-score.ts",
 		"./types": "./src/types.ts"
 	},
 	"scripts": {
 		"check-types": "tsc --noEmit",
 		"lint": "eslint ./src"
 	},
-	"dependencies": {
-		"@rja-api/role": "workspace:*",
-		"@rja-api/score": "workspace:*"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@rja-core/eslint": "workspace:*",
 		"@rja-core/tsconfig": "workspace:*",

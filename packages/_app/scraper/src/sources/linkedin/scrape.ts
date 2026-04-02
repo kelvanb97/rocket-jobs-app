@@ -195,7 +195,7 @@ export async function scrape(
 	config: TLinkedinConfig,
 	options?: TSourceScrapeOptions,
 ): Promise<ScrapedRole[]> {
-	const { onBatch, signal } = options ?? {}
+	const { onRole, signal } = options ?? {}
 	const context = await createBrowserContext()
 	const page = await context.newPage()
 	const allRoles: ScrapedRole[] = []
@@ -242,11 +242,10 @@ export async function scrape(
 					`[linkedin] Page ${totalPages}: extracted ${pageRoles.length} roles`,
 				)
 
-				if (onBatch && pageRoles.length > 0) {
-					await onBatch(pageRoles)
-				} else {
-					allRoles.push(...pageRoles)
+				for (const role of pageRoles) {
+					await onRole?.(role)
 				}
+				allRoles.push(...pageRoles)
 
 				if (pagesScraped >= config.maxPages) break
 
@@ -263,7 +262,7 @@ export async function scrape(
 	}
 
 	console.log(
-		`[linkedin] Scraping complete, ${totalPages} pages, found ${onBatch ? "roles saved per-page" : `${allRoles.length} total roles`}`,
+		`[linkedin] Scraping complete, ${totalPages} pages, found ${allRoles.length} total roles`,
 	)
 
 	return allRoles

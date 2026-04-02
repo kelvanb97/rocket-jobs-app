@@ -17,6 +17,7 @@ import {
 	useToastOnError,
 } from "@rja-core/next-safe-action/hooks"
 import { Button } from "@rja-design/ui/library/button"
+import { CopyPrompt } from "@rja-design/ui/library/copy-prompt"
 import {
 	Dialog,
 	DialogContent,
@@ -27,7 +28,6 @@ import {
 import { toast } from "@rja-design/ui/library/toast"
 import { XStack } from "@rja-design/ui/primitives/x-stack"
 import { YStack } from "@rja-design/ui/primitives/y-stack"
-import { generateApplicationDocsAction } from "#actions/generate-application-docs"
 import {
 	getRoleApplicationAction,
 	removeApplicationFile,
@@ -42,7 +42,6 @@ import {
 	listRolePeopleAction,
 	unlinkPersonFromRoleAction,
 } from "#actions/role-people"
-import { scoreRoleAction } from "#actions/score-role"
 import { updateRoleWithCompanyAction } from "#actions/update-role-with-company"
 import { AddInteractionForm } from "#molecules/add-interaction-form"
 import { AddPersonToRole } from "#molecules/add-person-to-role"
@@ -364,41 +363,17 @@ function useRoleApplication(roleId: number | null) {
 function RoleScoreTab({
 	score,
 	roleId,
-	onScoreUpdated,
 }: {
 	score: TScore | null
 	roleId: number
-	onScoreUpdated: (score: TScore) => void
 }) {
-	const {
-		execute: executeScore,
-		result: scoreResult,
-		status: scoreStatus,
-	} = useAction(scoreRoleAction, {
-		onSuccess: ({ data }) => {
-			if (data) {
-				toast.success("Role scored!")
-				onScoreUpdated(data)
-			}
-		},
-	})
-
-	const scoreError = useActionError(scoreResult)
-	useToastOnError(scoreError, scoreStatus)
-	const isScoring = useIsLoading(scoreStatus)
-
 	if (!score) {
 		return (
 			<YStack className="items-center justify-center gap-4 py-8">
 				<p className="text-sm text-muted-foreground">
 					This role has not been scored yet.
 				</p>
-				<Button
-					onClick={() => executeScore({ roleId })}
-					disabled={isScoring}
-				>
-					{isScoring ? "Scoring..." : "Score"}
-				</Button>
+				<CopyPrompt value={`/score-role ${roleId}`} />
 			</YStack>
 		)
 	}
@@ -420,14 +395,7 @@ function RoleScoreTab({
 						/ 100
 					</span>
 				</div>
-				<Button
-					variant="outline"
-					size="sm"
-					onClick={() => executeScore({ roleId })}
-					disabled={isScoring}
-				>
-					{isScoring ? "Scoring..." : "Re-score"}
-				</Button>
+				<CopyPrompt value={`/score-role ${roleId}`} />
 			</XStack>
 			<YStack className="gap-2">
 				<p className="font-semibold">Strengths</p>
@@ -470,7 +438,6 @@ interface IEditRoleDialogProps {
 	company: TCompany | null
 	score: TScore | null
 	onSaved: (role: TRole) => void
-	onScoreUpdated: (roleId: number, score: TScore) => void
 }
 
 export function EditRoleDialog({
@@ -480,7 +447,6 @@ export function EditRoleDialog({
 	company,
 	score,
 	onSaved,
-	onScoreUpdated,
 }: IEditRoleDialogProps) {
 	const [activeTab, setActiveTab] = useState<Tab>("details")
 	const [roleFields, setRoleFields] = useState<IRoleFieldsValues>(
@@ -561,24 +527,6 @@ export function EditRoleDialog({
 
 	const app = useRoleApplication(role?.id ?? null)
 
-	const {
-		execute: executeGenerate,
-		result: generateResult,
-		status: generateStatus,
-	} = useAction(generateApplicationDocsAction, {
-		onSuccess: ({ data }) => {
-			if (data) {
-				toast.success("Resume & cover letter generated!")
-				app.setResumeUrl(data.resumePath)
-				app.setCoverLetterUrl(data.coverLetterPath)
-			}
-		},
-	})
-
-	const generateError = useActionError(generateResult)
-	useToastOnError(generateError, generateStatus)
-	const isGenerating = useIsLoading(generateStatus)
-
 	const tabs: Array<{ key: Tab; label: string }> = [
 		{ key: "details", label: "Details" },
 		{ key: "people", label: "People" },
@@ -627,14 +575,11 @@ export function EditRoleDialog({
 						<RoleInteractionsTab roleId={role.id} />
 					)}
 					{activeTab === "score" && role && (
-						<RoleScoreTab
-							score={score}
-							roleId={role.id}
-							onScoreUpdated={(s) => onScoreUpdated(role.id, s)}
-						/>
+						<RoleScoreTab score={score} roleId={role.id} />
 					)}
 					{activeTab === "application" && role && (
 						<ApplicationFieldsCard
+							roleId={role.id}
 							resumeUrl={app.resumeUrl}
 							coverLetterUrl={app.coverLetterUrl}
 							screenshotUrl={app.screenshotUrl}
@@ -644,10 +589,6 @@ export function EditRoleDialog({
 							onRemove={app.handleRemove}
 							uploadingType={app.uploadingType}
 							removingType={app.removingType}
-							onGenerate={() =>
-								executeGenerate({ roleId: role.id })
-							}
-							isGenerating={isGenerating}
 						/>
 					)}
 				</div>

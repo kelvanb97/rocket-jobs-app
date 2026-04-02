@@ -133,8 +133,7 @@ export const saveAllSettingsAction = actionClient
 				summary: exp.summary ?? "",
 				highlights: exp.highlights ?? [],
 			})
-			if (!result.ok)
-				throw new SafeForClientError(result.error.message)
+			if (!result.ok) throw new SafeForClientError(result.error.message)
 		}
 
 		for (let i = 0; i < (data.education ?? []).length; i++) {
@@ -146,8 +145,7 @@ export const saveAllSettingsAction = actionClient
 				field: edu.field,
 				institution: edu.institution,
 			})
-			if (!result.ok)
-				throw new SafeForClientError(result.error.message)
+			if (!result.ok) throw new SafeForClientError(result.error.message)
 		}
 
 		if (data.eeo) {
@@ -155,8 +153,7 @@ export const saveAllSettingsAction = actionClient
 				userProfileId: profileId,
 				...data.eeo,
 			})
-			if (!result.ok)
-				throw new SafeForClientError(result.error.message)
+			if (!result.ok) throw new SafeForClientError(result.error.message)
 		}
 
 		if (data.formDefaults) {
@@ -164,8 +161,7 @@ export const saveAllSettingsAction = actionClient
 				userProfileId: profileId,
 				...data.formDefaults,
 			})
-			if (!result.ok)
-				throw new SafeForClientError(result.error.message)
+			if (!result.ok) throw new SafeForClientError(result.error.message)
 		}
 
 		if (data.scoring) {
@@ -173,8 +169,7 @@ export const saveAllSettingsAction = actionClient
 				userProfileId: profileId,
 				...data.scoring,
 			})
-			if (!result.ok)
-				throw new SafeForClientError(result.error.message)
+			if (!result.ok) throw new SafeForClientError(result.error.message)
 		}
 
 		if (data.scraper) {
@@ -182,8 +177,7 @@ export const saveAllSettingsAction = actionClient
 				userProfileId: profileId,
 				...data.scraper,
 			})
-			if (!result.ok)
-				throw new SafeForClientError(result.error.message)
+			if (!result.ok) throw new SafeForClientError(result.error.message)
 		}
 
 		return { ok: true }

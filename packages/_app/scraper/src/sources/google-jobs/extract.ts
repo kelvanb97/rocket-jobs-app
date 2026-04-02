@@ -82,7 +82,7 @@ export async function extractJobFromCard(card: Locator): Promise<CardData> {
 		isRemote: false,
 	}
 
-	const fullText = await safeInnerText(card, 2000)
+	const fullText = await safeInnerText(card, 1000)
 	if (!fullText) return result
 
 	const lines = fullText

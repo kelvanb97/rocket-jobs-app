@@ -17,7 +17,7 @@ export type ScrapedRole = {
 }
 
 export type TSourceScrapeOptions = {
-	onBatch?: (roles: ScrapedRole[]) => Promise<void>
+	onRole?: (role: ScrapedRole) => Promise<void>
 	signal?: AbortSignal | undefined
 }
 
@@ -25,13 +25,11 @@ export type TScrapeProgressEvent =
 	| { type: "source:start"; source: string }
 	| { type: "source:found"; source: string; count: number }
 	| {
-			type: "source:page"
+			type: "source:role"
 			source: string
-			page: number
-			found: number
-			inserted: number
-			skipped: number
-			filtered: number
+			title: string
+			company: string | null
+			status: "inserted" | "duplicate" | "skipped" | "filtered"
 	  }
 	| {
 			type: "source:inserted"

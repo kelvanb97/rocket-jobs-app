@@ -17,13 +17,7 @@ import { toast } from "@rja-design/ui/library/toast"
 import { XStack } from "@rja-design/ui/primitives/x-stack"
 import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { saveAllSettingsAction } from "#actions/settings-actions"
-import {
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 // ---------------------------------------------------------------------------
 // Types
@@ -45,7 +39,14 @@ interface IJsonEditorCardProps {
 function highlightJson(json: string): string {
 	return json.replace(
 		/("(?:\\.|[^"\\])*")\s*(:)?|(\b(?:true|false|null)\b)|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|([{}[\],])/g,
-		(match, str?: string, colon?: string, bool?: string, num?: string, punct?: string) => {
+		(
+			match,
+			str?: string,
+			colon?: string,
+			bool?: string,
+			num?: string,
+			punct?: string,
+		) => {
 			if (str) {
 				if (colon) {
 					// key
@@ -316,9 +317,7 @@ export function JsonEditorCard(props: IJsonEditorCardProps) {
 										i === activeLine
 											? "rgba(255, 255, 255, 0.06)"
 											: "transparent",
-									...(i === 0
-										? { paddingTop: "12px" }
-										: {}),
+									...(i === 0 ? { paddingTop: "12px" } : {}),
 									...(i === lines.length - 1
 										? { paddingBottom: "12px" }
 										: {}),
@@ -330,19 +329,22 @@ export function JsonEditorCard(props: IJsonEditorCardProps) {
 					</div>
 
 					{/* Code area: highlight layer + textarea */}
-					<div className="relative flex-1" style={{ overflow: "hidden" }}>
+					<div
+						className="relative flex-1"
+						style={{ overflow: "hidden" }}
+					>
 						{/* Syntax-highlighted overlay with per-line active highlight */}
 						<pre
 							ref={highlightRef}
 							aria-hidden
 							className="pointer-events-none absolute inset-0 font-mono"
-						style={{
-							margin: 0,
-							padding: 0,
-							tabSize: 4,
-							overflow: "hidden",
-						}}
-					>
+							style={{
+								margin: 0,
+								padding: 0,
+								tabSize: 4,
+								overflow: "hidden",
+							}}
+						>
 							{highlightedLines.map((html, i) => (
 								<div
 									key={i}
@@ -417,9 +419,7 @@ export function JsonEditorCard(props: IJsonEditorCardProps) {
 				>
 					<span>{parseError ?? "Valid JSON"}</span>
 					<XStack className="gap-4">
-						<span>
-							Ln {activeLine + 1}
-						</span>
+						<span>Ln {activeLine + 1}</span>
 						<span>{lines.length} lines</span>
 					</XStack>
 				</XStack>

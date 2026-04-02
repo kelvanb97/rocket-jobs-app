@@ -43,7 +43,7 @@ async function waitForPanelUpdate(
 	page: Page,
 	previousTitle: string | null,
 ): Promise<void> {
-	const deadline = Date.now() + 3_000
+	const deadline = Date.now() + 1_000
 	while (Date.now() < deadline) {
 		const panel = page.locator(DETAIL_PANEL_SELECTOR).first()
 		if ((await panel.count()) === 0) {
@@ -71,8 +71,8 @@ async function scrollForMoreCards(
 ): Promise<boolean> {
 	await humanScroll(page, 800)
 
-	// Poll for up to 5 seconds for new cards to load
-	const deadline = Date.now() + 5_000
+	// Poll for up to 1.5 seconds for new cards to load
+	const deadline = Date.now() + 1_500
 	while (Date.now() < deadline) {
 		const currentCount = await page.locator(CARD_SELECTOR).count()
 		if (currentCount > previousCount) return true
@@ -105,7 +105,7 @@ export async function scrape(
 	config: TGoogleJobsConfig,
 	options?: TSourceScrapeOptions,
 ): Promise<ScrapedRole[]> {
-	const { onBatch, signal } = options ?? {}
+	const { onRole, signal } = options ?? {}
 	const context = await createBrowserContext()
 	const page = await context.newPage()
 	const allRoles: ScrapedRole[] = []
@@ -136,7 +136,7 @@ export async function scrape(
 			await page
 				.locator(CARD_SELECTOR)
 				.first()
-				.waitFor({ state: "visible", timeout: 15_000 })
+				.waitFor({ state: "visible", timeout: 5_000 })
 				.catch(() => {})
 
 			const cards = page.locator(CARD_SELECTOR)
@@ -151,7 +151,7 @@ export async function scrape(
 				`[google-jobs] Found ${initialCount} initial cards for "${title}"`,
 			)
 
-			const titleRoles: ScrapedRole[] = []
+			let titleFound = 0
 			let i = 0
 			let scrollAttempts = 0
 			let previousPanelTitle: string | null = null
@@ -179,7 +179,9 @@ export async function scrape(
 						const key = `${role.company ?? ""}|${role.title}`
 						if (!seen.has(key)) {
 							seen.add(key)
-							titleRoles.push(role)
+							titleFound++
+							allRoles.push(role)
+							await onRole?.(role)
 							console.log(
 								`[google-jobs] Scraped: ${role.title} at ${role.company}`,
 							)
@@ -200,23 +202,17 @@ export async function scrape(
 			}
 
 			console.log(
-				`[google-jobs] Extracted ${titleRoles.length} roles for "${title}"`,
+				`[google-jobs] Extracted ${titleFound} roles for "${title}"`,
 			)
 
-			if (onBatch && titleRoles.length > 0) {
-				await onBatch(titleRoles)
-			} else {
-				allRoles.push(...titleRoles)
-			}
-
-			await randomWait(3_000, 8_000)
+			await randomWait(500, 1_000)
 		}
 	} finally {
 		await closeBrowserContext(context)
 	}
 
 	console.log(
-		`[google-jobs] Scraping complete, found ${onBatch ? "roles saved per-batch" : `${allRoles.length} total roles`}`,
+		`[google-jobs] Scraping complete, found ${allRoles.length} total roles`,
 	)
 
 	return allRoles

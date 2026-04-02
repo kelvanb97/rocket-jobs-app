@@ -16,7 +16,6 @@ Autonomously apply to all unapplied roles above a score threshold. No user confi
 
 ## Prerequisites
 
-- Supabase must be running locally (`pnpm --filter supabase start`)
 - The web app must be running (`pnpm dev`)
 - Scored roles must exist in the database
 - The Playwright MCP server must be available (configured in `.claude/settings.json`)
@@ -98,15 +97,13 @@ If documents don't exist yet, check storage:
 curl -s 'http://localhost:3000/api/apply/documents?roleId=ROLE_ID'
 ```
 
-If no resume or cover-letter files found, generate them:
+If no resume or cover-letter files found, generate them by invoking the `generate-docs` skill:
 
-```bash
-curl -s --max-time 180 -X POST -H 'Content-Type: application/json' \
-  -d '{"roleId":"ROLE_ID","applicationId":"APPLICATION_ID"}' \
-  http://localhost:3000/api/apply/documents/generate
-```
+Use the Skill tool: `skill: "generate-docs", args: "ROLE_ID"`
 
-**If generation fails:** Defer the role with reason "Document generation failed: {error}" (call `/api/apply/defer`), add to `deferred`, log, and continue loop.
+The generate-docs skill will extract keywords, generate a tailored resume and cover letter, build DOCX files, and store them via the app's API.
+
+**If the skill fails:** Defer the role with reason "Document generation failed: {error}" (call `/api/apply/defer`), add to `deferred`, log, and continue loop.
 
 ### Step 5: Download Documents to Local Disk
 
