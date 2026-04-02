@@ -30,29 +30,26 @@ All API calls use `http://localhost:3000`.
 
 ## Single-Role Mode
 
-### Step 1: Fetch Role Data
+### Step 1: Fetch the Scoring Prompt
+
+The app builds a structured prompt with the candidate profile, role details, scoring weights, and rubric:
 
 ```bash
-curl -s http://localhost:3000/api/roles/{roleId}
+curl -s "http://localhost:3000/api/scores/prompt?roleId={roleId}"
 ```
 
-**Response:** `{ "data": { "id", "title", "description", "location", "locationType", "salaryMin", "salaryMax", "source", "url", "company": { "name", "industry", "size", "website" } } }`
+**Response:** `{ "data": { "system": "...", "user": "..." } }`
 
 If the role is not found, inform the user and stop.
 
-### Step 2: Fetch User Profile
+### Step 2: Score the Role
 
-```bash
-curl -s http://localhost:3000/api/settings/profile
-```
+Read the `system` field — it contains the scoring rubric, weights, and rules. Follow it exactly.
+Read the `user` field — it contains the formatted candidate profile and job posting.
 
-**Response:** `{ "data": { "profile": { ... }, "scoringWeights": { "titleAndSeniority", "skills", "salary", "location", "industry" } } }`
+Evaluate the role against the candidate following the system instructions. Respond with the JSON format specified in the system prompt.
 
-### Step 3: Score the Role
-
-Evaluate the role against the candidate profile using the scoring rubric below. Think carefully about each dimension.
-
-### Step 4: Submit the Score
+### Step 3: Submit the Score
 
 ```bash
 curl -s -X POST http://localhost:3000/api/scores \
@@ -76,72 +73,36 @@ curl -s http://localhost:3000/api/roles/unscored
 
 If no unscored roles exist, inform the user and stop.
 
-### Step 2: Fetch User Profile
+### Step 2: Score in Parallel
 
-```bash
-curl -s http://localhost:3000/api/settings/profile
+Split the unscored roles into chunks of 50. For each chunk, dispatch a parallel Agent sub-process.
+
+Each agent prompt MUST include these instructions:
+
+```
+Score these job roles. For EACH role ID in the list:
+
+1. Fetch the scoring prompt:
+   curl -s "http://localhost:3000/api/scores/prompt?roleId={id}"
+   This returns { "data": { "system": "...", "user": "..." } }
+
+2. The "system" field contains the scoring rubric, weights, and rules. Follow it exactly.
+   The "user" field contains the formatted candidate profile and job posting.
+   Evaluate the role and produce a JSON score.
+
+3. Submit the score:
+   curl -s -X POST http://localhost:3000/api/scores \
+     -H "Content-Type: application/json" \
+     -d '{"roleId": ID, "score": SCORE, "positive": [...], "negative": [...]}'
+
+Role IDs to score: {list of IDs}
+
+Process ALL roles. If a role returns an error, skip it. Keep positive/negative to 1-4 concise items each.
 ```
 
-### Step 3: Score in Parallel
-
-Split the unscored roles into chunks of 5. For each chunk, dispatch a parallel Agent sub-process that:
-
-1. Fetches each role's full data via `GET /api/roles/{id}`
-2. Scores it using the rubric below
-3. Submits the score via `POST /api/scores`
-
-Use the Agent tool with a prompt like: "Score these roles against the candidate profile: [role IDs]. For each role, GET /api/roles/{id}, score it using the rubric, then POST /api/scores. Profile data: [include the profile data]."
-
-### Step 4: Report Summary
+### Step 3: Report Summary
 
 After all agents complete, report:
 - Total roles scored
 - Score distribution (how many 80+, 60-79, 40-59, below 40)
 - Top 5 highest-scoring roles with their scores
-
----
-
-## Scoring Rubric
-
-### Scoring Brackets
-
-| Range | Meaning |
-|-------|---------|
-| 80-100 | **Strong match** — the candidate should apply. Title, skills, seniority, and preferences align well. |
-| 60-79 | **Moderate match** — worth considering. Most criteria fit with minor gaps the candidate could bridge. |
-| 40-59 | **Weak match** — likely not worth applying. Notable misalignment on title, skills, seniority, or preferences. |
-| 20-39 | **Poor match** — do not apply. Major gaps or misalignment across multiple criteria. |
-| 0-19 | **Dealbreaker present** or fundamental mismatch. |
-
-### Scoring Dimensions
-
-Weight each dimension according to the scoring weights from the API (values like "low", "medium", "high"):
-
-1. **Title and seniority alignment** — Does the role title and level match the candidate's current title and seniority?
-2. **Skills overlap** — How well do the required skills match the candidate's skills and demonstrated experience?
-3. **Salary range compatibility** — Do the salary ranges overlap?
-4. **Location/remote compatibility** — Does the location type match the candidate's preferences?
-5. **Industry fit** — Is the company's industry in the candidate's preferred industries?
-
-### Important Scoring Rules
-
-- **Evaluate skills by depth, not keywords.** The candidate's work history shows what they've actually built — weigh demonstrated experience over listed buzzwords.
-- **Missing salary is neutral.** Do NOT reduce the score for a missing salary. Do NOT list it as a negative.
-- **Salary ranges only need to overlap.** Any overlap is acceptable. Only flag salary as negative when ranges have zero overlap.
-- **Overqualification is positive.** If the candidate exceeds the role's requirements, treat it as a strength, not a weakness.
-- **Dealbreaker match forces score below 20.** If the role matches any of the candidate's dealbreakers, the score must be below 20.
-- **Skills entirely outside the candidate's stack: score below 40.** Regardless of title fit.
-- **Adjacent tech is penalized less than unrelated tech.** E.g., Vue instead of React is a minor gap; Java instead of TypeScript is a major gap.
-
-### Output JSON Schema
-
-Submit this exact JSON structure to `POST /api/scores`:
-
-```json
-{
-  "roleId": <number>,
-  "score": <number 0-100>,
-  "positive": ["<1-4 concise reasons this is a good match>"],
-  "negative": ["<1-4 concise reasons this is a poor match or concerns>"]
-}
-```

@@ -384,6 +384,15 @@ importers:
 
   packages/_api/score:
     dependencies:
+      '@rja-api/company':
+        specifier: workspace:*
+        version: link:../company
+      '@rja-api/role':
+        specifier: workspace:*
+        version: link:../role
+      '@rja-api/settings':
+        specifier: workspace:*
+        version: link:../settings
       '@rja-app/drizzle':
         specifier: workspace:*
         version: link:../../_app/drizzle

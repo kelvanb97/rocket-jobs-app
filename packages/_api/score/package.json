@@ -16,6 +16,9 @@
 		"zod": "^4.3.6"
 	},
 	"dependencies": {
+		"@rja-api/company": "workspace:*",
+		"@rja-api/role": "workspace:*",
+		"@rja-api/settings": "workspace:*",
 		"@rja-app/drizzle": "workspace:*",
 		"@rja-core/drizzle": "workspace:*",
 		"@rja-core/result": "workspace:*",
