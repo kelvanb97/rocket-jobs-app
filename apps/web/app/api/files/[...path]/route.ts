@@ -1,3 +1,4 @@
+import { basename } from "node:path"
 import { existsSync, readFileSync } from "node:fs"
 import { join, resolve } from "node:path"
 import { NextResponse, type NextRequest } from "next/server"
@@ -17,7 +18,7 @@ export async function GET(
 ) {
 	const { path } = await params
 
-	const filePath = resolve(process.cwd(), "../../data/storage", join(...path))
+	const filePath = resolve(process.cwd(), "data", "storage", join(...path))
 
 	if (!existsSync(filePath)) {
 		return NextResponse.json({ error: "File not found" }, { status: 404 })
@@ -28,7 +29,12 @@ export async function GET(
 
 	const buffer = readFileSync(filePath)
 
+	const filename = basename(filePath)
+
 	return new NextResponse(buffer, {
-		headers: { "Content-Type": mimeType },
+		headers: {
+			"Content-Type": mimeType,
+			"Content-Disposition": `attachment; filename="${filename}"`,
+		},
 	})
 }
