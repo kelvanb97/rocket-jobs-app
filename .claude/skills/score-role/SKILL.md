@@ -6,6 +6,7 @@ description: >
   argument is given. Use when user says "score role", "score roles", or
   "rate this job".
 user-invocable: true
+model: sonnet
 ---
 
 # Score Role

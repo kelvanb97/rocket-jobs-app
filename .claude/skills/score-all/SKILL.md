@@ -5,6 +5,7 @@ description: >
   with no arguments (batch mode). Use when user says "score all", "score
   everything", "score all roles", or "batch score".
 user-invocable: true
+model: haiku
 ---
 
 # Score All Unscored Roles

@@ -7,6 +7,7 @@ description: >
   before submitting. Use when user says "auto-apply", "apply to jobs",
   or "submit application".
 user-invocable: true
+model: sonnet
 ---
 
 # Auto-Apply Skill

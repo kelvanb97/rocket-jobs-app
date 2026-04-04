@@ -4,6 +4,7 @@ description: >
   Generate a tailored cover letter for a specific role. Internal sub-skill
   called by generate-docs — not intended for direct user invocation.
 user-invocable: false
+model: sonnet
 ---
 
 # Generate Cover Letter
@@ -33,6 +34,10 @@ The `signoff` field must include the closing phrase AND the candidate's full nam
 Sincerely,
 Kelvan Brandt
 ```
+
+## Humanizer Pass
+
+After drafting the cover letter body, run it through the `humanizer` skill to remove AI writing patterns. Apply the humanizer process to the `body` text only (not greeting or signoff). The final body text in the output JSON should be the humanized version.
 
 ## Output JSON Schema
 

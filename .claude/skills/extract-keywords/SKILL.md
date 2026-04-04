@@ -4,6 +4,7 @@ description: >
   Extract ATS keywords from a job description. Internal sub-skill called by
   generate-docs — not intended for direct user invocation.
 user-invocable: false
+model: haiku
 ---
 
 # Extract Keywords

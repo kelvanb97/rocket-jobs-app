@@ -8,6 +8,7 @@ description: >
   deferred and reported at the end. Use when user says "batch apply",
   "batch-apply", "apply to all jobs", or "auto apply all".
 user-invocable: true
+model: sonnet
 ---
 
 # Batch Auto-Apply Skill

@@ -4,6 +4,7 @@ description: >
   Generate a tailored resume for a specific role. Internal sub-skill called by
   generate-docs — not intended for direct user invocation.
 user-invocable: false
+model: sonnet
 ---
 
 # Generate Resume

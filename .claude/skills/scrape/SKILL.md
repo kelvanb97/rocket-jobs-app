@@ -4,6 +4,7 @@ description: >
   Scrape job listings from LinkedIn. Runs the scraper CLI and reports results.
   Use when user says "scrape", "scrape jobs", "run scraper", or "/scrape".
 user-invocable: true
+model: haiku
 ---
 
 # Scrape Jobs

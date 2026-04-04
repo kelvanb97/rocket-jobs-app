@@ -7,6 +7,7 @@ description: >
   for DOCX building and storage. Use when user says "generate docs",
   "create resume", "write cover letter", or "prepare application documents".
 user-invocable: true
+model: sonnet
 ---
 
 # Generate Documents
