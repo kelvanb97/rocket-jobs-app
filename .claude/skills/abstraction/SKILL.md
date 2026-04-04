@@ -11,6 +11,7 @@ description: >
     config file tweaks, or conversation-only questions with no code output.
 user-invocable: false
 model: opus
+paths: ["packages/_api/**", "packages/_core/**", "packages/_app/**", "packages/_integrations/**"]
 ---
 
 # Abstraction Enforcement

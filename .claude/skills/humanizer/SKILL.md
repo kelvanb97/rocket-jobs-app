@@ -9,6 +9,7 @@ description: |
     attributions, em dash overuse, rule of three, AI vocabulary words, passive
     voice, negative parallelisms, and filler phrases.
 model: sonnet
+effort: high
 license: MIT
 compatibility: claude-code opencode
 allowed-tools:

@@ -6,6 +6,7 @@ description: >
   everything", "score all roles", or "batch score".
 user-invocable: true
 model: haiku
+allowed-tools: Skill
 ---
 
 # Score All Unscored Roles

@@ -9,6 +9,8 @@ description: >
   "batch-apply", "apply to all jobs", or "auto apply all".
 user-invocable: true
 model: sonnet
+disable-model-invocation: true
+effort: high
 ---
 
 # Batch Auto-Apply Skill

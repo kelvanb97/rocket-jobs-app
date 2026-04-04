@@ -7,6 +7,9 @@ description: >
   "rate this job".
 user-invocable: true
 model: sonnet
+argument-hint: "[roleId] (optional)"
+allowed-tools: Bash
+effort: high
 ---
 
 # Score Role

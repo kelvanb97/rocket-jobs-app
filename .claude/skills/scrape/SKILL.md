@@ -5,6 +5,7 @@ description: >
   Use when user says "scrape", "scrape jobs", "run scraper", or "/scrape".
 user-invocable: true
 model: haiku
+allowed-tools: Bash
 ---
 
 # Scrape Jobs

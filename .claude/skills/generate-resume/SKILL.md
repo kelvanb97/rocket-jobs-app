@@ -5,6 +5,7 @@ description: >
   generate-docs — not intended for direct user invocation.
 user-invocable: false
 model: sonnet
+effort: high
 ---
 
 # Generate Resume

@@ -8,6 +8,7 @@ description: >
   or "submit application".
 user-invocable: true
 model: sonnet
+effort: high
 ---
 
 # Auto-Apply Skill
