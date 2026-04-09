@@ -1,22 +1,9 @@
 {
-	"enabledPlugins": {
-		"playwright@claude-plugins-official": true,
-		"context7@claude-plugins-official": true
-	},
-	"mcpServers": {
-		"playwright": {
-			"command": "npx",
-			"args": [
-				"@playwright/mcp@0.0.68",
-				"--browser",
-				"chrome",
-				"--user-data-dir",
-				"./data/chrome-profile"
-			]
-		},
-		"sequential-thinking": {
-			"command": "npx",
-			"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
-		}
+	"permissions": {
+		"allow": [
+			"mcp__playwright__*",
+			"Bash(pnpm install:*)",
+			"Bash(sqlite3:*)"
+		]
 	}
 }

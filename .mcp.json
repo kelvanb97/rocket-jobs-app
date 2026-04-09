@@ -1,8 +1,14 @@
 {
 	"mcpServers": {
-		"sequential-thinking": {
+		"playwright": {
 			"command": "npx",
-			"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+			"args": [
+				"@playwright/mcp@0.0.68",
+				"--browser",
+				"chrome",
+				"--user-data-dir",
+				"./data/chrome-profile"
+			]
 		}
 	}
 }
