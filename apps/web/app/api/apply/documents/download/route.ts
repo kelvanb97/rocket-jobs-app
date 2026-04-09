@@ -6,14 +6,11 @@ export async function POST(request: Request) {
 		const body = (await request.json()) as {
 			resumePath: string
 			coverLetterPath: string
-			slug: string
 		}
 
-		if (!body.resumePath || !body.coverLetterPath || !body.slug) {
+		if (!body.resumePath || !body.coverLetterPath) {
 			return NextResponse.json(
-				{
-					error: "resumePath, coverLetterPath, and slug are required",
-				},
+				{ error: "resumePath and coverLetterPath are required" },
 				{ status: 400 },
 			)
 		}
@@ -21,7 +18,6 @@ export async function POST(request: Request) {
 		const result = downloadDocuments({
 			resumePath: body.resumePath,
 			coverLetterPath: body.coverLetterPath,
-			slug: body.slug,
 		})
 
 		if (!result.ok) {

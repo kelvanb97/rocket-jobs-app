@@ -106,17 +106,17 @@ Replace `ROLE_ID` and `APPLICATION_ID` with values from previous steps.
 
 Save the `resumePath` and `coverLetterPath` from the output.
 
-## Step E: Download Documents to Local Disk
+## Step E: Resolve Document File Paths
 
-Download the documents from local storage to a working directory so they can be uploaded via browser file input:
+Resolve absolute filesystem paths for the documents in storage so they can be uploaded via the browser file input. No download is necessary — the files already live on disk.
 
 ```bash
 curl -s -X POST -H 'Content-Type: application/json' \
-  -d '{"resumePath":"RESUME_PATH","coverLetterPath":"COVER_LETTER_PATH","slug":"SLUG"}' \
+  -d '{"resumePath":"RESUME_PATH","coverLetterPath":"COVER_LETTER_PATH"}' \
   http://localhost:3000/api/apply/documents/download
 ```
 
-Replace `SLUG` (lowercase company-title with hyphens, max 60 chars), `RESUME_PATH`, and `COVER_LETTER_PATH` with values from previous steps.
+Replace `RESUME_PATH` and `COVER_LETTER_PATH` with values from previous steps.
 
 **Response:** `{ "data": { "resumeLocal": "/absolute/path/resume.docx", "coverLetterLocal": "/absolute/path/cover-letter.docx" } }`
 
@@ -236,12 +236,23 @@ Some ATS platforms (especially Workday) spread applications across multiple page
 
 ## Step H: Pre-Submission Review
 
-1. Take a screenshot: use `browser_screenshot` and save the result
-2. Save the screenshot to `data/applications/{slug}/screenshot.png` using the Bash tool
-3. Read the screenshot file to visually verify the form
-4. Summarize what was filled in for the user
+1. Take a screenshot of the filled-out form using `browser_take_screenshot`. Do not pass a `filename` — let the Playwright MCP write it to its default output directory. The tool's response includes the absolute path of the saved PNG.
+2. Upload the screenshot to storage and record it on the application row by calling the screenshot endpoint:
+
+    ```bash
+    curl -s -X POST -H 'Content-Type: application/json' \
+      -d '{"roleId":"ROLE_ID","applicationId":"APPLICATION_ID","localPath":"SCREENSHOT_PATH"}' \
+      http://localhost:3000/api/apply/screenshot
+    ```
+
+    Replace `ROLE_ID` and `APPLICATION_ID` with values from earlier steps. `SCREENSHOT_PATH` is the absolute path returned by `browser_take_screenshot`.
+
+    **Response:** `{ "data": { "screenshotUrl": "..." } }`
+
+3. Use the Read tool on `SCREENSHOT_PATH` to visually verify the form.
+4. Summarize what was filled in for the user.
 5. **Ask the user:** "The application form is filled out. Please review the browser window. Should I submit?"
-6. **DO NOT click submit until the user explicitly confirms**
+6. **DO NOT click submit until the user explicitly confirms.**
 
 ## Step I: Submit (After User Confirms)
 
@@ -249,8 +260,6 @@ Only proceed if the user explicitly says yes:
 
 1. Click the submit button using `browser_click`
 2. Wait a few seconds for the confirmation page to load
-3. Take a screenshot of the confirmation page
-4. Save to `data/applications/{slug}/confirmation.png`
 
 ## Step J: Update Records
 
@@ -287,7 +296,7 @@ Display a summary:
 - Status: submitted (or draft if declined)
 - Resume: {resumePath}
 - Cover letter: {coverLetterPath}
-- Screenshot: data/applications/{slug}/screenshot.png
+- Screenshot: recorded on application {applicationId} (visible in the role's application tab)
 
 ## Error Handling
 
@@ -301,6 +310,6 @@ Display a summary:
 | CAPTCHA detected                                | Tell user to solve it manually, wait for confirmation                     |
 | Form field not found or unclear                 | Take a snapshot, describe what is visible, ask user for guidance          |
 | Submit button not found                         | Take a snapshot, ask user to identify the submit element                  |
-| Submission fails (error after clicking submit)  | Take screenshot, do NOT update status, inform user                        |
+| Submission fails (error after clicking submit)  | Do NOT update status, inform user                                         |
 | Page legitimacy check fails to load             | Skip the role with reason "Page failed to load" and loop to next          |
 | API endpoint returns error                      | Display the error message from the response and stop or ask for guidance  |
