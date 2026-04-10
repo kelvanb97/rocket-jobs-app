@@ -2,7 +2,7 @@
 
 import {
 	Briefcase,
-	LayoutDashboard,
+	Home,
 	Plus,
 	Settings,
 } from "@rja-design/ui/assets/lucide"
@@ -12,18 +12,16 @@ import { YStack } from "@rja-design/ui/primitives/y-stack"
 import type { TPage } from "#templates/app-shell"
 import Link from "next/link"
 
-const NAV_ITEMS = [
-	{
-		page: "dashboard" as const,
-		href: "/",
-		label: "Dashboard",
-		icon: LayoutDashboard,
-	},
+const HOME_NAV_ITEMS = [
+	{ page: "dashboard" as const, href: "/", label: "Home", icon: Home },
+]
+
+const ROLES_NAV_ITEMS = [
 	{ page: "roles" as const, href: "/roles", label: "Roles", icon: Briefcase },
+	{ page: "create" as const, href: "/create", label: "Create Role", icon: Plus },
 ]
 
 const SECONDARY_NAV_ITEMS = [
-	{ page: "create" as const, href: "/create", label: "Create", icon: Plus },
 	{
 		page: "settings" as const,
 		href: "/settings",
@@ -58,7 +56,9 @@ export function Sidebar({ activePage }: ISidebarProps) {
 				</div>
 
 				<YStack className="gap-3 px-1" role="navigation">
-					<NavLinks items={NAV_ITEMS} activePage={activePage} />
+					<NavLinks items={HOME_NAV_ITEMS} activePage={activePage} />
+					<div className="mx-2 h-px bg-sidebar-border" />
+					<NavLinks items={ROLES_NAV_ITEMS} activePage={activePage} />
 					<div className="mx-2 h-px bg-sidebar-border" />
 					<NavLinks
 						items={SECONDARY_NAV_ITEMS}

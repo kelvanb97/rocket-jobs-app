@@ -7,6 +7,7 @@ export {
 	FileText,
 	Globe,
 	GraduationCap,
+	Home,
 	LayoutDashboard,
 	Linkedin,
 	MessageSquare,

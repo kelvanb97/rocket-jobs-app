@@ -5,9 +5,9 @@ import { XStack } from "@rja-design/ui/primitives/x-stack"
 import type { TPage } from "#templates/app-shell"
 
 const TITLE_MAP: Record<TPage, string> = {
-	dashboard: "Dashboard",
+	dashboard: "Home",
 	roles: "Roles",
-	create: "Create",
+	create: "Create Role",
 	settings: "Settings",
 }
 
