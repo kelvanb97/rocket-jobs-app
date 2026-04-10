@@ -1,14 +1,15 @@
 ---
-name: scrape
+name: rj-scrape
 description: >
-    Scrape job listings by hitting the web app's /api/scrape endpoint.
-    Auto-detects missing logins: if any source needs auth, opens a Patchright-managed browser
-    that closes itself the moment login is detected, then re-runs the scrape. No prompts.
-    Use when user says "scrape", "scrape jobs", "run scraper", or "/scrape".
+    Use when the user says "/rj-scrape", "scrape", "scrape jobs", or "run scraper"
+    and wants to pull new listings into the rocket-jobs-app database. Hits the web
+    app's /api/scrape endpoint and auto-detects missing logins: if any source needs
+    auth, opens a Patchright-managed browser that closes itself the moment login is
+    detected, then re-runs the scrape. No prompts.
 user-invocable: true
 ---
 
-# Scrape Jobs
+# rj-scrape Skill
 
 Scrape job listings from configured sources and insert them into the database. The scraper uses a persistent Chrome profile and auto-detects missing logins — you don't need to ask the user about login state. The server reads enabled sources from settings, so the skill never has to manage that list.
 
@@ -51,7 +52,7 @@ Behavior:
 - Also exits cleanly if the user closes the window manually.
 - Times out after 10 minutes and exits.
 
-After all login CLI commands have returned, **go back to Step 1 and re-run the scrape** — but only once. If the second attempt also returns 401, surface the error ("login wasn't picked up — sign in fully and re-run /scrape") and stop.
+After all login CLI commands have returned, **go back to Step 1 and re-run the scrape** — but only once. If the second attempt also returns 401, surface the error ("login wasn't picked up — sign in fully and re-run /rj-scrape") and stop.
 
 ## Step 3: Report results
 

@@ -1,15 +1,15 @@
 ---
-name: auto-apply
+name: rj-auto-apply
 description: >
-    Automate job applications. Finds the top-scored unapplied role, generates
-    or retrieves resume/cover letter, navigates to the application page via
-    Playwright MCP, fills out the form, and pauses for user confirmation
-    before submitting. Use when user says "auto-apply", "apply to jobs",
-    or "submit application".
+    Use when the user says "/rj-auto-apply", "auto-apply", "apply to jobs",
+    or "submit application" and wants the rocket-jobs-app to find the
+    top-scored unapplied role, generate or retrieve a resume/cover letter,
+    navigate to the application page via Playwright MCP, fill out the form,
+    and pause for confirmation before submitting.
 user-invocable: true
 ---
 
-# Auto-Apply Skill
+# rj-auto-apply Skill
 
 Automate a single job application end-to-end. Follow these steps sequentially.
 
