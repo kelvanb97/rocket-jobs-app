@@ -3,11 +3,8 @@
 import {
 	Briefcase,
 	LayoutDashboard,
-	MessageSquare,
-	Play,
 	Plus,
 	Settings,
-	Users,
 } from "@rja-design/ui/assets/lucide"
 import { cn } from "@rja-design/ui/cn"
 import { TextBody } from "@rja-design/ui/library/text"
@@ -23,23 +20,10 @@ const NAV_ITEMS = [
 		icon: LayoutDashboard,
 	},
 	{ page: "roles" as const, href: "/roles", label: "Roles", icon: Briefcase },
-	{ page: "people" as const, href: "/people", label: "People", icon: Users },
-	{
-		page: "follow-ups" as const,
-		href: "/follow-ups",
-		label: "Follow-ups",
-		icon: MessageSquare,
-	},
 ]
 
 const SECONDARY_NAV_ITEMS = [
 	{ page: "create" as const, href: "/create", label: "Create", icon: Plus },
-	{
-		page: "operations" as const,
-		href: "/operations",
-		label: "Operations",
-		icon: Play,
-	},
 	{
 		page: "settings" as const,
 		href: "/settings",

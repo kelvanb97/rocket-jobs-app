@@ -6,10 +6,7 @@ Dashboard screens and server actions for the web app, with Zustand state managem
 
 - `./home-screen` — `HomeScreen` dashboard page
 - `./roles-screen` — `RolesScreen` job roles list with filtering/sorting
-- `./people-screen` — `PeopleScreen` contact management
-- `./follow-ups-screen` — `FollowUpsScreen` interaction tracking
 - `./create-screen` — `CreateScreen` manual role creation
-- `./operations-screen` — `OperationsScreen` scraper/scorer controls
 
 ## Dependencies
 

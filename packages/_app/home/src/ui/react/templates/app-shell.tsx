@@ -5,14 +5,7 @@ import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { Sidebar } from "#organisms/sidebar"
 import { TopBar } from "#organisms/top-bar"
 
-export type TPage =
-	| "dashboard"
-	| "roles"
-	| "people"
-	| "follow-ups"
-	| "create"
-	| "operations"
-	| "settings"
+export type TPage = "dashboard" | "roles" | "create" | "settings"
 
 interface IAppShellProps {
 	activePage: TPage

@@ -18,12 +18,9 @@ LLM providers, API keys, and per-use-case model selection are configured at runt
 
 | Path          | Screen                                    |
 | ------------- | ----------------------------------------- |
-| `/`           | Home dashboard                            |
-| `/roles`      | Job roles list with filtering and sorting |
-| `/people`     | Contact management                        |
-| `/follow-ups` | Interaction tracking                      |
-| `/create`     | Manual role creation                      |
-| `/operations` | CLI instructions for scraping and scoring |
+| `/`      | Home dashboard                            |
+| `/roles`  | Job roles list with filtering and sorting |
+| `/create` | Manual role creation                      |
 
 ## API Endpoints
 

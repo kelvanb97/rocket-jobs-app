@@ -7,10 +7,7 @@ import type { TPage } from "#templates/app-shell"
 const TITLE_MAP: Record<TPage, string> = {
 	dashboard: "Dashboard",
 	roles: "Roles",
-	people: "People",
-	"follow-ups": "Follow-ups",
 	create: "Create",
-	operations: "Operations",
 	settings: "Settings",
 }
 
