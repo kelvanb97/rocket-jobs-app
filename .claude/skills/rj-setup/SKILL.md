@@ -27,8 +27,8 @@ curl -sf http://localhost:3000 > /dev/null && echo OK || echo DOWN
 
 - **OK** → continue.
 - **DOWN** → tell the user:
-  > "I can't reach <http://localhost:3000>. If you haven't installed yet, run `/rj-install` first. If you have installed, run `pnpm dev` in a terminal and re-run `/rj-setup`."
-  Then stop.
+    > "I can't reach <http://localhost:3000>. If you haven't installed yet, run `/rj-install` first. If you have installed, run `pnpm dev` in a terminal and re-run `/rj-setup`."
+    > Then stop.
 
 ## Step 1: Open /llm-config in the browser
 
@@ -41,10 +41,26 @@ mcp__playwright__browser_snapshot
 
 ## Step 2: LLM Provider (chat-driven, FIRST)
 
+After snapshotting, check whether the Anthropic and/or OpenAI API key fields already have values.
+
+**If at least one key is already populated:**
+Present a multiple choice selection:
+
+> "LLM keys already configured. What would you like to do?"
+>
+> 1. Move on to Settings
+> 2. Update API keys
+> 3. Change model selections
+
+If the user picks 1, skip straight to Step 3. For 2 or 3, walk through the relevant fields, save, then continue to Step 3.
+
+**If no keys are populated:**
+
 1. Explain to the user in chat:
-   > "The app uses Claude (Anthropic) and/or GPT (OpenAI) for scoring jobs, generating resumes, generating cover letters, and extracting data from your uploaded resume. You need at least one API key. Anthropic is the default and recommended."
-   > - Get an Anthropic key at <https://console.anthropic.com/settings/keys> (paid; ~$5–$20/month for personal use)
-   > - Get an OpenAI key at <https://platform.openai.com/api-keys> (paid)
+    > "The app uses Claude (Anthropic) and/or GPT (OpenAI) for scoring jobs, generating resumes, generating cover letters, and extracting data from your uploaded resume. You need at least one API key. Anthropic is the default and recommended."
+    >
+    > - Get an Anthropic key at <https://console.anthropic.com/settings/keys> (paid; ~$5–$20/month for personal use)
+    > - Get an OpenAI key at <https://platform.openai.com/api-keys> (paid)
 2. Ask the user which provider(s) they want to use and request the key(s) in chat.
 3. Use Playwright `browser_type` to fill the relevant key field(s). Use `browser_select_option` for the provider dropdowns (scoring / keyword / resume / cover letter providers).
 4. Click Save.
@@ -64,12 +80,32 @@ Ask in chat:
 > "Want to import your profile, work experience, and education from a PDF or DOCX resume? It's much faster than typing each one out. Or we can fill them in by hand."
 
 **If the user wants to upload:**
-1. Click the **"Import from Resume"** button at the top of the settings page.
-2. Use `mcp__playwright__browser_file_upload` to attach the resume file. Ask the user for the file path if you don't know it.
-3. Wait for the preview modal to appear (`browser_wait_for` text "Apply Selected" or similar).
-4. Read the modal's contents back to the user. Help them decide which rows to keep checked. Click "Apply Selected".
-5. Snapshot to confirm the modal closed and the Profile / Experience / Education tabs are populated.
-6. Skip Steps 3a / 3b / 3c below (they're already done).
+
+1. Ask the user to drag and drop their resume file into the chat. This gives you the absolute path automatically.
+2. **Copy the file into the project directory** — Playwright MCP restricts file access to the project root, and the user's resume will almost certainly be outside it. Use Bash to copy:
+    ```bash
+    cp '<ORIGINAL_PATH>' '<PROJECT_ROOT>/data/tmp-resume-upload.<ext>'
+    ```
+3. Use `mcp__playwright__browser_run_code` to handle the file chooser and click in one atomic operation (the native file picker blocks Playwright, so these must happen together). Use the **project-local copy** path:
+    ```js
+    ;async (page) => {
+        const [fileChooser] = await Promise.all([
+            page.waitForEvent("filechooser"),
+            page.getByRole("button", { name: "Upload Resume" }).click(),
+        ])
+        await fileChooser.setFiles(
+            "<PROJECT_ROOT>/data/tmp-resume-upload.<ext>",
+        )
+    }
+    ```
+4. **Clean up** the temporary copy after upload completes:
+    ```bash
+    rm '<PROJECT_ROOT>/data/tmp-resume-upload.<ext>'
+    ```
+5. Wait for the preview modal to appear (`browser_wait_for` text "Apply Selected" or similar).
+6. Read the modal's contents back to the user. Help them decide which rows to keep checked. Click "Apply Selected".
+7. Snapshot to confirm the modal closed and the Profile / Experience / Education tabs are populated.
+8. Skip Steps 3a / 3b / 3c below (they're already done).
 
 **If the user prefers to type by hand:**
 
@@ -96,6 +132,7 @@ Click the **Scraper Config** tab. Explain in chat:
 Ask the user which sources to enable. Toggle them in the form.
 
 For keywords, suggest defaults based on the job title from the Profile tab:
+
 - Title contains "frontend" / "react" → suggest `["react", "typescript", "frontend"]`
 - Title contains "backend" / "node" → suggest `["node", "typescript", "backend", "api"]`
 - Title contains "fullstack" → suggest `["typescript", "react", "node"]`
@@ -117,6 +154,7 @@ Click the **EEO & Work Auth** tab. Explain in chat:
 > "These are optional demographic questions that often appear in application forms. The auto-apply skill uses these answers to fill those fields automatically. You can leave them all blank — auto-apply will skip them. Or fill them in once here so you don't have to retype them on every application."
 
 Ask each question gently:
+
 - Gender: prefer not to say / male / female / non-binary
 - Ethnicity: prefer not to say / [list]
 - Veteran status: prefer not to say / yes / no
@@ -133,6 +171,7 @@ Click the **Scoring Weights** tab. Explain:
 > "This is how the AI scores each role. Each factor can be weighted High / Medium / Low. The scorer multiplies these against its evaluation of the role to produce a 0–100 score."
 
 Walk through each:
+
 - **Title and seniority** — does the role title and level match what you want? (Default: high)
 - **Skills** — does the role need skills you have? (Default: high)
 - **Salary** — is the salary in your range? (Default: high)
@@ -146,13 +185,14 @@ Ask which they want to bump or lower. Fill via Playwright. Click Save.
 Tell the user:
 
 > "Setup complete! You're ready to:
+>
 > - Run `/rj-scrape` to pull new job listings
 > - Run `/rj-auto-apply` after scoring to apply to the top-scored unapplied role
 > - Open <http://localhost:3000> to see your dashboard
 >
 > You can come back to <http://localhost:3000/settings> any time to update these values."
 
-Then stop.
+Close the Playwright browser (`mcp__playwright__browser_close`), then stop.
 
 ## Notes
 
