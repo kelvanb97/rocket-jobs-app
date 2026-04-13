@@ -17,7 +17,7 @@ function storageUrl(path: string | null): string | null {
 	if (!path) return null
 	if (path.startsWith("http")) return path
 	const result = getPublicUrl(BUCKET, path)
-	return result.ok ? result.data : null
+	return result ?? null
 }
 
 export const getRoleApplicationAction = actionClient

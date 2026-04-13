@@ -10,6 +10,7 @@ import type { TPerson } from "@rja-api/person/schema/person-schema"
 import type { TRolePerson } from "@rja-api/role-person/schema/role-person-schema"
 import type { TRole } from "@rja-api/role/schema/role-schema"
 import type { TScore } from "@rja-api/score/schema/score-schema"
+import { getPublicUrl } from "@rja-api/storage/api/get-public-url"
 import {
 	useAction,
 	useActionError,
@@ -356,6 +357,7 @@ function useRoleApplication(roleId: number | null) {
 		handleRemove,
 		uploadingType,
 		removingType,
+		fetchApplication,
 	}
 }
 
@@ -569,8 +571,16 @@ export function EditRoleSheet({
 		onSuccess: ({ data }) => {
 			if (data) {
 				toast.success("Resume & cover letter generated!")
-				app.setResumeUrl(data.resumePath)
-				app.setCoverLetterUrl(data.coverLetterPath)
+				const resumeUrl = getPublicUrl(
+					"applications",
+					data.resumePath ?? "",
+				)
+				const coverLetterUrl = getPublicUrl(
+					"applications",
+					data.coverLetterPath ?? "",
+				)
+				app.setResumeUrl(resumeUrl)
+				app.setCoverLetterUrl(coverLetterUrl)
 			}
 		},
 	})
