@@ -49,13 +49,13 @@ curl -sf http://localhost:3000 > /dev/null && echo OK || echo DOWN
 
 3. **If `OK` is seen:** tell the user:
 
-   > "Dev server wasn't running — started `pnpm dev` in the background. It will stay running after this skill exits so you can keep using the app. Continuing setup."
+    > "Dev server wasn't running — started `pnpm dev` in the background. It will stay running after this skill exits so you can keep using the app. Continuing setup."
 
-   Then continue to Step 1. **Do not kill the background process** — the rest of this skill (and the user's subsequent work) depends on it.
+    Then continue to Step 1. **Do not kill the background process** — the rest of this skill (and the user's subsequent work) depends on it.
 
 4. **If no `OK` after 60 seconds:** read the background process output with the `Read` tool (or `BashOutput` equivalent in your harness), surface the last ~30 lines of stdout/stderr to the user, then stop with:
 
-   > "I tried to start the dev server but it didn't come up on <http://localhost:3000>. If you haven't installed yet, run `/rj-install` first. Otherwise check the output above — likely a missing dep, broken migration, or port conflict — then re-run `/rj-setup` once `pnpm dev` boots cleanly."
+    > "I tried to start the dev server but it didn't come up on <http://localhost:3000>. If you haven't installed yet, run `/rj-install` first. Otherwise check the output above — likely a missing dep, broken migration, or port conflict — then re-run `/rj-setup` once `pnpm dev` boots cleanly."
 
 ## Step 1: Open /llm-config in the browser
 
@@ -84,13 +84,15 @@ If the user picks 1, skip straight to Step 3. For 2 or 3, walk through the relev
 **If no keys are populated:**
 
 1. Explain to the user in chat:
-   > "The app uses Claude (Anthropic) and/or GPT (OpenAI) for scoring jobs, generating resumes, generating cover letters, and extracting data from your uploaded resume. You need at least one API key. Anthropic is the default and recommended."
-   > - Get an Anthropic key at <https://console.anthropic.com/settings/keys> (paid; ~$5–$20/month for personal use)
-   > - Get an OpenAI key at <https://platform.openai.com/api-keys> (paid)
-2. Ask the user which provider(s) they want to use and request the key(s) in chat.
-3. Use Playwright `browser_type` to fill the relevant key field(s). Use `browser_select_option` for the provider dropdowns (scoring / keyword / resume / cover letter providers).
-4. Click Save.
-5. Verify by re-snapshotting the page and confirming the input shows a populated value (or at least a masked placeholder).
+    > "The app uses Claude (Anthropic) and/or GPT (OpenAI) for scoring jobs, generating resumes, generating cover letters, and extracting data from your uploaded resume. You need at least one API key."
+    >
+    > - Get an Anthropic key at <https://console.anthropic.com/settings/keys> (paid; ~$5–$20/month for personal use)
+    > - Get an OpenAI key at <https://platform.openai.com/api-keys> (paid)
+2. Ask the user which provider(s) they want to use. **Do NOT ask the user to paste API keys into chat.** Secrets belong in the page, not the transcript.
+3. Tell the user the Anthropic / OpenAI key field is visible in the browser and ask them to type their key(s) directly into the form themselves. Wait for them to confirm in chat that the key is entered.
+4. Once the user confirms, use `browser_select_option` for the provider dropdowns (scoring / keyword / resume / cover letter providers) based on which provider(s) they chose. Do not touch the key inputs.
+5. Click Save.
+6. Verify by re-snapshotting the page and confirming the key input shows a populated/masked value. If empty, ask the user to re-enter and save again.
 
 ## Step 3: Profile / Experience / Education — offer resume upload first
 
@@ -158,6 +160,7 @@ Click the **Scraper Config** tab. Explain in chat:
 Ask the user which sources to enable. Toggle them in the form.
 
 For keywords, suggest defaults based on the job title from the Profile tab:
+
 - Title contains "frontend" / "react" → suggest `["react", "typescript", "frontend"]`
 - Title contains "backend" / "node" → suggest `["node", "typescript", "backend", "api"]`
 - Title contains "fullstack" → suggest `["typescript", "react", "node"]`
@@ -179,6 +182,7 @@ Click the **EEO & Work Auth** tab. Explain in chat:
 > "These are optional demographic questions that often appear in application forms. The auto-apply skill uses these answers to fill those fields automatically. You can leave them all blank — auto-apply will skip them. Or fill them in once here so you don't have to retype them on every application."
 
 Ask each question gently:
+
 - Gender: prefer not to say / male / female / non-binary
 - Ethnicity: prefer not to say / [list]
 - Veteran status: prefer not to say / yes / no
@@ -195,6 +199,7 @@ Click the **Scoring Weights** tab. Explain:
 > "This is how the AI scores each role. Each factor can be weighted High / Medium / Low. The scorer multiplies these against its evaluation of the role to produce a 0–100 score."
 
 Walk through each:
+
 - **Title and seniority** — does the role title and level match what you want? (Default: high)
 - **Skills** — does the role need skills you have? (Default: high)
 - **Salary** — is the salary in your range? (Default: high)
@@ -208,6 +213,7 @@ Ask which they want to bump or lower. Fill via Playwright. Click Save.
 Tell the user:
 
 > "Setup complete! You're ready to:
+>
 > - Run `/rj-scrape` to pull new job listings
 > - Run `/rj-auto-apply` after scoring to apply to the top-scored unapplied role
 > - Open <http://localhost:3000> to see your dashboard
