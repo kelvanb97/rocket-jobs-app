@@ -17,7 +17,7 @@ Automate a single job application end-to-end. Follow these steps sequentially.
 
 - The web app must be running (`pnpm dev`)
 - Scored roles must exist in the database
-- The Playwright MCP server must be available (configured in `.claude/settings.json`)
+- The Playwright MCP server must be available (Codex project config lives in `.codex/config.toml`; Claude compatibility config remains in `.mcp.json` and `.claude/settings.json`)
 - For ATS platforms requiring login, the user should have pre-authenticated in the shared Chrome profile (`data/chrome-profile`, gitignored, at the repo root)
 
 ## API Base URL
@@ -127,15 +127,12 @@ Save the local file paths (absolute) — they will be used for browser file uplo
 Use the Playwright MCP browser tools.
 
 1. **Determine the URL:** Use `url` from Step A. If null, ask the user for the URL.
-
-2. **Navigate:** Call `browser_navigate` with the URL
-
+2. **Navigate:** Call `browser_navigate` with the URL.
 3. **Find the application form:** The page may be a job listing rather than the application form itself. Use `browser_snapshot` to read the page and look for an "Apply" button/link. Click it to get to the actual application form.
-
 4. **Handle login walls:** If the page shows a login/signup form instead of the application:
     - Inform the user: "This site requires authentication. Please log in manually in the browser window."
-    - Wait for the user to confirm they have logged in
-    - Then continue with the application
+    - Wait for the user to confirm they have logged in.
+    - Then continue with the application.
 
 ## Step G: Fill Out the Application Form
 
@@ -145,23 +142,140 @@ Use the Playwright MCP tools to interact with the form. Work through the form me
 
 Use `browser_snapshot` to understand the current page structure. This returns an accessibility tree showing all interactive elements with their `ref` attributes.
 
+### Load saved application data from SQLite
+
+Read the saved values directly from the local SQLite database before filling the form. Use `-json` so the output is structured and can be reused without extra lookup work.
+
+**Database path:** `apps/web/data/rja.db`
+
+**1. Load the active user profile**
+
+```bash
+sqlite3 -json apps/web/data/rja.db 'SELECT * FROM user_profile ORDER BY id ASC LIMIT 1;'
+```
+
+Save the first row as `profile`. Use these `user_profile` columns when matching form fields:
+
+- `name`, `email`, `phone`
+- `linkedin`, `github`, `personal_website`
+- `location`, `address`
+- `job_title`, `summary`
+- `salary_min`, `salary_max`, `desired_salary`
+- `start_date_weeks_out`
+- `skills`, `preferred_skills`, `preferred_location_types`, `preferred_locations`
+- `industries`, `dealbreakers`, `domain_expertise`, `notes`
+
+If the query returns an empty array, stop and tell the user no profile is configured.
+
+**2. Load saved work experience**
+
+```bash
+sqlite3 -json apps/web/data/rja.db '
+WITH active_profile AS (
+  SELECT id FROM user_profile ORDER BY id ASC LIMIT 1
+)
+SELECT * FROM work_experience
+WHERE user_profile_id = (SELECT id FROM active_profile)
+ORDER BY sort_order ASC, id ASC;
+'
+```
+
+Save the rows as `workExperience`. Use `company`, `title`, `start_date`, `end_date`, `type`, `platforms`, `tech_stack`, `summary`, and `highlights` when filling employment-history sections or answering experience questions.
+
+**3. Load saved education**
+
+```bash
+sqlite3 -json apps/web/data/rja.db '
+WITH active_profile AS (
+  SELECT id FROM user_profile ORDER BY id ASC LIMIT 1
+)
+SELECT * FROM education
+WHERE user_profile_id = (SELECT id FROM active_profile)
+ORDER BY sort_order ASC, id ASC;
+'
+```
+
+Save the rows as `education`. Use `degree`, `field`, and `institution` for school and degree fields.
+
+**4. Load saved certifications**
+
+```bash
+sqlite3 -json apps/web/data/rja.db '
+WITH active_profile AS (
+  SELECT id FROM user_profile ORDER BY id ASC LIMIT 1
+)
+SELECT * FROM certification
+WHERE user_profile_id = (SELECT id FROM active_profile)
+ORDER BY sort_order ASC, id ASC;
+'
+```
+
+Save the rows as `certifications`. Use `name`, `issuer`, `issue_date`, `expiration_date`, and `url` only if the form asks about certifications or licenses.
+
+**5. Load saved EEO answers**
+
+```bash
+sqlite3 -json apps/web/data/rja.db '
+WITH active_profile AS (
+  SELECT id FROM user_profile ORDER BY id ASC LIMIT 1
+)
+SELECT * FROM eeo_config
+WHERE user_profile_id = (SELECT id FROM active_profile)
+LIMIT 1;
+'
+```
+
+Save the first row as `eeo` if present. Use these `eeo_config` columns:
+
+- `gender`
+- `ethnicity`
+- `veteran_status`
+- `disability_status`
+- `work_authorization`
+- `requires_visa_sponsorship`
+
+If the query returns an empty array, treat `eeo` as missing and ask the user for anything the form requires.
+
+**6. Load saved form defaults**
+
+```bash
+sqlite3 -json apps/web/data/rja.db '
+WITH active_profile AS (
+  SELECT id FROM user_profile ORDER BY id ASC LIMIT 1
+)
+SELECT * FROM form_defaults
+WHERE user_profile_id = (SELECT id FROM active_profile)
+LIMIT 1;
+'
+```
+
+Save the first row as `formDefaults` if present. Use these `form_defaults` columns:
+
+- `how_did_you_hear`
+- `referred_by_employee`
+- `non_compete_agreement`
+- `previously_employed`
+- `professional_references`
+- `employment_type`
+
+If the query returns an empty array, treat `formDefaults` as missing and ask the user for those answers if needed.
+
+**Important JSON note:** some SQLite columns are stored as JSON arrays and will be returned as JSON values or JSON-encoded strings depending on the CLI output. For `skills`, `preferred_skills`, `preferred_location_types`, `preferred_locations`, `industries`, `dealbreakers`, `domain_expertise`, `platforms`, `tech_stack`, and `highlights`, treat them as arrays of strings. If the CLI returns them as strings, parse the JSON string before using the values.
+
 ### Personal information
 
-Read `packages/_config/user/src/experience.ts` for the `USER_PROFILE` constant. Use its fields to fill:
+Use `profile` from the SQLite query above. Common mappings:
 
-| Form field                | Source                                                               |
-| ------------------------- | -------------------------------------------------------------------- |
-| First name                | First word of `USER_PROFILE.name`                                    |
-| Last name                 | Last word of `USER_PROFILE.name`                                     |
-| Full name                 | `USER_PROFILE.name`                                                  |
-| Email                     | `USER_PROFILE.email`                                                 |
-| Phone                     | `USER_PROFILE.phone`                                                 |
-| LinkedIn                  | `USER_PROFILE.linkedIn`                                              |
-| GitHub                    | `USER_PROFILE.github`                                                |
-| Website / Portfolio       | `USER_PROFILE.personalWebsite`                                       |
-| Location                  | `USER_PROFILE.location`                                              |
-| Current title             | `USER_PROFILE.jobTitle`                                              |
-| Address / Mailing address | `PRIVATE_CONFIG.address` from `packages/_config/user/src/private.ts` |
+- Full name: `profile.name`
+- Email: `profile.email`
+- Phone: `profile.phone`
+- LinkedIn URL: `profile.linkedin`
+- GitHub URL: `profile.github`
+- Portfolio/personal site: `profile.personal_website`
+- City/state or general location: `profile.location`
+- Street address: `profile.address`
+- Current or target title: `profile.job_title`
+- Professional summary or profile blurb: `profile.summary`
 
 ### File uploads
 
@@ -174,65 +288,63 @@ Some forms only have one upload field. In that case, upload the resume only.
 
 ### EEO / Demographic questions
 
-Read `packages/_config/user/src/eeo.ts` for the `EEO_CONFIG` constant. Fuzzy-match these values against the options the form presents:
+Use `eeo` from the SQLite query above:
 
-| Question          | Source                        |
-| ----------------- | ----------------------------- |
-| Gender            | `EEO_CONFIG.gender`           |
-| Race / Ethnicity  | `EEO_CONFIG.ethnicity`        |
-| Veteran status    | `EEO_CONFIG.veteranStatus`    |
-| Disability status | `EEO_CONFIG.disabilityStatus` |
+- Gender: `eeo.gender`
+- Ethnicity/race: `eeo.ethnicity`
+- Veteran status: `eeo.veteran_status`
+- Disability status: `eeo.disability_status`
 
-If a config value is `null`, select "Decline to self-identify" or the equivalent option.
+If one of those values is `null` or `eeo` is missing, select "Decline to self-identify" or the closest equivalent option.
 
 ### Work authorization
 
-Read `packages/_config/user/src/eeo.ts` for work authorization fields:
+Use `eeo.work_authorization` and `eeo.requires_visa_sponsorship` from the SQLite query above.
 
-| Question                              | Source                                             |
-| ------------------------------------- | -------------------------------------------------- |
-| Are you authorized to work in the US? | `EEO_CONFIG.workAuthorization` (if non-null → Yes) |
-| Will you require visa sponsorship?    | `EEO_CONFIG.requiresVisaSponsorship`               |
-| Citizenship status                    | `EEO_CONFIG.workAuthorization`                     |
+- If `work_authorization` is present, use it directly.
+- If `requires_visa_sponsorship` is `1` or `true`, answer that sponsorship is required.
+- If `requires_visa_sponsorship` is `0` or `false`, answer that sponsorship is not required.
+- If `work_authorization` is `null` or `eeo` is missing, ask the user instead of guessing.
 
 ### Salary expectations
 
-If the form asks for a salary range, use `USER_PROFILE.salaryMin` and `USER_PROFILE.salaryMax`. If it asks for a single desired/expected salary, use `USER_PROFILE.desiredSalary`. All from `packages/_config/user/src/experience.ts`.
+If the form asks for a salary range, use `profile.salary_min` and `profile.salary_max`. If it asks for a single desired/expected salary, use `profile.desired_salary`.
 
 ### Free-text questions
 
 For open-ended questions like "Why do you want to work here?" or "Tell us about a relevant project":
 
-- Generate a concise 2-3 sentence response based on the role description, company info, and the user's experience from `USER_PROFILE`
-- Tailor the response to highlight relevant skills and experience
-- Keep it professional and specific to the role
+- Generate a concise 2-3 sentence response based on the role description, company info, and the SQLite data you loaded from `user_profile`, `work_experience`, `education`, `certification`, and `form_defaults`.
+- Tailor the response to highlight relevant skills and experience.
+- Keep it professional and specific to the role.
 
 ### Questions not covered by config
 
-If you encounter a form field that you cannot answer from the profile or EEO config, ask the user. Common examples:
+If you encounter a form field that you cannot answer from the profile, EEO config, or form defaults, ask the user. Common examples:
 
-- Start date availability — compute by adding `USER_PROFILE.startDateWeeksOut` weeks to today's date
-- How did you hear about this role?
-- Referral name
-- Anything role-specific or unusual
+- Start date availability — compute by adding `profile.start_date_weeks_out` weeks to today's date.
+- How did you hear about this role? — use `formDefaults.how_did_you_hear` if present and non-empty.
+- Referral name — use `formDefaults.referred_by_employee` if present and non-empty.
+- Employment type / references / non-compete / previous employment — use `formDefaults.employment_type`, `formDefaults.professional_references`, `formDefaults.non_compete_agreement`, and `formDefaults.previously_employed` if present and non-empty.
+- Anything role-specific or unusual.
 
 ### Multi-page forms
 
 Some ATS platforms (especially Workday) spread applications across multiple pages:
 
-1. Fill all fields on the current page
-2. Take a `browser_snapshot` to confirm everything is filled
-3. Click "Next", "Continue", or equivalent
-4. Repeat until you reach the review/submit page
+1. Fill all fields on the current page.
+2. Take a `browser_snapshot` to confirm everything is filled.
+3. Click "Next", "Continue", or equivalent.
+4. Repeat until you reach the review/submit page.
 
 ### Tips for interacting with form elements
 
-- Use `browser_fill` for text inputs (pass the `ref` from the snapshot and the value)
-- Use `browser_select_option` for dropdown/select elements
-- Use `browser_click` for radio buttons and checkboxes
-- Use `browser_file_upload` for file inputs (pass the `ref` and absolute local file path)
-- If a field is not visible, try scrolling with `browser_scroll` or clicking a tab/section header first
-- After filling fields, take periodic snapshots to verify they were filled correctly
+- Use `browser_type` or `browser_fill_form` for text inputs.
+- Use `browser_select_option` for dropdown/select elements.
+- Use `browser_click` for radio buttons and checkboxes.
+- Use `browser_file_upload` for file inputs.
+- If a field is not visible, click a tab or section header first, press `PageDown`, or use `browser_run_code` to scroll it into view.
+- After filling fields, take periodic snapshots to verify they were filled correctly.
 
 ## Step H: Pre-Submission Review
 
@@ -249,7 +361,7 @@ Some ATS platforms (especially Workday) spread applications across multiple page
 
     **Response:** `{ "data": { "screenshotUrl": "..." } }`
 
-3. Use the Read tool on `SCREENSHOT_PATH` to visually verify the form.
+3. Open the saved screenshot file with the available image/view/read tool and visually verify the form.
 4. Summarize what was filled in for the user.
 5. **Ask the user:** "The application form is filled out. Please review the browser window. Should I submit?"
 6. **DO NOT click submit until the user explicitly confirms.**
@@ -258,8 +370,8 @@ Some ATS platforms (especially Workday) spread applications across multiple page
 
 Only proceed if the user explicitly says yes:
 
-1. Click the submit button using `browser_click`
-2. Wait a few seconds for the confirmation page to load
+1. Click the submit button using `browser_click`.
+2. Wait a few seconds for the confirmation page to load.
 
 ## Step J: Update Records
 
@@ -283,8 +395,8 @@ Replace `APPLICATION_ID` and `ROLE_ID` with values from previous steps.
       -d '{"roleId":"ROLE_ID","reason":"User declined to submit"}' \
       http://localhost:3000/api/apply/skip
     ```
-- Leave the application as "draft"
-- Inform the user they can re-run `/auto-apply` to try the next role
+- Leave the application as "draft".
+- Inform the user they can re-run `/auto-apply` to try the next role.
 
 ## Step K: Summary
 
@@ -300,16 +412,16 @@ Display a summary:
 
 ## Error Handling
 
-| Failure                                         | Action                                                                    |
-| ----------------------------------------------- | ------------------------------------------------------------------------- |
-| No unapplied roles found                        | Inform user, stop                                                         |
-| Document generation fails (Anthropic API error) | Report the error. The draft application record exists for retry.          |
-| Document download fails                         | Report the error, ask user to check storage                               |
-| Page navigation fails (404, dead link)          | Inform user and ask for an alternative URL                                |
-| Login wall detected                             | Tell user to log in manually in the browser window, wait for confirmation |
-| CAPTCHA detected                                | Tell user to solve it manually, wait for confirmation                     |
-| Form field not found or unclear                 | Take a snapshot, describe what is visible, ask user for guidance          |
-| Submit button not found                         | Take a snapshot, ask user to identify the submit element                  |
-| Submission fails (error after clicking submit)  | Do NOT update status, inform user                                         |
-| Page legitimacy check fails to load             | Skip the role with reason "Page failed to load" and loop to next          |
-| API endpoint returns error                      | Display the error message from the response and stop or ask for guidance  |
+| Failure | Action |
+| --- | --- |
+| No unapplied roles found | Inform user, stop |
+| Document generation fails (Anthropic API error) | Report the error. The draft application record exists for retry. |
+| Document download fails | Report the error, ask user to check storage |
+| Page navigation fails (404, dead link) | Inform user and ask for an alternative URL |
+| Login wall detected | Tell user to log in manually in the browser window, wait for confirmation |
+| CAPTCHA detected | Tell user to solve it manually, wait for confirmation |
+| Form field not found or unclear | Take a snapshot, describe what is visible, ask user for guidance |
+| Submit button not found | Take a snapshot, ask user to identify the submit element |
+| Submission fails (error after clicking submit) | Do NOT update status, inform user |
+| Page legitimacy check fails to load | Skip the role with reason "Page failed to load" and loop to next |
+| API endpoint returns error | Display the error message from the response and stop or ask for guidance |

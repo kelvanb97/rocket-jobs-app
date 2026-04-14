@@ -12,7 +12,7 @@
 
 An AI-powered job search pipeline that scrapes, scores, generates tailored documents, and auto-applies to the best remote roles - so I can focus on interviewing, not searching.
 
-Job hunting is a full-time job. I got tired of refreshing five different job boards, skimming hundreds of listings, and losing track of which ones were actually worth applying to. So I built a system that does it for me - scrapes listings across multiple boards, scores every role against my actual preferences using Claude, generates tailored resumes and cover letters, and auto-applies to the top matches.
+Job hunting is a full-time job. I got tired of refreshing five different job boards, skimming hundreds of listings, and losing track of which ones were actually worth applying to. So I built a system that does it for me - scrapes listings across multiple boards, scores every role against my actual preferences using a configured LLM provider, generates tailored resumes and cover letters, and auto-applies to the top matches.
 
 ## Join the community
 
@@ -44,9 +44,9 @@ Run `/rj-setup` using your AI assistant to configure the app and tell it about y
 
 ## Skills
 
-The repo ships with a handful of built-in skills under `.claude/skills/rj-*`. Any AI coding assistant that supports the [agentskills.io](https://agentskills.io) spec (Claude Code, Codex, OpenCode, …) will pick these up automatically when you open this folder. You run a skill by asking your assistant for it (most use `/rj-install`, `/rj-setup`, etc.).
+The repo ships with shared Rocket Jobs skills under [`.skills/rj-*`](./.skills/). The harness-specific entrypoints [`.agents/skills/`](./.agents/skills/) and [`.claude/skills/`](./.claude/skills/) are compatibility symlinks that resolve to that same shared source. Codex also reads repo guidance from [AGENTS.md](./AGENTS.md) and project MCP config from [`.codex/config.toml`](./.codex/config.toml).
 
-See [**.claude/skills/rj-help/SKILL.md**](./.claude/skills/rj-help/SKILL.md) for the full table of available skills, what each one does, what you'll need, and when to use it. That file is the single source of truth — it's what `/rj-help` renders in your AI assistant.
+See [**.skills/rj-help/SKILL.md**](./.skills/rj-help/SKILL.md) for the full table of available skills, what each one does, what you'll need, and when to use it. That file is the single source of truth — it's what `/rj-help` renders in your AI assistant.
 
 ## Help I'm stuck!
 

@@ -24,10 +24,10 @@ data
 .superpowers
 
 # personal project-scoped skills (not shared with the team)
-.claude/skills/abstraction/
-.claude/skills/grill-me/
-.claude/skills/improve-codebase-architecture/
-.claude/skills/tdd/
+.skills/abstraction/
+.skills/grill-me/
+.skills/improve-codebase-architecture/
+.skills/tdd/
 
 # private config (contains PII)
 packages/_config/user/src/private.ts

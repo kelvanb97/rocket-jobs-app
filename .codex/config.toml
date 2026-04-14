@@ -1,0 +1,182 @@
+[mcp_servers.playwright]
+command = "npx"
+args = ["@playwright/mcp@0.0.68", "--browser", "chrome", "--user-data-dir", "./data/chrome-profile"]
+startup_timeout_sec = 20
+tool_timeout_sec = 120
+
+[mcp_servers.playwright.tools.browser_navigate]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_navigate_back]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_close]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_tabs]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_resize]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_click]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_drag]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_hover]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_type]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_press_key]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_select_option]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_file_upload]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_handle_dialog]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_fill_form]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_evaluate]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_run_code]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_snapshot]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_console_messages]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_network_requests]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_wait_for]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_take_screenshot]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_get_config]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_network_state_set]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_route]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_route_list]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_unroute]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_cookie_clear]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_cookie_delete]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_cookie_get]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_cookie_list]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_cookie_set]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_localstorage_clear]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_localstorage_delete]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_localstorage_get]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_localstorage_list]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_localstorage_set]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_sessionstorage_clear]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_sessionstorage_delete]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_sessionstorage_get]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_sessionstorage_list]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_sessionstorage_set]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_set_storage_state]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_storage_state]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_start_tracing]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_stop_tracing]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_start_video]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_stop_video]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_mouse_click_xy]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_mouse_down]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_mouse_drag_xy]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_mouse_move_xy]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_mouse_up]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_mouse_wheel]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_pdf_save]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_generate_locator]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_verify_element_visible]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_verify_list_visible]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_verify_text_visible]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_verify_value]
+approval_mode = "approve"
