@@ -43,6 +43,13 @@
 			"when": 1776036328904,
 			"tag": "0005_fine_lethal_legion",
 			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "6",
+			"when": 1776205172627,
+			"tag": "0006_classy_mentor",
+			"breakpoints": true
 		}
 	]
 }

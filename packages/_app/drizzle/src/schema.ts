@@ -349,6 +349,7 @@ export const education = sqliteTable(
 		degree: text("degree").notNull(),
 		field: text("field").notNull(),
 		institution: text("institution").notNull(),
+		gpa: text("gpa").notNull().default(""),
 		createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
 			() => new Date(),
 		),

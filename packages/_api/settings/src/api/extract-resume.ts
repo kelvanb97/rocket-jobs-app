@@ -17,6 +17,7 @@ Rules:
 - For highlights, capture bullet-point achievements as short standalone strings.
 - For skills, dedupe and normalize casing (e.g. "TypeScript" not "typescript").
 - For certifications, extract the certification name, issuing organization, and any dates or verification URLs if present.
+- For education, capture GPA as a string exactly as written (e.g. "3.85", "3.85/4.0", "First Class Honours"). Omit if not present on the resume.
 - Do not invent or hallucinate companies, titles, schools, or dates that are not in the resume.`
 
 export async function extractResume(

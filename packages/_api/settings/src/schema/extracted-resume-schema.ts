@@ -46,6 +46,7 @@ export const extractedResumeSchema = z.object({
 				degree: z.string(),
 				field: z.string(),
 				institution: z.string(),
+				gpa: z.string().optional(),
 			}),
 		)
 		.optional(),

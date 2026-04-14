@@ -33,6 +33,7 @@ interface IEducationEntry {
 	degree: string
 	field: string
 	institution: string
+	gpa: string
 	createdAt: Date | null
 	updatedAt: Date | null
 }
@@ -48,12 +49,14 @@ interface IEducationForm {
 	degree: string
 	field: string
 	institution: string
+	gpa: string
 }
 
 const EMPTY_FORM: IEducationForm = {
 	degree: "",
 	field: "",
 	institution: "",
+	gpa: "",
 }
 
 export function EducationCard({
@@ -120,6 +123,7 @@ export function EducationCard({
 			degree: form.degree,
 			field: form.field,
 			institution: form.institution,
+			gpa: form.gpa,
 		})
 	}
 
@@ -131,6 +135,7 @@ export function EducationCard({
 			degree: entry.degree,
 			field: entry.field,
 			institution: entry.institution,
+			gpa: entry.gpa,
 		})
 	}
 
@@ -188,6 +193,16 @@ export function EducationCard({
 					placeholder="University of California, Berkeley"
 				/>
 			</InputLabelWrapper>
+			<InputLabelWrapper>
+				<Label>GPA</Label>
+				<Input
+					value={form.gpa}
+					onChange={(e) =>
+						setForm((f) => ({ ...f, gpa: e.target.value }))
+					}
+					placeholder="3.85"
+				/>
+			</InputLabelWrapper>
 			<XStack className="gap-2 justify-end">
 				<Button variant="ghost" size="sm" onClick={handleCancel}>
 					Cancel
@@ -233,6 +248,11 @@ export function EducationCard({
 									<span className="text-sm text-muted-foreground">
 										{entry.institution}
 									</span>
+									{entry.gpa && (
+										<span className="text-sm text-muted-foreground">
+											GPA: {entry.gpa}
+										</span>
+									)}
 								</YStack>
 								<XStack className="gap-1">
 									<Button

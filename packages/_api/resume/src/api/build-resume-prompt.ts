@@ -43,7 +43,10 @@ function buildFullProfile(profile: TUserProfileFull): string {
 
 	if (profile.education.length > 0) {
 		const edu = profile.education
-			.map((e) => `- ${e.degree} in ${e.field}, ${e.institution}`)
+			.map(
+				(e) =>
+					`- ${e.degree} in ${e.field}, ${e.institution}${e.gpa ? ` (GPA: ${e.gpa})` : ""}`,
+			)
 			.join("\n")
 		sections.push(`\nEducation:\n${edu}`)
 	}
@@ -87,7 +90,7 @@ You will be given the candidate's complete profile (work history, skills, highli
 1. **Summary**: Rewrite the professional summary (2-3 sentences) to emphasize the skills and experience most relevant to this specific role. Do not fabricate experience.
 2. **Skills**: Select 15-25 skills from the candidate's skill list that are most relevant to the role. Group them into categories (e.g., "Languages", "Frontend", "Backend & Infrastructure"). Order categories and items within them by relevance to the role. Only include skills the candidate actually has.
 3. **Work Experience**: Include ALL work experiences but reorder highlights within each role to lead with the most relevant ones. Select the 3-5 most impactful highlights per role. You may lightly reword highlights to emphasize relevant aspects, but do not fabricate accomplishments.
-4. **Education**: Include all education entries as-is.
+4. **Education**: Include all education entries as-is, preserving GPA when provided.
 5. **Certifications**: Include all certifications as-is. Prioritize certifications most relevant to the role.
 
 Important rules:

@@ -210,6 +210,7 @@ export function ImportResumePreviewModal({
 				degree: edu.degree,
 				field: edu.field,
 				institution: edu.institution,
+				gpa: edu.gpa ?? "",
 			}))
 
 		const certifications = extractedCertifications
@@ -380,6 +381,11 @@ export function ImportResumePreviewModal({
 											<span className="text-xs text-muted-foreground">
 												{edu.institution}
 											</span>
+											{edu.gpa && (
+												<span className="text-xs text-muted-foreground">
+													GPA: {edu.gpa}
+												</span>
+											)}
 										</YStack>
 									</XStack>
 								))}

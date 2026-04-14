@@ -180,6 +180,7 @@ export const saveAllSettingsAction = actionClient
 				degree: edu.degree,
 				field: edu.field,
 				institution: edu.institution,
+				gpa: edu.gpa ?? "",
 			})
 			if (!result.ok) throw new SafeForClientError(result.error.message)
 		}

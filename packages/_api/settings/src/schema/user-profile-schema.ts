@@ -83,6 +83,7 @@ export type TUserProfileFull = {
 		degree: string
 		field: string
 		institution: string
+		gpa: string
 		createdAt: Date | null
 		updatedAt: Date | null
 	}>
@@ -158,6 +159,7 @@ export const upsertEducationSchema = z.object({
 	degree: z.string().min(1),
 	field: z.string().min(1),
 	institution: z.string().min(1),
+	gpa: z.string().default(""),
 })
 
 export type TUpsertEducation = z.infer<typeof upsertEducationSchema>

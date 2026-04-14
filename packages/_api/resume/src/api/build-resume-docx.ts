@@ -165,7 +165,7 @@ export async function buildResumeDocx(
 	for (const edu of resume.education) {
 		children.push(
 			new Paragraph({
-				spacing: { after: 40 },
+				spacing: { after: edu.gpa ? 20 : 40 },
 				children: [
 					new TextRun({
 						text: `${edu.degree} in ${edu.field}`,
@@ -181,6 +181,20 @@ export async function buildResumeDocx(
 				],
 			}),
 		)
+		if (edu.gpa) {
+			children.push(
+				new Paragraph({
+					spacing: { after: 60 },
+					children: [
+						new TextRun({
+							text: `GPA: ${edu.gpa}`,
+							size: 20,
+							font: "Calibri",
+						}),
+					],
+				}),
+			)
+		}
 	}
 
 	// Certifications section
