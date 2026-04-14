@@ -28,7 +28,7 @@ Ask for help, share your wins, or just say hi.
 
 ## Install
 
-Clone the repository `git clone https://github.com/kelvanb97/rocket-jobs-app.git`
+Clone the repository `https://github.com/rocket-jobs-ai/rocket-jobs-app.git`
 
 Open the `rocket-jobs-app` folder with your AI coding assistant and run:
 

@@ -10,7 +10,7 @@ If you prefer to set up the project without an AI coding assistant, follow these
 
 ## Install
 
-Clone the repository `git clone https://github.com/kelvanb97/rocket-jobs-app.git`
+Clone the repository `https://github.com/rocket-jobs-ai/rocket-jobs-app.git`
 
 Install dependencies `pnpm install`
 
