@@ -21,14 +21,41 @@ Use **Playwright MCP** (`mcp__playwright__*`) for browser interaction.
 
 ## Step 0: Pre-flight — is the dev server running?
 
+Probe first:
+
 ```bash
 curl -sf http://localhost:3000 > /dev/null && echo OK || echo DOWN
 ```
 
-- **OK** → continue.
-- **DOWN** → tell the user:
-  > "I can't reach <http://localhost:3000>. If you haven't installed yet, run `/rj-install` first. If you have installed, run `pnpm dev` in a terminal and re-run `/rj-setup`."
-  Then stop.
+- **OK** → continue to Step 1.
+- **DOWN** → try to start it automatically (below). Don't ask the user first; just do it.
+
+### Auto-start the dev server
+
+1. Start `pnpm dev` in the background (Bash tool with `run_in_background: true`). Capture the background process so you can read its output on failure:
+
+    ```bash
+    pnpm dev
+    ```
+
+2. Poll readiness for up to 60 seconds:
+
+    ```bash
+    for i in $(seq 1 60); do
+      curl -sf http://localhost:3000 > /dev/null && echo "OK" && break
+      sleep 1
+    done
+    ```
+
+3. **If `OK` is seen:** tell the user:
+
+   > "Dev server wasn't running — started `pnpm dev` in the background. It will stay running after this skill exits so you can keep using the app. Continuing setup."
+
+   Then continue to Step 1. **Do not kill the background process** — the rest of this skill (and the user's subsequent work) depends on it.
+
+4. **If no `OK` after 60 seconds:** read the background process output with the `Read` tool (or `BashOutput` equivalent in your harness), surface the last ~30 lines of stdout/stderr to the user, then stop with:
+
+   > "I tried to start the dev server but it didn't come up on <http://localhost:3000>. If you haven't installed yet, run `/rj-install` first. Otherwise check the output above — likely a missing dep, broken migration, or port conflict — then re-run `/rj-setup` once `pnpm dev` boots cleanly."
 
 ## Step 1: Open /llm-config in the browser
 
@@ -191,6 +218,6 @@ Close the Playwright browser (`mcp__playwright__browser_close`), then stop.
 
 ## Notes
 
-- If the dev server dies mid-walkthrough, tell the user and stop. Don't try to restart it from this skill.
+- If the dev server dies mid-walkthrough, tell the user and stop. Don't try to restart it from this skill (auto-start is pre-flight only, in Step 0).
 - If a Playwright action fails twice in a row on the same field, surface the failure to the user and ask whether to skip that field or stop.
 - Don't try to verify saved values via the API — verify by re-snapshotting the form and reading the input values from the DOM.
