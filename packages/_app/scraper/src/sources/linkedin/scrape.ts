@@ -1,9 +1,14 @@
+import {
+	BotBlockedError,
+	CaptchaDetectedError,
+} from "@rja-integrations/patchright/errors"
 import { randomWait } from "@rja-integrations/patchright/interaction"
 import type {
 	BrowserContext,
 	Locator,
 	Page,
 } from "@rja-integrations/patchright/page"
+import { checkForBlocks } from "@rja-integrations/patchright/page"
 import type { ScrapedRole, TSourceScrapeOptions } from "#types"
 import { extractJobFromPanel } from "./extract"
 import {
@@ -11,6 +16,12 @@ import {
 	PAGE_STATE_SELECTOR,
 	PAGINATION_SELECTOR,
 } from "./selectors"
+
+const LINKEDIN_MODAL_SELECTOR = [
+	"[data-test-modal-container]",
+	".artdeco-modal-overlay",
+	".artdeco-modal",
+].join(", ")
 
 async function pageStateText(page: Page): Promise<string | null> {
 	try {
@@ -125,11 +136,139 @@ async function tryLoadMoreCards(page: Page, cards: Locator): Promise<boolean> {
 	return after > before
 }
 
+async function closeLinkedinModalOverlay(page: Page): Promise<void> {
+	const overlay = page.locator(LINKEDIN_MODAL_SELECTOR).first()
+
+	await page.keyboard.press("Escape").catch(() => {})
+
+	const dismissSelectors = [
+		'button[aria-label="Dismiss"]',
+		'button[aria-label="Close"]',
+		".artdeco-modal__dismiss",
+	]
+	for (const selector of dismissSelectors) {
+		const button = page.locator(selector).first()
+		if (await button.isVisible().catch(() => false)) {
+			await button.click({ timeout: 2_000 }).catch(() => {})
+		}
+	}
+
+	const dismissNames = [/dismiss/i, /close/i, /not now/i, /got it/i, /skip/i]
+	for (const name of dismissNames) {
+		const button = page.getByRole("button", { name }).first()
+		if (await button.isVisible().catch(() => false)) {
+			await button.click({ timeout: 2_000 }).catch(() => {})
+		}
+	}
+
+	await overlay.waitFor({ state: "hidden", timeout: 3_000 }).catch(() => {})
+
+	if (await overlay.isVisible().catch(() => false)) {
+		throw new Error("LinkedIn modal overlay is still blocking the page.")
+	}
+}
+
+async function maybeHandleRecoverableIssue(
+	page: Page,
+	err: unknown,
+	onHandoff: TSourceScrapeOptions["onHandoff"],
+): Promise<boolean> {
+	if (!onHandoff) return false
+
+	const message = err instanceof Error ? err.message : String(err)
+	const currentUrl = page.url()
+
+	if (err instanceof CaptchaDetectedError) {
+		await onHandoff({
+			source: "linkedin",
+			reasonCode: "captcha",
+			message:
+				"LinkedIn presented a CAPTCHA or human-verification challenge. Complete it in the live browser, then resume the scrape.",
+			currentUrl,
+			preferredActor: "user",
+			resumeMode: "in_place",
+		})
+		return true
+	}
+
+	if (err instanceof BotBlockedError) {
+		await onHandoff({
+			source: "linkedin",
+			reasonCode: "bot_block",
+			message:
+				"LinkedIn blocked the scrape with an anti-bot check. Resolve it in the live browser, then resume the scrape.",
+			currentUrl,
+			preferredActor: "user",
+			resumeMode: "in_place",
+		})
+		return true
+	}
+
+	if (
+		/captcha|are you a robot|verify you(?:'|’)re human|security verification/i.test(
+			message,
+		)
+	) {
+		await onHandoff({
+			source: "linkedin",
+			reasonCode: "captcha",
+			message:
+				"LinkedIn needs human verification before the scrape can continue. Complete it in the live browser, then resume the scrape.",
+			currentUrl,
+			preferredActor: "user",
+			resumeMode: "in_place",
+		})
+		return true
+	}
+
+	if (
+		/intercepts pointer events|artdeco-modal-overlay|data-test-modal-container|modal-overlay/i.test(
+			message,
+		)
+	) {
+		await onHandoff({
+			source: "linkedin",
+			reasonCode: "modal_overlay",
+			message:
+				"LinkedIn opened a blocking modal overlay. Hand control over to let your agent dismiss it automatically, or resolve it yourself in the live browser.",
+			currentUrl,
+			preferredActor: "harness",
+			resumeMode: "in_place",
+			recoverByHarness: async () => {
+				await closeLinkedinModalOverlay(page)
+			},
+		})
+		return true
+	}
+
+	return false
+}
+
+async function clickJobCard(
+	page: Page,
+	card: Locator,
+	onHandoff: TSourceScrapeOptions["onHandoff"],
+): Promise<boolean> {
+	try {
+		await checkForBlocks(page)
+		await card.scrollIntoViewIfNeeded()
+		await card.click({ timeout: 2_000 }).catch(async () => {
+			await card.locator("a").first().click({ timeout: 2_000 })
+		})
+		return true
+	} catch (err) {
+		const handled = await maybeHandleRecoverableIssue(page, err, onHandoff)
+		if (handled) return false
+		throw err
+	}
+}
+
 async function scrapeResultsPage(
 	page: Page,
 	cards: Locator,
 	seen: Set<string>,
 	maxPerPage: number,
+	onHandoff: TSourceScrapeOptions["onHandoff"],
 ): Promise<ScrapedRole[]> {
 	const pageRoles: ScrapedRole[] = []
 	const maxNoGrowth = 3
@@ -141,11 +280,8 @@ async function scrapeResultsPage(
 
 		if (i < count) {
 			const card = cards.nth(i)
-			await card.scrollIntoViewIfNeeded()
-
-			await card.click({ timeout: 2000 }).catch(async () => {
-				await card.locator("a").first().click({ timeout: 2000 })
-			})
+			const clicked = await clickJobCard(page, card, onHandoff)
+			if (!clicked) continue
 
 			await page.waitForTimeout(100)
 
@@ -196,7 +332,7 @@ export async function scrape(
 	config: TLinkedinConfig,
 	options?: TSourceScrapeOptions,
 ): Promise<ScrapedRole[]> {
-	const { onRole, signal } = options ?? {}
+	const { onRole, onHandoff, signal } = options ?? {}
 	const page = await context.newPage()
 	const allRoles: ScrapedRole[] = []
 	const seen = new Set<string>()
@@ -210,6 +346,17 @@ export async function scrape(
 
 			await page.goto(searchUrl, { waitUntil: "domcontentloaded" })
 			await page.waitForTimeout(2000)
+			try {
+				await checkForBlocks(page)
+			} catch (err) {
+				const handled = await maybeHandleRecoverableIssue(
+					page,
+					err,
+					onHandoff,
+				)
+				if (handled) continue
+				throw err
+			}
 
 			const cards = page.locator(CARD_SELECTOR)
 			const cardCount = await cards.count()
@@ -233,6 +380,7 @@ export async function scrape(
 					cards,
 					seen,
 					config.maxPerPage,
+					onHandoff,
 				)
 
 				pagesScraped++

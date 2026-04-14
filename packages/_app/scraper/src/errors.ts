@@ -1,4 +1,5 @@
 import type { TSourceName } from "@rja-api/settings/schema/scraper-config-schema"
+import type { TScrapeHandoff } from "#types"
 
 export type TNeedsAuthEntry = {
 	name: TSourceName
@@ -14,5 +15,14 @@ export class AuthRequiredError extends Error {
 		)
 		this.name = "AuthRequiredError"
 		this.needsAuth = needsAuth
+	}
+}
+
+export class ScrapeHandoffRequiredError extends Error {
+	readonly handoff: TScrapeHandoff
+	constructor(handoff: TScrapeHandoff) {
+		super(handoff.message)
+		this.name = "ScrapeHandoffRequiredError"
+		this.handoff = handoff
 	}
 }

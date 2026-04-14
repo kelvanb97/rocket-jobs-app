@@ -30,6 +30,7 @@ Interpret the response by status code:
 
 - **200** with `{ "data": <summary> }` → go to Step 3.
 - **401** with `{ "error": "auth_required", "needsAuth": [{ "name": "...", "displayName": "...", "homepageUrl": "..." }] }` → go to Step 2.
+- **409** with `{ "error": "handoff_required", "handoff": { "sessionId": "...", "source": "...", "reasonCode": "...", "message": "...", "currentUrl": "...", "preferredActor": "harness" | "user", "resumeMode": "in_place" } }` → go to Step 2b.
 - **500** with `{ "error": "<message>" }` → surface the message and stop. (Covers "no sources enabled" — point the user at `/settings`.)
 - Anything else → surface the status + body and stop.
 
@@ -53,6 +54,36 @@ Behavior:
 - Times out after 10 minutes and exits.
 
 After all login CLI commands have returned, **go back to Step 1 and re-run the scrape** — but only once. If the second attempt also returns 401, surface the error ("login wasn't picked up — sign in fully and re-run /rj-scrape") and stop.
+
+## Step 2b: Recover a paused scrape handoff
+
+When `/api/scrape` returns `409 handoff_required`, the scrape session is paused in-place and the browser stays open. Never restart the scrape from scratch at this point.
+
+Read the handoff payload and branch on `preferredActor`:
+
+- **`preferredActor: "harness"`**
+    1. Tell the user what happened and ask explicitly whether they want to hand control over so you can resolve it and resume the scrape.
+    2. If the user agrees, call:
+        ```bash
+        curl -s -X POST "http://localhost:3000/api/scrape/<sessionId>/recover"
+        ```
+    3. If recovery returns another `409 handoff_required`, surface the new message and follow the updated `preferredActor`.
+    4. Otherwise poll:
+        ```bash
+        curl -s "http://localhost:3000/api/scrape/<sessionId>"
+        ```
+        until the session reaches `completed`, another `handoff_required`, or `failed`.
+
+- **`preferredActor: "user"`**
+    1. Tell the user the live browser is waiting on them and explain the issue briefly (CAPTCHA, human verification, etc.).
+    2. Ask them to finish the challenge in the browser and confirm when they are done.
+    3. Then resume:
+        ```bash
+        curl -s -X POST "http://localhost:3000/api/scrape/<sessionId>/resume" -H "Content-Type: application/json" -d '{"actor":"user"}'
+        ```
+    4. Poll `GET /api/scrape/<sessionId>` until the session reaches `completed`, another `handoff_required`, or `failed`.
+
+If the user declines a Codex handoff, tell them to resolve the issue in the live browser and then use the user-resume flow above.
 
 ## Step 3: Report results
 
