@@ -82,32 +82,42 @@ const SECTIONS: TSection[] = [
 type TTabKey = string
 
 interface ISettingsTemplateProps {
-	profile: TUserProfileFull | null
-	eeo: TEeoConfig | null
-	formDefaults: TFormDefaults | null
-	scoring: TScoringConfig | null
-	scraper: TScraperConfig | null
+	initialProfile: TUserProfileFull | null
+	initialEeo: TEeoConfig | null
+	initialFormDefaults: TFormDefaults | null
+	initialScoring: TScoringConfig | null
+	initialScraper: TScraperConfig | null
 	llm: TLlmConfig | null
 }
 
 export function SettingsTemplate({
-	profile,
-	eeo,
-	formDefaults,
-	scoring,
-	scraper,
+	initialProfile,
+	initialEeo,
+	initialFormDefaults,
+	initialScoring,
+	initialScraper,
 	llm,
 }: ISettingsTemplateProps) {
 	const [activeTab, setActiveTab] = useState<TTabKey>("profile")
+	const [profile, setProfile] = useState(initialProfile)
+	const [eeo] = useState(initialEeo)
+	const [formDefaults] = useState(initialFormDefaults)
+	const [scoring] = useState(initialScoring)
+	const [scraper] = useState(initialScraper)
+	const [profileRev, setProfileRev] = useState(0)
 	const router = useRouter()
 	const onSaved = useCallback(() => router.refresh(), [router])
+	const onImported = useCallback((freshProfile: TUserProfileFull) => {
+		setProfile(freshProfile)
+		setProfileRev((r) => r + 1)
+	}, [])
 
 	const llmConfigured = !!(llm?.anthropicApiKey || llm?.openaiApiKey)
 
 	return (
 		<YStack className="h-full gap-0">
 			{llmConfigured ? (
-				<ImportFromResumeBar profile={profile} onImported={onSaved} />
+				<ImportFromResumeBar profile={profile} onImported={onImported} />
 			) : (
 				<LlmMissingBanner />
 			)}
@@ -155,11 +165,16 @@ export function SettingsTemplate({
 
 				<div className="flex-1 overflow-y-auto pl-6 pb-6">
 					{activeTab === "profile" && (
-						<ProfileCard profile={profile} onSaved={onSaved} />
+						<ProfileCard
+							key={`profile-${profileRev}`}
+							profile={profile}
+							onSaved={onSaved}
+						/>
 					)}
 					{activeTab === "work-experience" &&
 						(profile ? (
 							<WorkExperienceCard
+								key={`work-experience-${profileRev}`}
 								profileId={profile.id}
 								workExperience={profile.workExperience}
 								onSaved={onSaved}
@@ -170,6 +185,7 @@ export function SettingsTemplate({
 					{activeTab === "education" &&
 						(profile ? (
 							<EducationCard
+								key={`education-${profileRev}`}
 								profileId={profile.id}
 								education={profile.education}
 								onSaved={onSaved}
@@ -180,6 +196,7 @@ export function SettingsTemplate({
 					{activeTab === "certifications" &&
 						(profile ? (
 							<CertificationCard
+								key={`certifications-${profileRev}`}
 								profileId={profile.id}
 								certifications={profile.certifications}
 								onSaved={onSaved}

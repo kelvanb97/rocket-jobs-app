@@ -18,13 +18,13 @@ export async function SettingsScreen() {
 	return (
 		<AppShell activePage="settings">
 			<SettingsTemplate
-				profile={profileResult.ok ? profileResult.data : null}
-				eeo={eeoResult.ok ? eeoResult.data : null}
-				formDefaults={
+				initialProfile={profileResult.ok ? profileResult.data : null}
+				initialEeo={eeoResult.ok ? eeoResult.data : null}
+				initialFormDefaults={
 					formDefaultsResult.ok ? formDefaultsResult.data : null
 				}
-				scoring={scoringResult.ok ? scoringResult.data : null}
-				scraper={scraperResult.ok ? scraperResult.data : null}
+				initialScoring={scoringResult.ok ? scoringResult.data : null}
+				initialScraper={scraperResult.ok ? scraperResult.data : null}
 				llm={llmResult.ok ? llmResult.data : null}
 			/>
 		</AppShell>

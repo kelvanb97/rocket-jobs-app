@@ -30,7 +30,7 @@ interface IImportResumePreviewModalProps {
 	extracted: TExtractedResume
 	open: boolean
 	onClose: () => void
-	onApplied: () => void
+	onApplied: (profile: TUserProfileFull) => void
 }
 
 type TProfileFieldKey =
@@ -139,9 +139,10 @@ export function ImportResumePreviewModal({
 		)
 
 	const { execute, result, status } = useAction(applyResumeImportAction, {
-		onSuccess: () => {
+		onSuccess: ({ data }) => {
+			if (!data) return
 			toast.success("Resume data applied!")
-			onApplied()
+			onApplied(data)
 		},
 	})
 	const error = useActionError(result)

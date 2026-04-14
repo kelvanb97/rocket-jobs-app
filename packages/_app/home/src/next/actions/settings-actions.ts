@@ -443,5 +443,8 @@ export const applyResumeImportAction = actionClient
 			if (!result.ok) throw new SafeForClientError(result.error.message)
 		}
 
-		return { ok: true }
+		const freshProfile = getUserProfile()
+		if (!freshProfile.ok)
+			throw new SafeForClientError(freshProfile.error.message)
+		return freshProfile.data
 	})

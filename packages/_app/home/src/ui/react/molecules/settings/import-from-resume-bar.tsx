@@ -18,7 +18,7 @@ import { useRef, useState } from "react"
 
 interface IImportFromResumeBarProps {
 	profile: TUserProfileFull | null
-	onImported: () => void
+	onImported: (profile: TUserProfileFull) => void
 }
 
 export function ImportFromResumeBar({
@@ -104,9 +104,9 @@ export function ImportFromResumeBar({
 					extracted={extracted}
 					open={!!extracted}
 					onClose={() => setExtracted(null)}
-					onApplied={() => {
+					onApplied={(freshProfile) => {
 						setExtracted(null)
-						onImported()
+						onImported(freshProfile)
 					}}
 				/>
 			)}
