@@ -1,3 +1,6 @@
+[sandbox_workspace_write]
+network_access = true
+
 [mcp_servers.playwright]
 command = "npx"
 args = ["@playwright/mcp@0.0.68", "--browser", "chrome", "--user-data-dir", "./data/chrome-profile"]
