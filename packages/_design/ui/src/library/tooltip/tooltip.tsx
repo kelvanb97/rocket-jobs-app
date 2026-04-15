@@ -82,7 +82,7 @@ export function Tooltip({
 			<TooltipTrigger asChild>
 				<CircleQuestionMarkIcon className={iconClassName} />
 			</TooltipTrigger>
-			<TooltipContent>
+			<TooltipContent className="flex max-w-xs flex-col items-start gap-1">
 				<Paragraph
 					className={cn(
 						"inline-block text-wrap leading-snug",

@@ -326,6 +326,7 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 							values={domainExpertise}
 							onChange={(vals) => setDomainExpertise(vals)}
 							max={20}
+							placeholder="Fintech, Healthcare, e-commerce, etc."
 						/>
 					</InputLabelWrapper>
 
@@ -350,6 +351,7 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 							values={preferredLocations}
 							onChange={(vals) => setPreferredLocations(vals)}
 							max={20}
+							placeholder="Seattle WA, San Francisco CA, etc."
 						/>
 					</InputLabelWrapper>
 					<XStack className="gap-4">
@@ -425,7 +427,13 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 						/>
 					</InputLabelWrapper>
 					<InputLabelWrapper>
-						<Label>Industries</Label>
+						<Label>
+							Preferred Industries
+							<Tooltip
+								iconClassName="size-3.5 text-muted-foreground"
+								content="Industries you want to work in (e.g. climate tech, gaming, biotech). Used by the LLM to score industry fit on new roles. Different from Domain Expertise, which is what you have actually worked in."
+							/>
+						</Label>
 						<MultiInput
 							values={industries}
 							onChange={(vals) => setIndustries(vals)}
@@ -433,7 +441,13 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 						/>
 					</InputLabelWrapper>
 					<InputLabelWrapper>
-						<Label>Dealbreakers</Label>
+						<Label>
+							Dealbreakers
+							<Tooltip
+								iconClassName="size-3.5 text-muted-foreground"
+								content="Anything you refuse to work with — skills, tools, technologies, industries, company sizes, work styles, etc. (e.g. PHP, defense, on-call, startups under 50). Any match forces the role's score below 20."
+							/>
+						</Label>
 						<MultiInput
 							values={dealbreakers}
 							onChange={(vals) => setDealbreakers(vals)}
