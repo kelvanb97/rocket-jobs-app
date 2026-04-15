@@ -626,6 +626,9 @@ importers:
       '@rja-core/next-safe-action':
         specifier: workspace:*
         version: link:../../_core/next-safe-action
+      docx-preview:
+        specifier: 0.3.7
+        version: 0.3.7
       zod:
         specifier: 4.3.6
         version: 4.3.6
@@ -3518,6 +3521,9 @@ packages:
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
+
+  docx-preview@0.3.7:
+    resolution: {integrity: sha512-Lav69CTA/IYZPJTsKH7oYeoZjyg96N0wEJMNslGJnZJ+dMUZK85Lt5ASC79yUlD48ecWjuv+rkcmFt6EVPV0Xg==}
 
   docx@9.5.0:
     resolution: {integrity: sha512-WZggg9vVujFcTyyzfIVBBIxlCk51QvhLWl87wtI2zuBdz8C8C0mpRhEVwA2DZd7dXyY0AVejcEVDT9vn7Xm9FA==}
@@ -7697,6 +7703,10 @@ snapshots:
   doctrine@2.1.0:
     dependencies:
       esutils: 2.0.3
+
+  docx-preview@0.3.7:
+    dependencies:
+      jszip: 3.10.1
 
   docx@9.5.0:
     dependencies:

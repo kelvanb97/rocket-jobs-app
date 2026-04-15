@@ -13,6 +13,7 @@ import { Label } from "@rja-design/ui/library/label"
 import { Textarea } from "@rja-design/ui/library/text-area"
 import { XStack } from "@rja-design/ui/primitives/x-stack"
 import { YStack } from "@rja-design/ui/primitives/y-stack"
+import { DocumentViewerDialog } from "#molecules/document-viewer-dialog"
 import { useState } from "react"
 
 interface IApplicationFieldsCardProps {
@@ -33,6 +34,7 @@ function FileSlot({
 	label,
 	fileType,
 	url,
+	onView,
 	onUpload,
 	onRemove,
 	isUploading,
@@ -41,6 +43,7 @@ function FileSlot({
 	label: string
 	fileType: "resume" | "cover_letter"
 	url: string | null
+	onView: () => void
 	onUpload: (file: File) => void
 	onRemove: () => void
 	isUploading: boolean
@@ -60,14 +63,13 @@ function FileSlot({
 			<InputLabelWrapper>
 				<Label>{label}</Label>
 				<XStack className="items-center gap-2 rounded-md border px-3 py-2">
-					<a
-						href={url}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="text-sm text-primary underline truncate flex-1"
+					<button
+						type="button"
+						onClick={onView}
+						className="text-sm text-primary underline truncate flex-1 text-left cursor-pointer"
 					>
-						{label} uploaded
-					</a>
+						View {label}
+					</button>
 					<Button
 						variant="ghost"
 						size="sm"
@@ -116,6 +118,14 @@ export function ApplicationFieldsCard({
 	onGenerate,
 	isGenerating,
 }: IApplicationFieldsCardProps) {
+	const [viewer, setViewer] = useState<{ url: string; title: string } | null>(
+		null,
+	)
+
+	const openViewer = (url: string, title: string) => {
+		setViewer({ url, title })
+	}
+
 	return (
 		<Card>
 			<CardHeader>
@@ -141,6 +151,9 @@ export function ApplicationFieldsCard({
 						label="Resume"
 						fileType="resume"
 						url={resumeUrl}
+						onView={() =>
+							resumeUrl && openViewer(resumeUrl, "Resume")
+						}
 						onUpload={(file) => onUpload("resume", file)}
 						onRemove={() => onRemove("resume")}
 						isUploading={uploadingType === "resume"}
@@ -151,6 +164,10 @@ export function ApplicationFieldsCard({
 						label="Cover Letter"
 						fileType="cover_letter"
 						url={coverLetterUrl}
+						onView={() =>
+							coverLetterUrl &&
+							openViewer(coverLetterUrl, "Cover Letter")
+						}
 						onUpload={(file) => onUpload("cover_letter", file)}
 						onRemove={() => onRemove("cover_letter")}
 						isUploading={uploadingType === "cover_letter"}
@@ -161,14 +178,15 @@ export function ApplicationFieldsCard({
 						<InputLabelWrapper>
 							<Label>Screenshot</Label>
 							<XStack className="items-center gap-2 rounded-md border px-3 py-2">
-								<a
-									href={screenshotUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="text-sm text-primary underline truncate flex-1"
+								<button
+									type="button"
+									onClick={() =>
+										openViewer(screenshotUrl, "Screenshot")
+									}
+									className="text-sm text-primary underline truncate flex-1 text-left cursor-pointer"
 								>
 									View screenshot
-								</a>
+								</button>
 							</XStack>
 						</InputLabelWrapper>
 					)}
@@ -186,6 +204,14 @@ export function ApplicationFieldsCard({
 					</InputLabelWrapper>
 				</YStack>
 			</CardContent>
+			<DocumentViewerDialog
+				open={viewer !== null}
+				onOpenChange={(o) => {
+					if (!o) setViewer(null)
+				}}
+				url={viewer?.url ?? null}
+				title={viewer?.title ?? ""}
+			/>
 		</Card>
 	)
 }

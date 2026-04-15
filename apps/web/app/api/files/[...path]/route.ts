@@ -12,7 +12,7 @@ const MIME_TYPES: Record<string, string> = {
 }
 
 export async function GET(
-	_request: NextRequest,
+	request: NextRequest,
 	{ params }: { params: Promise<{ path: string[] }> },
 ) {
 	const { path } = await params
@@ -30,10 +30,15 @@ export async function GET(
 
 	const filename = basename(filePath)
 
+	const disposition =
+		request.nextUrl.searchParams.get("download") === "1"
+			? "attachment"
+			: "inline"
+
 	return new NextResponse(buffer, {
 		headers: {
 			"Content-Type": mimeType,
-			"Content-Disposition": `attachment; filename="${filename}"`,
+			"Content-Disposition": `${disposition}; filename="${filename}"`,
 		},
 	})
 }

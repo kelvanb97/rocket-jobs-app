@@ -29,6 +29,7 @@
 		"@rja-api/settings": "workspace:*",
 		"@rja-core/dates": "workspace:*",
 		"@rja-core/next-safe-action": "workspace:*",
+		"docx-preview": "0.3.7",
 		"zod": "4.3.6"
 	},
 	"peerDependencies": {
