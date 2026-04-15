@@ -1,8 +1,10 @@
 "use client"
 
-import type {
-	TSeniority,
-	TUserProfileFull,
+import {
+	LOCATION_TYPES,
+	type TLocationType,
+	type TSeniority,
+	type TUserProfileFull,
 } from "@rja-api/settings/schema/user-profile-schema"
 import {
 	useAction,
@@ -28,6 +30,7 @@ import {
 import { InputLabelWrapper } from "@rja-design/ui/library/input-label-wrapper"
 import { Label } from "@rja-design/ui/library/label"
 import { MultiInput } from "@rja-design/ui/library/multi-input"
+import { MultiSelect } from "@rja-design/ui/library/multi-select"
 import { Select } from "@rja-design/ui/library/select"
 import { Textarea } from "@rja-design/ui/library/text-area"
 import { toast } from "@rja-design/ui/library/toast"
@@ -61,6 +64,17 @@ const YEARS_OF_EXPERIENCE_OPTIONS = Array.from({ length: 51 }, (_, i) => ({
 	value: String(i),
 }))
 
+const LOCATION_TYPE_LABELS: Record<TLocationType, string> = {
+	remote: "Remote",
+	hybrid: "Hybrid",
+	"on-site": "On-site",
+}
+
+const LOCATION_TYPE_OPTIONS = LOCATION_TYPES.map((value) => ({
+	label: LOCATION_TYPE_LABELS[value],
+	value,
+}))
+
 interface IProfileCardProps {
 	profile: TUserProfileFull | null
 	onSaved: () => void
@@ -89,9 +103,9 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 	const [domainExpertise, setDomainExpertise] = useState(
 		profile?.domainExpertise ?? [],
 	)
-	const [preferredLocationTypes, setPreferredLocationTypes] = useState(
-		profile?.preferredLocationTypes ?? [],
-	)
+	const [preferredLocationTypes, setPreferredLocationTypes] = useState<
+		TLocationType[]
+	>((profile?.preferredLocationTypes ?? []) as TLocationType[])
 	const [preferredLocations, setPreferredLocations] = useState(
 		profile?.preferredLocations ?? [],
 	)
@@ -320,10 +334,14 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 					</h3>
 					<InputLabelWrapper>
 						<Label>Preferred Location Types</Label>
-						<MultiInput
+						<MultiSelect
 							values={preferredLocationTypes}
-							onChange={(vals) => setPreferredLocationTypes(vals)}
-							max={3}
+							onValueChange={(vals) =>
+								setPreferredLocationTypes(vals)
+							}
+							options={LOCATION_TYPE_OPTIONS}
+							max={LOCATION_TYPE_OPTIONS.length}
+							placeholder="Add a location type"
 						/>
 					</InputLabelWrapper>
 					<InputLabelWrapper>

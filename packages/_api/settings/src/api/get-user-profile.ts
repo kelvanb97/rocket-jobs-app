@@ -6,7 +6,10 @@ import {
 } from "@rja-app/drizzle"
 import { db } from "@rja-core/drizzle"
 import { errFrom, ok, type TResult } from "@rja-core/result"
-import type { TUserProfileFull } from "#schema/user-profile-schema"
+import type {
+	TLocationType,
+	TUserProfileFull,
+} from "#schema/user-profile-schema"
 import { asc, eq } from "drizzle-orm"
 
 export function getUserProfile(): TResult<TUserProfileFull> {
@@ -37,6 +40,8 @@ export function getUserProfile(): TResult<TUserProfileFull> {
 
 		return ok({
 			...profile,
+			preferredLocationTypes:
+				profile.preferredLocationTypes as TLocationType[],
 			workExperience: experiences,
 			education: educations,
 			certifications,
