@@ -133,13 +133,11 @@ export function WorkExperienceCard({
 		onSuccess: ({ data }) => {
 			if (data) {
 				toast.success("Work experience saved!")
-				if (editingEntry) {
-					setEntries((prev) =>
-						prev.map((e) => (e.id === data.id ? data : e)),
-					)
-				} else {
-					setEntries((prev) => [...prev, data])
-				}
+				setEntries((prev) =>
+					prev.some((e) => e.id === data.id)
+						? prev.map((e) => (e.id === data.id ? data : e))
+						: [...prev, data],
+				)
 				closeDialog()
 				onSaved()
 			}
