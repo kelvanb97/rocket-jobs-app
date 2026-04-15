@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Verification
 
-After making changes, run from the project root:
+After making changes, run all five from the project root. Never use `--filter` to scope checks to a single package — always run the full suite:
 
 ```bash
 pnpm format
@@ -12,13 +12,6 @@ pnpm depcheck
 pnpm check-types
 pnpm lint
 pnpm test
-```
-
-To run checks for a single package:
-
-```bash
-pnpm --filter @rja-api/role check-types
-pnpm --filter @rja-api/role lint
 ```
 
 ## Running Apps
