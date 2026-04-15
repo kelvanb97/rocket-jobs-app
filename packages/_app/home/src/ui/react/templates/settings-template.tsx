@@ -115,7 +115,7 @@ export function SettingsTemplate({
 	const llmConfigured = !!(llm?.anthropicApiKey || llm?.openaiApiKey)
 
 	return (
-		<YStack className="h-full gap-0">
+		<YStack className="h-full gap-0 overflow-hidden">
 			{llmConfigured ? (
 				<ImportFromResumeBar
 					profile={profile}
@@ -124,8 +124,8 @@ export function SettingsTemplate({
 			) : (
 				<LlmMissingBanner />
 			)}
-			<XStack className="flex-1 gap-0">
-				<YStack className="w-48 shrink-0 border-r border-border pr-2 pt-1">
+			<XStack className="flex-1 min-h-0 gap-0">
+				<YStack className="w-48 shrink-0 overflow-y-auto border-r border-border pr-2 pt-1">
 					{SECTIONS.map((section, sectionIdx) => (
 						<div key={section.label}>
 							{sectionIdx > 0 && (
