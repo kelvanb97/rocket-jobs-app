@@ -55,6 +55,11 @@ const SENIORITY_OPTIONS = [
 	{ label: "Director", value: "director" },
 ]
 
+const YEARS_OF_EXPERIENCE_OPTIONS = Array.from({ length: 51 }, (_, i) => ({
+	label: i === 50 ? "50+ years" : i === 1 ? "1 year" : `${i} years`,
+	value: String(i),
+}))
+
 interface IProfileCardProps {
 	profile: TUserProfileFull | null
 	onSaved: () => void
@@ -258,13 +263,13 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 							<Label htmlFor="profile-yoe">
 								Years of Experience
 							</Label>
-							<Input
-								id="profile-yoe"
-								type="number"
-								value={yearsOfExperience}
-								onChange={(e) =>
-									setYearsOfExperience(Number(e.target.value))
+							<Select
+								value={String(yearsOfExperience)}
+								onValueChange={(val) =>
+									setYearsOfExperience(Number(val))
 								}
+								options={YEARS_OF_EXPERIENCE_OPTIONS}
+								placeholder="Select years"
 							/>
 						</InputLabelWrapper>
 					</XStack>
