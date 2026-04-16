@@ -19,11 +19,31 @@ import {
 import { Input } from "@rja-design/ui/library/input"
 import { InputLabelWrapper } from "@rja-design/ui/library/input-label-wrapper"
 import { Label } from "@rja-design/ui/library/label"
+import { Select } from "@rja-design/ui/library/select"
 import { Switch } from "@rja-design/ui/library/switch"
 import { toast } from "@rja-design/ui/library/toast"
+import { Tooltip } from "@rja-design/ui/library/tooltip"
 import { YStack } from "@rja-design/ui/primitives/y-stack"
 import { updateEeoAction } from "#actions/settings-actions"
 import { useState } from "react"
+
+const VETERAN_STATUS_OPTIONS = [
+	{
+		label: "I am not a protected veteran",
+		value: "I am not a protected veteran",
+	},
+	{ label: "I am a protected veteran", value: "I am a protected veteran" },
+	{ label: "Decline to self-identify", value: "Decline to self-identify" },
+]
+
+const DISABILITY_STATUS_OPTIONS = [
+	{
+		label: "No, I don't have a disability",
+		value: "No, I don't have a disability",
+	},
+	{ label: "Yes, I have a disability", value: "Yes, I have a disability" },
+	{ label: "Decline to self-identify", value: "Decline to self-identify" },
+]
 
 interface IEeoCardProps {
 	profileId: number
@@ -99,34 +119,32 @@ export function EeoCard({ profileId, eeo, onSaved }: IEeoCardProps) {
 					</InputLabelWrapper>
 
 					<InputLabelWrapper>
-						<Label htmlFor="eeo-veteran-status">
-							Veteran Status
-						</Label>
-						<Input
-							id="eeo-veteran-status"
-							value={veteranStatus}
-							onChange={(e) => setVeteranStatus(e.target.value)}
-							placeholder="Leave empty to decline"
+						<Label>Veteran Status</Label>
+						<Select
+							value={veteranStatus || null}
+							onValueChange={setVeteranStatus}
+							options={VETERAN_STATUS_OPTIONS}
+							placeholder="Select veteran status"
 						/>
 					</InputLabelWrapper>
 
 					<InputLabelWrapper>
-						<Label htmlFor="eeo-disability-status">
-							Disability Status
-						</Label>
-						<Input
-							id="eeo-disability-status"
-							value={disabilityStatus}
-							onChange={(e) =>
-								setDisabilityStatus(e.target.value)
-							}
-							placeholder="Leave empty to decline"
+						<Label>Disability Status</Label>
+						<Select
+							value={disabilityStatus || null}
+							onValueChange={setDisabilityStatus}
+							options={DISABILITY_STATUS_OPTIONS}
+							placeholder="Select disability status"
 						/>
 					</InputLabelWrapper>
 
 					<InputLabelWrapper>
 						<Label htmlFor="eeo-work-authorization">
 							Work Authorization
+							<Tooltip
+								iconClassName="size-3.5 text-muted-foreground"
+								content="Country or region where you are authorized to work (e.g. United States, European Union, Canada, United Kingdom)."
+							/>
 						</Label>
 						<Input
 							id="eeo-work-authorization"
@@ -134,7 +152,7 @@ export function EeoCard({ profileId, eeo, onSaved }: IEeoCardProps) {
 							onChange={(e) =>
 								setWorkAuthorization(e.target.value)
 							}
-							placeholder="Leave empty to decline"
+							placeholder="e.g. United States"
 						/>
 					</InputLabelWrapper>
 
