@@ -58,6 +58,4 @@ Discord not your thing? Book a call with me and we can troubleshoot together: <h
 
 ## License
 
-Copyright © 2026 KELVCO ENTERPRISES LLC (DBA Rocket Jobs). All rights reserved.
-
 This software is proprietary. Use is limited to the named purchaser under the terms of the [LICENSE](./LICENSE) file and a separate purchase agreement. Redistribution and commercial reuse are prohibited.
