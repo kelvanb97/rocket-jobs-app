@@ -6,6 +6,7 @@ import {
 	useIsLoading,
 	useToastOnError,
 } from "@rja-core/next-safe-action/hooks"
+import { Pencil, Plus, Trash2 } from "@rja-design/ui/assets/lucide"
 import { Button } from "@rja-design/ui/library/button"
 import {
 	Card,
@@ -76,18 +77,15 @@ export function EducationCard({
 	} = useAction(upsertEducationAction, {
 		onSuccess: ({ data }) => {
 			if (data) {
-				if (editingId !== null) {
-					setEntries((prev) =>
-						prev.map((e) => (e.id === editingId ? data : e)),
-					)
-					setEditingId(null)
-					toast.success("Education updated!")
-				} else {
-					setEntries((prev) => [...prev, data])
-					setIsAdding(false)
-					toast.success("Education added!")
-				}
+				setEntries((prev) =>
+					prev.some((e) => e.id === data.id)
+						? prev.map((e) => (e.id === data.id ? data : e))
+						: [...prev, data],
+				)
+				setEditingId(null)
+				setIsAdding(false)
 				setForm(EMPTY_FORM)
+				toast.success("Education saved!")
 				onSaved()
 			}
 		},
@@ -257,18 +255,18 @@ export function EducationCard({
 								<XStack className="gap-1">
 									<Button
 										variant="ghost"
-										size="sm"
+										size="icon"
 										onClick={() => handleEdit(entry)}
 									>
-										Edit
+										<Pencil className="size-4" />
 									</Button>
 									<Button
 										variant="ghost"
-										size="sm"
+										size="icon"
 										onClick={() => handleDelete(entry.id)}
 										disabled={isDeleteLoading}
 									>
-										Delete
+										<Trash2 className="size-4 text-destructive" />
 									</Button>
 								</XStack>
 							</XStack>
@@ -283,7 +281,8 @@ export function EducationCard({
 							onClick={handleAdd}
 							disabled={editingId !== null}
 						>
-							+ Add Education
+							<Plus className="size-4 mr-1" />
+							Add Education
 						</Button>
 					)}
 				</YStack>
