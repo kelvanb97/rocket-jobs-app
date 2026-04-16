@@ -1,10 +1,11 @@
 ---
 name: rj-scrape
 description: >
-    Use when the user says "/rj-scrape", "scrape", "scrape jobs", or "run scraper"
-    and wants to pull new listings into the rocket-jobs-app database. Hits the web
-    app's /api/scrape endpoint and auto-detects missing logins: if any source needs
-    auth, opens a Patchright-managed browser that closes itself the moment login is
+    Use when the user says "/rj-scrape", "$rj-scrape", "rj-scrape", "scrape",
+    "scrape jobs", or "run scraper" and wants to pull new listings into the
+    rocket-jobs-app database. Hits the web app's /api/scrape endpoint and
+    auto-detects missing logins: if any source needs auth, opens a
+    Patchright-managed browser that closes itself the moment login is
     detected, then re-runs the scrape. No prompts.
 user-invocable: true
 ---
@@ -53,7 +54,7 @@ Behavior:
 - Also exits cleanly if the user closes the window manually.
 - Times out after 10 minutes and exits.
 
-After all login CLI commands have returned, **go back to Step 1 and re-run the scrape** — but only once. If the second attempt also returns 401, surface the error ("login wasn't picked up — sign in fully and re-run /rj-scrape") and stop.
+After all login CLI commands have returned, **go back to Step 1 and re-run the scrape** — but only once. If the second attempt also returns 401, surface the error ("login wasn't picked up — sign in fully and invoke the `rj-scrape` skill again") and stop.
 
 ## Step 2b: Recover a paused scrape handoff
 
@@ -83,7 +84,7 @@ Read the handoff payload and branch on `preferredActor`:
         ```
     4. Poll `GET /api/scrape/<sessionId>` until the session reaches `completed`, another `handoff_required`, or `failed`.
 
-If the user declines a Codex handoff, tell them to resolve the issue in the live browser and then use the user-resume flow above.
+If the user declines a harness handoff, tell them to resolve the issue in the live browser and then use the user-resume flow above.
 
 ## Step 3: Report results
 

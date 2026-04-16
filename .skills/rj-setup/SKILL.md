@@ -1,11 +1,12 @@
 ---
 name: rj-setup
 description: >
-    Use when the user says "/rj-setup", "configure rocket jobs", "first time
-    setup", or wants help filling in /settings for the first time. Walks through
-    each settings tab via Playwright MCP, mixing chat-driven prompts (for
-    conceptual fields like LLM keys, EEO, scoring weights) with tour-driven
-    prompts (for plain text fields). Suggests resume upload as a shortcut.
+    Use when the user says "/rj-setup", "$rj-setup", "rj-setup", "configure
+    rocket jobs", "first time setup", or wants help filling in /settings for
+    the first time. Walks through each settings tab via Playwright MCP,
+    mixing chat-driven prompts (for conceptual fields like LLM keys, EEO,
+    scoring weights) with tour-driven prompts (for plain text fields).
+    Suggests resume upload as a shortcut.
 user-invocable: true
 ---
 
@@ -17,7 +18,7 @@ Walk the user through `/settings` end-to-end so a fresh database has everything 
 - **Tour-driven** for plain text fields (just open the tab, point at it, ask the user to type, verify, move on).
 - **Resume upload as a shortcut** for Profile / Experience / Education — offer it before walking those tabs by hand.
 
-Use **Playwright MCP** (`mcp__playwright__*`) for browser interaction.
+Use the **Playwright MCP** browser tools (e.g. `browser_navigate`, `browser_snapshot`, `browser_click`). Tool names follow the [MCP](https://modelcontextprotocol.io) spec; your harness may expose them under a server prefix (e.g. Claude Code surfaces them as `mcp__playwright__browser_navigate`, while other harnesses may expose them by their bare name).
 
 ## Step 0: Pre-flight — is the dev server running?
 
@@ -55,15 +56,15 @@ curl -sf http://localhost:3000 > /dev/null && echo OK || echo DOWN
 
 4. **If no `OK` after 60 seconds:** read the background process output with the `Read` tool (or `BashOutput` equivalent in your harness), surface the last ~30 lines of stdout/stderr to the user, then stop with:
 
-    > "I tried to start the dev server but it didn't come up on <http://localhost:3000>. If you haven't installed yet, run `/rj-install` first. Otherwise check the output above — likely a missing dep, broken migration, or port conflict — then re-run `/rj-setup` once `pnpm dev` boots cleanly."
+    > "I tried to start the dev server but it didn't come up on <http://localhost:3000>. If you haven't installed yet, invoke the `rj-install` skill first. Otherwise check the output above — likely a missing dep, broken migration, or port conflict — then invoke the `rj-setup` skill again once `pnpm dev` boots cleanly."
 
 ## Step 1: Open /llm-config in the browser
 
 LLM config lives on its own page now. Do it first so that when we get to `/settings`, the resume-upload shortcut is already enabled.
 
 ```
-mcp__playwright__browser_navigate → http://localhost:3000/llm-config
-mcp__playwright__browser_snapshot
+browser_navigate → http://localhost:3000/llm-config
+browser_snapshot
 ```
 
 ## Step 2: LLM Provider (chat-driven, FIRST)
@@ -99,8 +100,8 @@ If the user picks 1, skip straight to Step 3. For 2 or 3, walk through the relev
 Navigate to `/settings`:
 
 ```
-mcp__playwright__browser_navigate → http://localhost:3000/settings
-mcp__playwright__browser_snapshot
+browser_navigate → http://localhost:3000/settings
+browser_snapshot
 ```
 
 Ask in chat:
@@ -114,7 +115,7 @@ Ask in chat:
     ```bash
     cp '<ORIGINAL_PATH>' '<PROJECT_ROOT>/data/tmp-resume-upload.<ext>'
     ```
-3. Use `mcp__playwright__browser_run_code` to trigger the file chooser and attach the project-local copy in one atomic action:
+3. Use the Playwright MCP `browser_run_code` tool to trigger the file chooser and attach the project-local copy in one atomic action:
     ```js
     ;async (page) => {
         const [fileChooser] = await Promise.all([
@@ -210,13 +211,13 @@ Tell the user:
 
 > "Setup complete! You're ready to:
 >
-> - Run `/rj-scrape` to pull new job listings
-> - Run `/rj-auto-apply` after scoring to apply to the top-scored unapplied role
+> - Invoke the `rj-scrape` skill to pull new job listings
+> - Invoke the `rj-auto-apply` skill after scoring to apply to the top-scored unapplied role
 > - Open <http://localhost:3000> to see your dashboard
 >
 > You can come back to <http://localhost:3000/settings> any time to update these values."
 
-Close the Playwright browser (`mcp__playwright__browser_close`), then stop.
+Close the Playwright browser with the `browser_close` tool, then stop.
 
 ## Notes
 

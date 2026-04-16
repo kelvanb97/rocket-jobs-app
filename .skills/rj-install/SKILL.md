@@ -1,29 +1,29 @@
 ---
 name: rj-install
 description: >
-    Use when the user says "/rj-install", "install rocket jobs", "set up the
-    repo", or otherwise wants help installing the rocket-jobs-app from a fresh
-    clone. Verifies Node, pnpm, and git prerequisites; runs pnpm install; runs
-    database migrations; and smoke-tests the dev server. Cross-platform
-    (macOS, Linux, Windows native).
+    Use when the user says "/rj-install", "$rj-install", "rj-install",
+    "install rocket jobs", "set up the repo", or otherwise wants help
+    installing the rocket-jobs-app from a fresh clone. Verifies Node, pnpm,
+    and git prerequisites; runs pnpm install; runs database migrations; and
+    smoke-tests the dev server. Cross-platform (macOS, Linux, Windows native).
 user-invocable: true
 ---
 
 # rj-install Skill
 
-Install the rocket-jobs-app from a fresh clone, verify it boots, and hand the user off to `/rj-setup` for configuration. Follow the steps in order and **stop at the first failure** — don't try to recover automatically.
+Install the rocket-jobs-app from a fresh clone, verify it boots, and hand the user off to the `rj-setup` skill for configuration. Follow the steps in order and **stop at the first failure** — don't try to recover automatically.
 
 ## Assumptions
 
 - The user is running this skill from inside a clone of `rocket-jobs-app`. If they aren't, Step 0 will catch it.
 - The user is on macOS, Linux, or Windows. If they're on something else, surface the issue and stop.
-- No secrets are needed in `.env` — Anthropic / OpenAI API keys live in the SQLite `llm_config` table and are configured in the GUI by `/rj-setup` later. **Do not touch `.env`.**
+- No secrets are needed in `.env` — Anthropic / OpenAI API keys live in the SQLite `llm_config` table and are configured in the GUI by the `rj-setup` skill later. **Do not touch `.env`.**
 
 ## Step 0: Confirm we're in a rocket-jobs-app clone
 
 Read the current directory's `package.json` and confirm `"name": "rocket-jobs-app"`. If it doesn't exist or has a different name, stop and tell the user:
 
-> "I don't see a rocket-jobs-app `package.json` here. Clone the repo first with `git clone <repo-url> rocket-jobs-app && cd rocket-jobs-app`, then re-run `/rj-install`."
+> "I don't see a rocket-jobs-app `package.json` here. Clone the repo first with `git clone <repo-url> rocket-jobs-app && cd rocket-jobs-app`, then invoke the `rj-install` skill again."
 
 ## Step 1: Detect OS
 
@@ -121,13 +121,13 @@ When you see "OK" (or after 60s), kill the background process. If you never see 
 
 If you can't reliably manage a background process from your harness, **skip this step** and just tell the user:
 
-> "Run `pnpm dev` in a terminal, then open <http://localhost:3000>. If it loads, you're ready for `/rj-setup`."
+> "Run `pnpm dev` in a terminal, then open <http://localhost:3000>. If it loads, you're ready to invoke the `rj-setup` skill."
 
 ## Step 6: Hand off
 
 Tell the user:
 
-> "Install complete. Next: run `/rj-setup` to configure your profile, scraper sources, and LLM provider. Or open <http://localhost:3000/settings> directly if you'd rather configure things manually."
+> "Install complete. Next: invoke the `rj-setup` skill to configure your profile, scraper sources, and LLM provider. Or open <http://localhost:3000/settings> directly if you'd rather configure things manually."
 
 Then stop.
 

@@ -1,53 +1,33 @@
 "use client"
 
-import { toast } from "@rja-design/ui/library/toast"
 import { CopyChip } from "#atoms/copy-chip"
 import { getSkillIcon } from "#atoms/skill-icon"
-import { useCallback, useState } from "react"
 
 const GRADIENT = "linear-gradient(135deg, var(--primary), #a78bfa)"
 
 interface IWorkflowCardProps {
-	command: string
+	skill: string
 	title: string
 	description: string
 	iconName: string
 }
 
 export function WorkflowCard({
-	command,
+	skill,
 	title,
 	description,
 	iconName,
 }: IWorkflowCardProps) {
 	const Icon = getSkillIcon(iconName)
-	const [hovered, setHovered] = useState(false)
-	const [copied, setCopied] = useState(false)
-
-	const handleCopy = useCallback(() => {
-		navigator.clipboard.writeText(command)
-		toast.info(`Copied ${command} to clipboard`)
-		setCopied(true)
-		setTimeout(() => setCopied(false), 2000)
-	}, [command])
 
 	return (
-		<button
-			type="button"
-			onClick={handleCopy}
-			onMouseEnter={() => setHovered(true)}
-			onMouseLeave={() => setHovered(false)}
-			className="relative flex flex-col items-start gap-4 p-6 rounded-xl border text-left select-none cursor-pointer"
+		<div
+			className="relative flex flex-col items-start gap-4 p-6 rounded-xl border text-left select-none"
 			style={{
-				backgroundColor: hovered ? "var(--accent)" : "var(--card)",
-				borderColor: hovered
-					? "var(--primary)"
-					: "color-mix(in oklab, var(--border) 100%, transparent)",
-				boxShadow: hovered
-					? "0 8px 32px color-mix(in oklab, var(--primary) 15%, transparent), inset 0 1px 0 color-mix(in oklab, var(--primary) 10%, transparent)"
-					: "0 1px 3px rgba(0,0,0,0.06)",
-				transform: hovered ? "translateY(-2px)" : "translateY(0)",
-				transition: "all 180ms ease",
+				backgroundColor: "var(--card)",
+				borderColor:
+					"color-mix(in oklab, var(--border) 100%, transparent)",
+				boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
 			}}
 		>
 			<div
@@ -57,8 +37,7 @@ export function WorkflowCard({
 					right: "1.5rem",
 					height: "2px",
 					background: GRADIENT,
-					opacity: hovered ? 1 : 0.5,
-					transition: "opacity 180ms ease",
+					opacity: 0.5,
 				}}
 			/>
 
@@ -97,7 +76,14 @@ export function WorkflowCard({
 				</span>
 			</div>
 
-			<CopyChip command={command} copied={copied} hovered={hovered} />
-		</button>
+			<div className="flex flex-wrap gap-2">
+				<CopyChip
+					command={`/${skill}`}
+					label="Claude Code"
+					harness="claude-code"
+				/>
+				<CopyChip command={`$${skill}`} label="Codex" harness="codex" />
+			</div>
+		</div>
 	)
 }

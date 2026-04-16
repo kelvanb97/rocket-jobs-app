@@ -25,6 +25,9 @@ export function HomeTemplate() {
 					style={{ fontSize: "0.9375rem" }}
 				>
 					Run these skills from your AI assistant to get started.
+					Click a chip to copy the invocation for your harness —
+					Claude Code uses <code>/skill-name</code>, Codex uses{" "}
+					<code>$skill-name</code>.
 				</p>
 			</div>
 
@@ -38,21 +41,21 @@ export function HomeTemplate() {
 					}}
 				>
 					<StepCard
-						command="/rj-help"
+						skill="rj-help"
 						title="Help"
 						description="Shows you a list of what the app can do."
 						iconName="FileText"
 						step={1}
 					/>
 					<StepCard
-						command="/rj-install"
+						skill="rj-install"
 						title="Install"
 						description="Handles installing and updating the app on your computer. Works on Mac, Linux, and Windows."
 						iconName="Play"
 						step={2}
 					/>
 					<StepCard
-						command="/rj-setup"
+						skill="rj-setup"
 						title="Setup"
 						description="Walks you through telling the app about yourself — your background, job preferences, and what you're looking for."
 						iconName="User"
@@ -67,18 +70,18 @@ export function HomeTemplate() {
 					className="grid gap-4"
 					style={{
 						gridTemplateColumns: "repeat(2, 1fr)",
-						maxWidth: "37.5rem",
+						maxWidth: "40rem",
 					}}
 				>
 					<WorkflowCard
-						command="/rj-scrape"
+						skill="rj-scrape"
 						title="Scrape Jobs"
 						description="Finds new job listings that match what you're looking for and adds them to your dashboard."
 						iconName="Search"
 					/>
 					<WorkflowCard
-						command="/rj-auto-apply"
-						title="Auto Apply"
+						skill="rj-auto-apply"
+						title="Apply to Jobs"
 						description="Picks the best-matching job, writes a tailored resume and cover letter, and fills out the application."
 						iconName="Sparkles"
 					/>

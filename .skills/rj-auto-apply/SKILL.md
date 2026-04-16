@@ -1,11 +1,12 @@
 ---
 name: rj-auto-apply
 description: >
-    Use when the user says "/rj-auto-apply", "auto-apply", "apply to jobs",
-    or "submit application" and wants the rocket-jobs-app to find the
-    top-scored unapplied role, generate or retrieve a resume/cover letter,
-    navigate to the application page via Playwright MCP, fill out the form,
-    and pause for confirmation before submitting.
+    Use when the user says "/rj-auto-apply", "$rj-auto-apply", "rj-auto-apply",
+    "auto-apply", "apply to jobs", or "submit application" and wants the
+    rocket-jobs-app to find the top-scored unapplied role, generate or
+    retrieve a resume/cover letter, navigate to the application page via
+    Playwright MCP, fill out the form, and pause for confirmation before
+    submitting.
 user-invocable: true
 ---
 
@@ -373,7 +374,7 @@ Replace `APPLICATION_ID` and `ROLE_ID` with values from previous steps.
       http://localhost:3000/api/apply/skip
     ```
 - Leave the application as "draft".
-- Inform the user they can re-run `/auto-apply` to try the next role.
+- Inform the user they can invoke the `rj-auto-apply` skill again to try the next role.
 
 ## Step K: Summary
 
