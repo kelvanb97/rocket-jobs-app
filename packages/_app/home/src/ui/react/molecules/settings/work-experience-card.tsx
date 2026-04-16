@@ -60,7 +60,7 @@ interface IWorkExperienceEntry {
 interface IWorkExperienceCardProps {
 	profileId: number
 	workExperience: IWorkExperienceEntry[]
-	onSaved: () => void
+	onChanged: (entries: IWorkExperienceEntry[]) => void
 }
 
 const TYPE_OPTIONS = [
@@ -90,7 +90,7 @@ const EMPTY_FORM = {
 export function WorkExperienceCard({
 	profileId,
 	workExperience,
-	onSaved,
+	onChanged,
 }: IWorkExperienceCardProps) {
 	const [entries, setEntries] =
 		useState<IWorkExperienceEntry[]>(workExperience)
@@ -133,13 +133,14 @@ export function WorkExperienceCard({
 		onSuccess: ({ data }) => {
 			if (data) {
 				toast.success("Work experience saved!")
-				setEntries((prev) =>
-					prev.some((e) => e.id === data.id)
+				setEntries((prev) => {
+					const next = prev.some((e) => e.id === data.id)
 						? prev.map((e) => (e.id === data.id ? data : e))
-						: [...prev, data],
-				)
+						: [...prev, data]
+					onChanged(next)
+					return next
+				})
 				closeDialog()
-				onSaved()
 			}
 		},
 	})
@@ -156,8 +157,11 @@ export function WorkExperienceCard({
 		onSuccess: ({ data }) => {
 			if (data) {
 				toast.success("Work experience deleted!")
-				setEntries((prev) => prev.filter((e) => e.id !== data.id))
-				onSaved()
+				setEntries((prev) => {
+					const next = prev.filter((e) => e.id !== data.id)
+					onChanged(next)
+					return next
+				})
 			}
 		},
 	})

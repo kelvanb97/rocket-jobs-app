@@ -28,7 +28,7 @@ import { useState } from "react"
 interface IFormDefaultsCardProps {
 	profileId: number
 	formDefaults: TFormDefaults | null
-	onSaved: () => void
+	onSaved: (data: TFormDefaults) => void
 }
 
 export function FormDefaultsCard({
@@ -56,9 +56,11 @@ export function FormDefaultsCard({
 	)
 
 	const { execute, result, status } = useAction(updateFormDefaultsAction, {
-		onSuccess: () => {
-			toast.success("Saved!")
-			onSaved()
+		onSuccess: ({ data }) => {
+			if (data) {
+				toast.success("Saved!")
+				onSaved(data)
+			}
 		},
 	})
 	const error = useActionError(result)

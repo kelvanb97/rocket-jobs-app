@@ -36,7 +36,7 @@ const WEIGHT_OPTIONS: { label: string; value: TScoringWeight }[] = [
 interface IScoringWeightsCardProps {
 	profileId: number
 	scoring: TScoringConfig | null
-	onSaved: () => void
+	onSaved: (data: TScoringConfig) => void
 }
 
 export function ScoringWeightsCard({
@@ -61,9 +61,11 @@ export function ScoringWeightsCard({
 	)
 
 	const { execute, result, status } = useAction(updateScoringConfigAction, {
-		onSuccess: () => {
-			toast.success("Saved!")
-			onSaved()
+		onSuccess: ({ data }) => {
+			if (data) {
+				toast.success("Saved!")
+				onSaved(data)
+			}
 		},
 	})
 	const error = useActionError(result)

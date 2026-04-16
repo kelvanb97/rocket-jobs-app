@@ -4,6 +4,7 @@ import {
 	LOCATION_TYPES,
 	type TLocationType,
 	type TSeniority,
+	type TUserProfile,
 	type TUserProfileFull,
 } from "@rja-api/settings/schema/user-profile-schema"
 import {
@@ -77,7 +78,7 @@ const LOCATION_TYPE_OPTIONS = LOCATION_TYPES.map((value) => ({
 
 interface IProfileCardProps {
 	profile: TUserProfileFull | null
-	onSaved: () => void
+	onSaved: (data: TUserProfile) => void
 }
 
 export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
@@ -123,9 +124,11 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 	)
 
 	const { execute, result, status } = useAction(updateProfileAction, {
-		onSuccess: () => {
-			toast.success("Profile saved!")
-			onSaved()
+		onSuccess: ({ data }) => {
+			if (data) {
+				toast.success("Profile saved!")
+				onSaved(data)
+			}
 		},
 	})
 	const error = useActionError(result)

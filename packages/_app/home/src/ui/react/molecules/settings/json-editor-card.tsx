@@ -29,7 +29,6 @@ interface IJsonEditorCardProps {
 	formDefaults: TFormDefaults | null
 	scoring: TScoringConfig | null
 	scraper: TScraperConfig | null
-	onSaved: () => void
 }
 
 // ---------------------------------------------------------------------------
@@ -178,7 +177,6 @@ function buildJsonView(props: IJsonEditorCardProps) {
 // ---------------------------------------------------------------------------
 
 export function JsonEditorCard(props: IJsonEditorCardProps) {
-	const { onSaved } = props
 	const initialJson = useMemo(
 		() => JSON.stringify(buildJsonView(props), null, "\t"),
 		[props],
@@ -232,7 +230,6 @@ export function JsonEditorCard(props: IJsonEditorCardProps) {
 	const { execute, result, status } = useAction(saveAllSettingsAction, {
 		onSuccess: () => {
 			toast.success("All settings saved!")
-			onSaved()
 		},
 	})
 	const error = useActionError(result)

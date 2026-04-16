@@ -5,7 +5,14 @@ import type { TFormDefaults } from "@rja-api/settings/schema/form-defaults-schem
 import type { TLlmConfig } from "@rja-api/settings/schema/llm-config-schema"
 import type { TScoringConfig } from "@rja-api/settings/schema/scoring-config-schema"
 import type { TScraperConfig } from "@rja-api/settings/schema/scraper-config-schema"
-import type { TUserProfileFull } from "@rja-api/settings/schema/user-profile-schema"
+import type {
+	TCertification,
+	TEducation,
+	TLocationType,
+	TUserProfile,
+	TUserProfileFull,
+	TWorkExperience,
+} from "@rja-api/settings/schema/user-profile-schema"
 import {
 	Award,
 	BarChart3,
@@ -34,7 +41,6 @@ import { ProfileCard } from "#molecules/settings/profile-card"
 import { ScoringWeightsCard } from "#molecules/settings/scoring-weights-card"
 import { ScraperConfigCard } from "#molecules/settings/scraper-config-card"
 import { WorkExperienceCard } from "#molecules/settings/work-experience-card"
-import { useRouter } from "next/navigation"
 import { useCallback, useState } from "react"
 
 type TTab = {
@@ -100,17 +106,60 @@ export function SettingsTemplate({
 }: ISettingsTemplateProps) {
 	const [activeTab, setActiveTab] = useState<TTabKey>("profile")
 	const [profile, setProfile] = useState(initialProfile)
-	const [eeo] = useState(initialEeo)
-	const [formDefaults] = useState(initialFormDefaults)
-	const [scoring] = useState(initialScoring)
-	const [scraper] = useState(initialScraper)
-	const [profileRev, setProfileRev] = useState(0)
-	const router = useRouter()
-	const onSaved = useCallback(() => router.refresh(), [router])
+	const [eeo, setEeo] = useState(initialEeo)
+	const [formDefaults, setFormDefaults] = useState(initialFormDefaults)
+	const [scoring, setScoring] = useState(initialScoring)
+	const [scraper, setScraper] = useState(initialScraper)
+
+	const onProfileSaved = useCallback((data: TUserProfile) => {
+		setProfile((prev) =>
+			prev
+				? {
+						...prev,
+						...data,
+						preferredLocationTypes:
+							data.preferredLocationTypes as TLocationType[],
+					}
+				: null,
+		)
+	}, [])
+
 	const onImported = useCallback((freshProfile: TUserProfileFull) => {
 		setProfile(freshProfile)
-		setProfileRev((r) => r + 1)
 	}, [])
+
+	const onWorkExperienceChanged = useCallback(
+		(entries: TWorkExperience[]) => {
+			setProfile((prev) =>
+				prev ? { ...prev, workExperience: entries } : null,
+			)
+		},
+		[],
+	)
+
+	const onEducationChanged = useCallback((entries: TEducation[]) => {
+		setProfile((prev) => (prev ? { ...prev, education: entries } : null))
+	}, [])
+
+	const onCertificationsChanged = useCallback((entries: TCertification[]) => {
+		setProfile((prev) =>
+			prev ? { ...prev, certifications: entries } : null,
+		)
+	}, [])
+
+	const onEeoSaved = useCallback((data: TEeoConfig) => setEeo(data), [])
+	const onFormDefaultsSaved = useCallback(
+		(data: TFormDefaults) => setFormDefaults(data),
+		[],
+	)
+	const onScoringSaved = useCallback(
+		(data: TScoringConfig) => setScoring(data),
+		[],
+	)
+	const onScraperSaved = useCallback(
+		(data: TScraperConfig) => setScraper(data),
+		[],
+	)
 
 	const llmConfigured = !!(llm?.anthropicApiKey || llm?.openaiApiKey)
 
@@ -169,18 +218,16 @@ export function SettingsTemplate({
 				<div className="flex-1 overflow-y-auto p-6">
 					{activeTab === "profile" && (
 						<ProfileCard
-							key={`profile-${profileRev}`}
 							profile={profile}
-							onSaved={onSaved}
+							onSaved={onProfileSaved}
 						/>
 					)}
 					{activeTab === "work-experience" &&
 						(profile ? (
 							<WorkExperienceCard
-								key={`work-experience-${profileRev}`}
 								profileId={profile.id}
 								workExperience={profile.workExperience}
-								onSaved={onSaved}
+								onChanged={onWorkExperienceChanged}
 							/>
 						) : (
 							<NeedsProfile tab="Experience" />
@@ -188,10 +235,9 @@ export function SettingsTemplate({
 					{activeTab === "education" &&
 						(profile ? (
 							<EducationCard
-								key={`education-${profileRev}`}
 								profileId={profile.id}
 								education={profile.education}
-								onSaved={onSaved}
+								onChanged={onEducationChanged}
 							/>
 						) : (
 							<NeedsProfile tab="Education" />
@@ -199,10 +245,9 @@ export function SettingsTemplate({
 					{activeTab === "certifications" &&
 						(profile ? (
 							<CertificationCard
-								key={`certifications-${profileRev}`}
 								profileId={profile.id}
 								certifications={profile.certifications}
-								onSaved={onSaved}
+								onChanged={onCertificationsChanged}
 							/>
 						) : (
 							<NeedsProfile tab="Certifications" />
@@ -212,7 +257,7 @@ export function SettingsTemplate({
 							<EeoCard
 								profileId={profile.id}
 								eeo={eeo}
-								onSaved={onSaved}
+								onSaved={onEeoSaved}
 							/>
 						) : (
 							<NeedsProfile tab="EEO & Work Auth" />
@@ -222,7 +267,7 @@ export function SettingsTemplate({
 							<FormDefaultsCard
 								profileId={profile.id}
 								formDefaults={formDefaults}
-								onSaved={onSaved}
+								onSaved={onFormDefaultsSaved}
 							/>
 						) : (
 							<NeedsProfile tab="Form Defaults" />
@@ -232,7 +277,7 @@ export function SettingsTemplate({
 							<ScoringWeightsCard
 								profileId={profile.id}
 								scoring={scoring}
-								onSaved={onSaved}
+								onSaved={onScoringSaved}
 							/>
 						) : (
 							<NeedsProfile tab="Scoring Weights" />
@@ -242,7 +287,7 @@ export function SettingsTemplate({
 							<ScraperConfigCard
 								profileId={profile.id}
 								scraper={scraper}
-								onSaved={onSaved}
+								onSaved={onScraperSaved}
 							/>
 						) : (
 							<NeedsProfile tab="Scraper Config" />
@@ -252,7 +297,7 @@ export function SettingsTemplate({
 							<LinkedInCard
 								profileId={profile.id}
 								scraper={scraper}
-								onSaved={onSaved}
+								onSaved={onScraperSaved}
 							/>
 						) : (
 							<NeedsProfile tab="LinkedIn" />
@@ -264,7 +309,6 @@ export function SettingsTemplate({
 							formDefaults={formDefaults}
 							scoring={scoring}
 							scraper={scraper}
-							onSaved={onSaved}
 						/>
 					)}
 				</div>

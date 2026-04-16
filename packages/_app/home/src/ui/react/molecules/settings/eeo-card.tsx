@@ -48,7 +48,7 @@ const DISABILITY_STATUS_OPTIONS = [
 interface IEeoCardProps {
 	profileId: number
 	eeo: TEeoConfig | null
-	onSaved: () => void
+	onSaved: (data: TEeoConfig) => void
 }
 
 export function EeoCard({ profileId, eeo, onSaved }: IEeoCardProps) {
@@ -66,9 +66,11 @@ export function EeoCard({ profileId, eeo, onSaved }: IEeoCardProps) {
 	)
 
 	const { execute, result, status } = useAction(updateEeoAction, {
-		onSuccess: () => {
-			toast.success("Saved!")
-			onSaved()
+		onSuccess: ({ data }) => {
+			if (data) {
+				toast.success("Saved!")
+				onSaved(data)
+			}
 		},
 	})
 	const error = useActionError(result)

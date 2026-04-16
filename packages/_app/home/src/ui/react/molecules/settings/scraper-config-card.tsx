@@ -27,7 +27,7 @@ import { useState } from "react"
 interface IScraperConfigCardProps {
 	profileId: number
 	scraper: TScraperConfig | null
-	onSaved: () => void
+	onSaved: (data: TScraperConfig) => void
 }
 
 export function ScraperConfigCard({
@@ -49,9 +49,11 @@ export function ScraperConfigCard({
 	)
 
 	const { execute, result, status } = useAction(updateScraperConfigAction, {
-		onSuccess: () => {
-			toast.success("Saved!")
-			onSaved()
+		onSuccess: ({ data }) => {
+			if (data) {
+				toast.success("Saved!")
+				onSaved(data)
+			}
 		},
 	})
 	const error = useActionError(result)

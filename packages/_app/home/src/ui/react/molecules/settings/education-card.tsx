@@ -42,7 +42,7 @@ interface IEducationEntry {
 interface IEducationCardProps {
 	profileId: number
 	education: IEducationEntry[]
-	onSaved: () => void
+	onChanged: (entries: IEducationEntry[]) => void
 }
 
 interface IEducationForm {
@@ -63,7 +63,7 @@ const EMPTY_FORM: IEducationForm = {
 export function EducationCard({
 	profileId,
 	education,
-	onSaved,
+	onChanged,
 }: IEducationCardProps) {
 	const [entries, setEntries] = useState<IEducationEntry[]>(education)
 	const [editingId, setEditingId] = useState<number | null>(null)
@@ -77,16 +77,17 @@ export function EducationCard({
 	} = useAction(upsertEducationAction, {
 		onSuccess: ({ data }) => {
 			if (data) {
-				setEntries((prev) =>
-					prev.some((e) => e.id === data.id)
+				setEntries((prev) => {
+					const next = prev.some((e) => e.id === data.id)
 						? prev.map((e) => (e.id === data.id ? data : e))
-						: [...prev, data],
-				)
+						: [...prev, data]
+					onChanged(next)
+					return next
+				})
 				setEditingId(null)
 				setIsAdding(false)
 				setForm(EMPTY_FORM)
 				toast.success("Education saved!")
-				onSaved()
 			}
 		},
 	})
@@ -101,7 +102,6 @@ export function EducationCard({
 	} = useAction(deleteEducationAction, {
 		onSuccess: () => {
 			toast.success("Education deleted!")
-			onSaved()
 		},
 	})
 	const deleteError = useActionError(deleteResult)
@@ -138,7 +138,11 @@ export function EducationCard({
 	}
 
 	const handleDelete = (id: number) => {
-		setEntries((prev) => prev.filter((e) => e.id !== id))
+		setEntries((prev) => {
+			const next = prev.filter((e) => e.id !== id)
+			onChanged(next)
+			return next
+		})
 		executeDelete({ id })
 	}
 
