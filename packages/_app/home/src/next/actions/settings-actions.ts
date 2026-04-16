@@ -364,43 +364,44 @@ export const applyResumeImportAction = actionClient
 		if (!profileResult.ok)
 			throw new SafeForClientError(profileResult.error.message)
 
-		const baseExperienceOrder = existingProfile
-			? existingProfile.workExperience.length
-			: 0
+		const profileId = profileResult.data.id
+
+		if (existingProfile) {
+			for (const exp of existingProfile.workExperience)
+				deleteWorkExperience(exp.id)
+			for (const edu of existingProfile.education) deleteEducation(edu.id)
+			for (const cert of existingProfile.certifications)
+				deleteCertification(cert.id)
+		}
+
 		for (let i = 0; i < parsedInput.workExperience.length; i++) {
 			const exp = parsedInput.workExperience[i]
 			if (!exp) continue
 			const result = upsertWorkExperience({
-				userProfileId: profileResult.data.id,
-				sortOrder: baseExperienceOrder + i,
+				userProfileId: profileId,
+				sortOrder: i,
 				...exp,
 			})
 			if (!result.ok) throw new SafeForClientError(result.error.message)
 		}
 
-		const baseEducationOrder = existingProfile
-			? existingProfile.education.length
-			: 0
 		for (let i = 0; i < parsedInput.education.length; i++) {
 			const edu = parsedInput.education[i]
 			if (!edu) continue
 			const result = upsertEducation({
-				userProfileId: profileResult.data.id,
-				sortOrder: baseEducationOrder + i,
+				userProfileId: profileId,
+				sortOrder: i,
 				...edu,
 			})
 			if (!result.ok) throw new SafeForClientError(result.error.message)
 		}
 
-		const baseCertificationOrder = existingProfile
-			? existingProfile.certifications.length
-			: 0
 		for (let i = 0; i < parsedInput.certifications.length; i++) {
 			const cert = parsedInput.certifications[i]
 			if (!cert) continue
 			const result = upsertCertification({
-				userProfileId: profileResult.data.id,
-				sortOrder: baseCertificationOrder + i,
+				userProfileId: profileId,
+				sortOrder: i,
 				...cert,
 			})
 			if (!result.ok) throw new SafeForClientError(result.error.message)
