@@ -4,9 +4,7 @@ import { AlignmentType, Document, Packer, Paragraph, TextRun } from "docx"
 type TContactInfo = {
 	email?: string
 	phone?: string
-	linkedIn?: string
-	github?: string
-	personalWebsite?: string
+	links?: string[]
 	location?: string
 }
 
@@ -44,9 +42,7 @@ export async function buildCoverLetterDocx(
 		const parts = [
 			contactInfo.phone,
 			contactInfo.email,
-			contactInfo.linkedIn,
-			contactInfo.github,
-			contactInfo.personalWebsite,
+			...(contactInfo.links ?? []),
 			contactInfo.location,
 		].filter(Boolean)
 		if (parts.length > 0) {

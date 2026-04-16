@@ -139,7 +139,7 @@ Ask in chat:
 
 ### Step 3a: Profile (tour-driven)
 
-Walk through the visible fields in the Profile tab. For each one, ask the user to provide a value in chat, then type it via Playwright. Required fields: name, email, phone, jobTitle. Optional: location, linkedin, github, summary, skills.
+Walk through the visible fields in the Profile tab. For each one, ask the user to provide a value in chat, then type it via Playwright. Required fields: name, email, phone, jobTitle. Optional: location, links, summary, skills.
 
 Click Save.
 

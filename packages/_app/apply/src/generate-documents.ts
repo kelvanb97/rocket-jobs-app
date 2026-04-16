@@ -64,9 +64,7 @@ export async function generateDocuments(
 	const resumeBuffer = await buildResumeDocx(profile.name, resumeContent, {
 		email: profile.email,
 		phone: profile.phone,
-		linkedIn: profile.linkedin,
-		github: profile.github,
-		personalWebsite: profile.personalWebsite,
+		links: profile.links,
 		location: profile.location,
 	})
 
@@ -82,9 +80,7 @@ export async function generateDocuments(
 		{
 			email: profile.email,
 			phone: profile.phone,
-			linkedIn: profile.linkedin,
-			github: profile.github,
-			personalWebsite: profile.personalWebsite,
+			links: profile.links,
 			location: profile.location,
 		},
 	)

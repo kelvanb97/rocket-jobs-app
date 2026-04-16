@@ -85,11 +85,7 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 	const [name, setName] = useState(profile?.name ?? "")
 	const [email, setEmail] = useState(profile?.email ?? "")
 	const [phone, setPhone] = useState(profile?.phone ?? "")
-	const [linkedin, setLinkedin] = useState(profile?.linkedin ?? "")
-	const [github, setGithub] = useState(profile?.github ?? "")
-	const [personalWebsite, setPersonalWebsite] = useState(
-		profile?.personalWebsite ?? "",
-	)
+	const [links, setLinks] = useState(profile?.links ?? [])
 	const [location, setLocation] = useState(profile?.location ?? "")
 	const [address, setAddress] = useState(profile?.address ?? "")
 	const [jobTitle, setJobTitle] = useState(profile?.jobTitle ?? "")
@@ -141,9 +137,7 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 			name,
 			email,
 			phone,
-			linkedin,
-			github,
-			personalWebsite,
+			links,
 			location,
 			address,
 			jobTitle,
@@ -204,37 +198,16 @@ export function ProfileCard({ profile, onSaved }: IProfileCardProps) {
 								onChange={(e) => setPhone(e.target.value)}
 							/>
 						</InputLabelWrapper>
-						<InputLabelWrapper className="flex-1">
-							<Label htmlFor="profile-linkedin">LinkedIn</Label>
-							<Input
-								id="profile-linkedin"
-								value={linkedin}
-								onChange={(e) => setLinkedin(e.target.value)}
-							/>
-						</InputLabelWrapper>
 					</XStack>
-					<XStack className="gap-4">
-						<InputLabelWrapper className="flex-1">
-							<Label htmlFor="profile-github">GitHub</Label>
-							<Input
-								id="profile-github"
-								value={github}
-								onChange={(e) => setGithub(e.target.value)}
-							/>
-						</InputLabelWrapper>
-						<InputLabelWrapper className="flex-1">
-							<Label htmlFor="profile-personal-website">
-								Personal Website
-							</Label>
-							<Input
-								id="profile-personal-website"
-								value={personalWebsite}
-								onChange={(e) =>
-									setPersonalWebsite(e.target.value)
-								}
-							/>
-						</InputLabelWrapper>
-					</XStack>
+					<InputLabelWrapper>
+						<Label>Links</Label>
+						<MultiInput
+							values={links}
+							onChange={(vals) => setLinks(vals)}
+							max={10}
+							placeholder="https://linkedin.com/in/..., https://github.com/..., etc."
+						/>
+					</InputLabelWrapper>
 					<XStack className="gap-4">
 						<InputLabelWrapper className="flex-1">
 							<Label htmlFor="profile-location">Location</Label>

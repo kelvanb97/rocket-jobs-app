@@ -37,9 +37,7 @@ export type TUserProfileFull = {
 	name: string
 	email: string
 	phone: string
-	linkedin: string
-	github: string
-	personalWebsite: string
+	links: string[]
 	location: string
 	address: string
 	jobTitle: string
@@ -102,9 +100,7 @@ export const upsertUserProfileSchema = z.object({
 	name: z.string().min(1, "Name is required"),
 	email: z.string().min(1, "Email is required"),
 	phone: z.string(),
-	linkedin: z.string(),
-	github: z.string(),
-	personalWebsite: z.string(),
+	links: z.array(z.string()),
 	location: z.string(),
 	address: z.string(),
 	jobTitle: z.string().min(1, "Job title is required"),

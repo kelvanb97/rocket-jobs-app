@@ -37,9 +37,7 @@ type TProfileFieldKey =
 	| "email"
 	| "phone"
 	| "location"
-	| "linkedin"
-	| "github"
-	| "personalWebsite"
+	| "links"
 	| "jobTitle"
 	| "seniority"
 	| "yearsOfExperience"
@@ -51,9 +49,7 @@ const PROFILE_FIELD_LABELS: Record<TProfileFieldKey, string> = {
 	email: "Email",
 	phone: "Phone",
 	location: "Location",
-	linkedin: "LinkedIn",
-	github: "GitHub",
-	personalWebsite: "Website",
+	links: "Links",
 	jobTitle: "Job Title",
 	seniority: "Seniority",
 	yearsOfExperience: "Years of Experience",
@@ -66,9 +62,7 @@ const PROFILE_FIELD_ORDER: TProfileFieldKey[] = [
 	"email",
 	"phone",
 	"location",
-	"linkedin",
-	"github",
-	"personalWebsite",
+	"links",
 	"jobTitle",
 	"seniority",
 	"yearsOfExperience",

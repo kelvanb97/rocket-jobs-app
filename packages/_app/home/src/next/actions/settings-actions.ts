@@ -273,15 +273,9 @@ export const applyResumeImportAction = actionClient
 					phone:
 						parsedInput.profileUpdates.phone ??
 						existingProfile.phone,
-					linkedin:
-						parsedInput.profileUpdates.linkedin ??
-						existingProfile.linkedin,
-					github:
-						parsedInput.profileUpdates.github ??
-						existingProfile.github,
-					personalWebsite:
-						parsedInput.profileUpdates.personalWebsite ??
-						existingProfile.personalWebsite,
+					links:
+						parsedInput.profileUpdates.links ??
+						existingProfile.links,
 					location:
 						parsedInput.profileUpdates.location ??
 						existingProfile.location,
@@ -335,10 +329,7 @@ export const applyResumeImportAction = actionClient
 					name: parsedInput.profileUpdates.name ?? "",
 					email: parsedInput.profileUpdates.email ?? "",
 					phone: parsedInput.profileUpdates.phone ?? "",
-					linkedin: parsedInput.profileUpdates.linkedin ?? "",
-					github: parsedInput.profileUpdates.github ?? "",
-					personalWebsite:
-						parsedInput.profileUpdates.personalWebsite ?? "",
+					links: parsedInput.profileUpdates.links ?? [],
 					location: parsedInput.profileUpdates.location ?? "",
 					address: parsedInput.profileUpdates.address ?? "",
 					jobTitle: parsedInput.profileUpdates.jobTitle ?? "",

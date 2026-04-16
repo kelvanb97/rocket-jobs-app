@@ -236,9 +236,10 @@ export const userProfile = sqliteTable("user_profile", {
 	name: text("name").notNull(),
 	email: text("email").notNull(),
 	phone: text("phone").notNull(),
-	linkedin: text("linkedin").notNull().default(""),
-	github: text("github").notNull().default(""),
-	personalWebsite: text("personal_website").notNull().default(""),
+	links: text("links", { mode: "json" })
+		.$type<string[]>()
+		.notNull()
+		.default([]),
 	location: text("location").notNull().default(""),
 	address: text("address").notNull().default(""),
 	jobTitle: text("job_title").notNull(),

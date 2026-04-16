@@ -157,7 +157,7 @@ sqlite3 -json apps/web/data/rja.db 'SELECT * FROM user_profile ORDER BY id ASC L
 Save the first row as `profile`. Use these `user_profile` columns when matching form fields:
 
 - `name`, `email`, `phone`
-- `linkedin`, `github`, `personal_website`
+- `links` (JSON array of URL strings — LinkedIn, GitHub, portfolio, etc.)
 - `location`, `address`
 - `job_title`, `summary`
 - `salary_min`, `salary_max`, `desired_salary`
@@ -245,9 +245,7 @@ Use `profile` from the SQLite query above. Common mappings:
 - Full name: `profile.name`
 - Email: `profile.email`
 - Phone: `profile.phone`
-- LinkedIn URL: `profile.linkedin`
-- GitHub URL: `profile.github`
-- Portfolio/personal site: `profile.personal_website`
+- Links (LinkedIn, GitHub, portfolio, etc.): `profile.links` (JSON array — parse it and use each URL where applicable)
 - City/state or general location: `profile.location`
 - Street address: `profile.address`
 - Current or target title: `profile.job_title`

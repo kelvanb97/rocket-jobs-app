@@ -13,9 +13,7 @@ import {
 type TContactInfo = {
 	email?: string
 	phone?: string
-	linkedIn?: string
-	github?: string
-	personalWebsite?: string
+	links?: string[]
 	location?: string
 }
 
@@ -47,9 +45,7 @@ export async function buildResumeDocx(
 		const parts = [
 			contactInfo.email,
 			contactInfo.phone,
-			contactInfo.linkedIn,
-			contactInfo.github,
-			contactInfo.personalWebsite,
+			...(contactInfo.links ?? []),
 			contactInfo.location,
 		].filter(Boolean)
 		if (parts.length > 0) {

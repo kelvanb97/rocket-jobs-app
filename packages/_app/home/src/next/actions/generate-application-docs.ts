@@ -73,9 +73,7 @@ export const generateApplicationDocsAction = actionClient
 			{
 				email: profile.email,
 				phone: profile.phone,
-				linkedIn: profile.linkedin,
-				github: profile.github,
-				personalWebsite: profile.personalWebsite,
+				links: profile.links,
 				location: profile.location,
 			},
 		)
@@ -92,9 +90,7 @@ export const generateApplicationDocsAction = actionClient
 			{
 				email: profile.email,
 				phone: profile.phone,
-				linkedIn: profile.linkedin,
-				github: profile.github,
-				personalWebsite: profile.personalWebsite,
+				links: profile.links,
 				location: profile.location,
 			},
 		)
