@@ -21,7 +21,7 @@ All return `Promise<TResult<T>>`.
 
 - `TRole` — role entity type (companyId, title, url, description, source, locationType, location, salaryMin, salaryMax, status, postedAt, notes)
 - `TCreateRole`, `TUpdateRole`, `TListRoles` — input types
-- `ROLE_SOURCES` — `"himalayas" | "jobicy" | "remoteok" | "weworkremotely" | "google-jobs" | ...`
+- `ROLE_SOURCES` — `"linkedin" | "indeed" | "company-website" | "referral" | "recruiter" | "other"`
 - `LOCATION_TYPES` — `"remote" | "hybrid" | "on-site"`
 - `ROLE_STATUSES` — `"pending" | "applied" | "rejected" | "wont_do"`
 - Zod schemas for each operation and enum

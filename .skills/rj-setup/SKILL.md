@@ -155,7 +155,7 @@ Click the **Education** tab. For each entry, click "Add Education", fill in degr
 
 Click the **Scraper Config** tab. Explain in chat:
 
-> "The scraper pulls jobs from one or more sources. The available sources are: Google Jobs, RemoteOK, We Work Remotely, Himalayas, Jobicy, and LinkedIn. Google Jobs and the smaller boards work without login. LinkedIn requires you to sign in once (the scrape skill handles that)."
+> "The scraper pulls jobs from LinkedIn. You'll need to sign in once (the scrape skill handles that)."
 
 Ask the user which sources to enable. Toggle them in the form.
 

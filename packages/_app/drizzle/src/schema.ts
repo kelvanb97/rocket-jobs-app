@@ -466,18 +466,6 @@ export const scraperConfig = sqliteTable("scraper_config", {
 		.$type<string[]>()
 		.notNull()
 		.default([]),
-	googleTitles: text("google_titles", { mode: "json" })
-		.$type<string[]>()
-		.notNull()
-		.default([]),
-	googleRemote: int("google_remote", { mode: "boolean" })
-		.notNull()
-		.default(true),
-	googleFullTimeOnly: int("google_full_time_only", { mode: "boolean" })
-		.notNull()
-		.default(true),
-	googleFreshnessDays: int("google_freshness_days").notNull().default(3),
-	googleMaxPages: int("google_max_pages").notNull().default(5),
 	linkedinUrls: text("linkedin_urls", { mode: "json" })
 		.$type<string[]>()
 		.notNull()

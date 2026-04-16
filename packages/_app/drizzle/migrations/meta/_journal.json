@@ -85,6 +85,13 @@
 			"when": 1776326760170,
 			"tag": "0011_wandering_peter_quill",
 			"breakpoints": true
+		},
+		{
+			"idx": 12,
+			"version": "6",
+			"when": 1776371157780,
+			"tag": "0012_natural_black_panther",
+			"breakpoints": true
 		}
 	]
 }

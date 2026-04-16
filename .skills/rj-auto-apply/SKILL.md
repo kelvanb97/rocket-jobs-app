@@ -297,7 +297,7 @@ For open-ended questions like "Why do you want to work here?" or "Tell us about 
 If you encounter a form field that you cannot answer from the profile or EEO config, use these hardcoded defaults for common questions. Ask the user only for anything genuinely unusual or role-specific.
 
 - Start date availability — compute by adding `profile.start_date_weeks_out` weeks to today's date.
-- How did you hear about this role? — infer from `role.source` (e.g. "LinkedIn", "Google Jobs", "Company website"). If unknown, use "Online job board".
+- How did you hear about this role? — infer from `role.source` (e.g. "LinkedIn", "Company website"). If unknown, use "Online job board".
 - Referred by employee? — "No"
 - Non-compete agreement — "No"
 - Previously employed at this company? — "No"
