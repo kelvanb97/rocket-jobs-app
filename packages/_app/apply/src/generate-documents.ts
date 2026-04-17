@@ -16,12 +16,9 @@ import type { TGenerateDocumentsResult } from "./types"
 
 const STORAGE_BUCKET = "applications"
 
-function sanitize(text: string): string {
-	return text
-		.toLowerCase()
-		.replace(/[^a-z0-9]+/g, "-")
-		.replace(/(^-|-$)/g, "")
-		.slice(0, 60)
+function cleanDisplayName(name: string): string {
+	const cleaned = name.replace(/[\\/:*?"<>|]/g, "").trim()
+	return cleaned || "Applicant"
 }
 
 type TGenerateDocumentsInput = {
@@ -46,7 +43,6 @@ export async function generateDocuments(
 
 	const companyResult = role.companyId ? getCompany(role.companyId) : null
 	const company = companyResult?.ok ? companyResult.data : null
-	const companyName = company?.name ?? "Unknown Company"
 
 	// Extract keywords
 	const keywordPrompt = buildKeywordPrompt(role, company)
@@ -85,14 +81,10 @@ export async function generateDocuments(
 		},
 	)
 
-	// Upload documents
-	const slug = sanitize(`${companyName}-${role.title}`)
-	const timestamp = new Date()
-		.toISOString()
-		.replace(/[:.]/g, "-")
-		.slice(0, 19)
-	const resumePath = `${role.id}/${timestamp}-${slug}-resume.docx`
-	const coverLetterPath = `${role.id}/${timestamp}-${slug}-cover-letter.docx`
+	// Upload documents with human-looking filenames so form uploads don't look AI-generated
+	const displayName = cleanDisplayName(profile.name)
+	const resumePath = `${role.id}/${displayName} Resume.docx`
+	const coverLetterPath = `${role.id}/${displayName} Cover Letter.docx`
 
 	const resumeUpload = await uploadFile(
 		STORAGE_BUCKET,

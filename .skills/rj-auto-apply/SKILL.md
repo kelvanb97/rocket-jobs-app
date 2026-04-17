@@ -119,7 +119,7 @@ curl -s -X POST -H 'Content-Type: application/json' \
 
 Replace `RESUME_PATH` and `COVER_LETTER_PATH` with values from previous steps.
 
-**Response:** `{ "data": { "resumeLocal": "/absolute/path/resume.docx", "coverLetterLocal": "/absolute/path/cover-letter.docx" } }`
+**Response:** `{ "data": { "resumeLocal": "/absolute/path/Jane Doe Resume.docx", "coverLetterLocal": "/absolute/path/Jane Doe Cover Letter.docx" } }`
 
 Save the local file paths (absolute) — they will be used for browser file uploads.
 
@@ -254,10 +254,7 @@ Use `profile` from the SQLite query above. Common mappings:
 
 ### File uploads
 
-Upload resume and cover letter using `browser_file_upload` with the **absolute** local file paths from Step E:
-
-- Resume: `{absolutePath}/resume.docx`
-- Cover letter: `{absolutePath}/cover-letter.docx`
+Upload resume and cover letter using `browser_file_upload` with the **absolute** local file paths from Step E (e.g. `/absolute/path/Jane Doe Resume.docx`, `/absolute/path/Jane Doe Cover Letter.docx`). Filenames follow the profile name so uploads look like a real applicant's files rather than AI-generated output.
 
 Some forms only have one upload field. In that case, upload the resume only.
 
