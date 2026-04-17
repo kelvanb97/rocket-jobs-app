@@ -657,6 +657,7 @@ export function EditRoleSheet({
 					{activeTab === "application" && role && (
 						<div className="px-4 py-4">
 							<ApplicationFieldsCard
+								roleId={role.id}
 								resumeUrl={app.resumeUrl}
 								coverLetterUrl={app.coverLetterUrl}
 								screenshotUrl={app.screenshotUrl}

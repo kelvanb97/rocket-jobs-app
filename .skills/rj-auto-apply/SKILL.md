@@ -3,7 +3,8 @@ name: rj-auto-apply
 description: >
     Use when the user says "/rj-auto-apply", "$rj-auto-apply", "rj-auto-apply",
     "auto-apply", "apply to jobs", or "submit application" and wants the
-    rocket-jobs-app to find the top-scored unapplied role, generate or
+    rocket-jobs-app to find the top-scored unapplied role (or a specific role
+    when the user supplies a role ID like `/rj-auto-apply 42`), generate or
     retrieve a resume/cover letter, navigate to the application page via
     Playwright MCP, fill out the form, and pause for confirmation before
     submitting.
@@ -13,6 +14,10 @@ user-invocable: true
 # rj-auto-apply Skill
 
 Automate a single job application end-to-end. Follow these steps sequentially.
+
+## Argument
+
+The skill accepts an optional role ID (e.g. `/rj-auto-apply 42`). Each role's edit sheet in the web app exposes a copy-paste command with its ID so the user can apply to a specific role. When no argument is supplied, Step A falls back to the top-scored unapplied role.
 
 ## Prerequisites
 
@@ -25,17 +30,26 @@ Automate a single job application end-to-end. Follow these steps sequentially.
 
 All API calls use the web app at `http://localhost:3000`. Each step uses `curl` to call the appropriate endpoint.
 
-## Step A: Fetch the Top Unapplied Role
+## Step A: Fetch the Role to Apply To
+
+If the user supplied a role ID as an argument (e.g. `/rj-auto-apply 42`), fetch that specific role:
+
+```bash
+curl -s http://localhost:3000/api/apply/role/ROLE_ID
+```
+
+Otherwise, fetch the top-scored unapplied role:
 
 ```bash
 curl -s http://localhost:3000/api/apply/top-role
 ```
 
-**Response:** `{ "data": { "id", "title", "companyName", "score", "url", "description", "location", "locationType", "salaryMin", "salaryMax" } }` or `{ "data": null }` if no roles.
+**Response (both endpoints):** `{ "data": { "id", "title", "companyName", "score", "url", "description", "location", "locationType", "salaryMin", "salaryMax" } }`. The top-role endpoint returns `{ "data": null }` when no unapplied scored roles exist. The role-by-id endpoint returns `{ "error": "Role not found" }` with status 404 if the ID is unknown.
 
 **After running:**
 
-- If `data` is `null`: inform the user that all scored roles have been applied to or no roles have been scored yet. Stop.
+- If the role-by-id request returned 404: tell the user the role ID wasn't found and stop.
+- If the top-role response `data` is `null`: inform the user that all scored roles have been applied to or no roles have been scored yet. Stop.
 - **URL legitimacy check (auto-skip):** Before showing the role to the user, verify the application page is legitimate.
     1. **Resolve the URL:** Use `url`. If it is null, skip the role with reason "No URL available" and loop back to fetch the next role.
     2. **Navigate:** Call `browser_navigate` with the resolved URL. If navigation fails (network error, timeout), skip the role with reason "Page failed to load" and loop.

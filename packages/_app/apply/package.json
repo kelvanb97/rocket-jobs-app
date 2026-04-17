@@ -6,6 +6,7 @@
 	"sideEffects": false,
 	"exports": {
 		"./get-top-role": "./src/get-top-role.ts",
+		"./get-role-for-apply": "./src/get-role-for-apply.ts",
 		"./create-draft": "./src/create-draft.ts",
 		"./list-documents": "./src/list-documents.ts",
 		"./generate-documents": "./src/generate-documents.ts",
@@ -26,6 +27,7 @@
 		"@rja-api/cover-letter": "workspace:*",
 		"@rja-api/resume": "workspace:*",
 		"@rja-api/role": "workspace:*",
+		"@rja-api/score": "workspace:*",
 		"@rja-api/storage": "workspace:*",
 		"@rja-api/settings": "workspace:*",
 		"@rja-core/result": "workspace:*"

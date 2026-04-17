@@ -13,10 +13,12 @@ import { Label } from "@rja-design/ui/library/label"
 import { Textarea } from "@rja-design/ui/library/text-area"
 import { XStack } from "@rja-design/ui/primitives/x-stack"
 import { YStack } from "@rja-design/ui/primitives/y-stack"
+import { CopyChip } from "#atoms/copy-chip"
 import { DocumentViewerDialog } from "#molecules/document-viewer-dialog"
 import { useState } from "react"
 
 interface IApplicationFieldsCardProps {
+	roleId: number
 	resumeUrl: string | null
 	coverLetterUrl: string | null
 	screenshotUrl: string | null
@@ -106,6 +108,7 @@ function FileSlot({
 }
 
 export function ApplicationFieldsCard({
+	roleId,
 	resumeUrl,
 	coverLetterUrl,
 	screenshotUrl,
@@ -147,6 +150,21 @@ export function ApplicationFieldsCard({
 			</CardHeader>
 			<CardContent>
 				<YStack className="gap-4">
+					<InputLabelWrapper>
+						<Label>Auto-apply command</Label>
+						<div className="flex flex-wrap gap-2">
+							<CopyChip
+								command={`/rj-auto-apply ${roleId}`}
+								label="Claude Code"
+								harness="claude-code"
+							/>
+							<CopyChip
+								command={`$rj-auto-apply ${roleId}`}
+								label="Codex"
+								harness="codex"
+							/>
+						</div>
+					</InputLabelWrapper>
 					<FileSlot
 						label="Resume"
 						fileType="resume"

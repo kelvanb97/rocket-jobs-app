@@ -486,6 +486,9 @@ importers:
       '@rja-api/role':
         specifier: workspace:*
         version: link:../../_api/role
+      '@rja-api/score':
+        specifier: workspace:*
+        version: link:../../_api/score
       '@rja-api/settings':
         specifier: workspace:*
         version: link:../../_api/settings
