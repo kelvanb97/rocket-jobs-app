@@ -13,7 +13,10 @@ export const getLocalSha = (): string => process.env["LOCAL_COMMIT_SHA"] ?? ""
 export const getLatestSha = async (): Promise<TResult<string>> => {
 	try {
 		const init: NextFetchInit = {
-			headers: { Accept: "application/vnd.github+json" },
+			headers: {
+				Accept: "application/vnd.github+json",
+				"Cache-Control": "no-store",
+			},
 			next: { revalidate: 3600, tags: ["app-version"] },
 		}
 		const response = await fetch(LATEST_COMMIT_URL, init)
