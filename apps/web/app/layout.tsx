@@ -1,9 +1,10 @@
+import { VersionOutdatedBanner } from "@rja-app/version/banner"
 import type { Metadata } from "next"
 import "@rja-design/ui/global.css"
 import { Providers } from "../ui/react/providers"
 
 export const metadata: Metadata = {
-	title: "rocket-jobs-app",
+	title: "Rocket Jobs",
 	description: "Dashboard for managing role opportunities",
 	icons: {
 		icon: "/favicon.ico",
@@ -20,7 +21,10 @@ export default function RootLayout({
 		// TODO: fix hydration warning
 		<html lang="en" suppressHydrationWarning>
 			<body className="antialiased">
-				<Providers>{children}</Providers>
+				<Providers>
+					<VersionOutdatedBanner />
+					{children}
+				</Providers>
 			</body>
 		</html>
 	)

@@ -1,8 +1,8 @@
 "use client"
 
-import { Check, Copy } from "@rja-design/ui/assets/lucide"
-import { toast } from "@rja-design/ui/library/toast"
-import { HarnessLogo, type THarness } from "#atoms/harness-logo"
+import { Check, Copy } from "#assets/lucide/lucide"
+import { HarnessLogo, type THarness } from "#library/harness-logo/harness-logo"
+import { toast } from "#library/toast/toast"
 import { useCallback, useState } from "react"
 
 interface ICopyChipProps {

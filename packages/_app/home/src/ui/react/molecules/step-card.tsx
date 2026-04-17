@@ -1,6 +1,6 @@
 "use client"
 
-import { CopyChip } from "#atoms/copy-chip"
+import { CopyChip } from "@rja-design/ui/library/copy-chip"
 import { getSkillIcon } from "#atoms/skill-icon"
 
 const GRADIENT = "linear-gradient(135deg, var(--primary), #a78bfa)"

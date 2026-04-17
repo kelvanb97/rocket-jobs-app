@@ -27,6 +27,7 @@
 		"@rja-api/role-person": "workspace:*",
 		"@rja-api/storage": "workspace:*",
 		"@rja-api/settings": "workspace:*",
+		"@rja-app/version": "workspace:*",
 		"@rja-core/dates": "workspace:*",
 		"@rja-core/next-safe-action": "workspace:*",
 		"docx-preview": "0.3.7",

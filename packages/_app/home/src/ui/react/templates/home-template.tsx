@@ -1,3 +1,4 @@
+import { VersionStatusCard } from "@rja-app/version/card"
 import { SectionLabel } from "#atoms/section-label"
 import { StepCard } from "#molecules/step-card"
 import { WorkflowCard } from "#molecules/workflow-card"
@@ -30,7 +31,6 @@ export function HomeTemplate() {
 					<code>$skill-name</code>.
 				</p>
 			</div>
-
 			<div className="flex flex-col gap-3">
 				<SectionLabel>Getting Started</SectionLabel>
 				<div
@@ -86,6 +86,11 @@ export function HomeTemplate() {
 						iconName="Sparkles"
 					/>
 				</div>
+			</div>
+
+			<div className="flex flex-col gap-3" style={{ maxWidth: "56rem" }}>
+				<SectionLabel>Version Status</SectionLabel>
+				<VersionStatusCard />
 			</div>
 		</div>
 	)

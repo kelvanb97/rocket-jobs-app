@@ -56,14 +56,7 @@ export function Sidebar({ activePage }: ISidebarProps) {
 						variant="foreground"
 						className="tracking-widest font-semibold"
 					>
-						rocket-jobs-app
-					</TextBody>
-					<TextBody
-						size="2xs"
-						variant="muted-foreground"
-						className="mt-0.5 uppercase tracking-wider"
-					>
-						Job Tracker
+						Rocket Jobs
 					</TextBody>
 				</div>
 
@@ -86,7 +79,7 @@ export function Sidebar({ activePage }: ISidebarProps) {
 					variant="muted-foreground"
 					className="mt-3 text-center"
 				>
-					Rocket Jobs App
+					Rocket Jobs
 				</TextBody>
 			</div>
 		</YStack>

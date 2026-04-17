@@ -7,13 +7,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@rja-design/ui/library/card"
+import { CopyChip } from "@rja-design/ui/library/copy-chip"
 import { DocumentUpload } from "@rja-design/ui/library/document-upload"
 import { InputLabelWrapper } from "@rja-design/ui/library/input-label-wrapper"
 import { Label } from "@rja-design/ui/library/label"
 import { Textarea } from "@rja-design/ui/library/text-area"
 import { XStack } from "@rja-design/ui/primitives/x-stack"
 import { YStack } from "@rja-design/ui/primitives/y-stack"
-import { CopyChip } from "#atoms/copy-chip"
 import { DocumentViewerDialog } from "#molecules/document-viewer-dialog"
 import { useState } from "react"
 

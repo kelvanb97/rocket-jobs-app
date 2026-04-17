@@ -1,0 +1,43 @@
+{
+	"name": "@rja-app/version",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"sideEffects": false,
+	"exports": {
+		"./banner": "./src/ui/react/banner.tsx",
+		"./card": "./src/ui/react/card.tsx"
+	},
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"lint": "eslint ./src"
+	},
+	"dependencies": {
+		"@rja-core/result": "workspace:*"
+	},
+	"peerDependencies": {
+		"@rja-design/ui": "workspace:*",
+		"next": "^16.1.6",
+		"react": "^19.2.4",
+		"react-dom": "^19.2.4"
+	},
+	"devDependencies": {
+		"@rja-core/eslint": "workspace:*",
+		"@rja-core/tsconfig": "workspace:*",
+		"@rja-design/ui": "workspace:*",
+		"@types/node": "25.5.0",
+		"@types/react": "19.2.14",
+		"eslint": "9.24.0",
+		"next": "16.1.6",
+		"react": "19.2.4",
+		"react-dom": "19.2.4",
+		"typescript": "5.9.3"
+	},
+	"imports": {
+		"#*": [
+			"./src/*",
+			"./src/*.ts",
+			"./src/*.tsx"
+		]
+	}
+}

@@ -32,6 +32,7 @@ The table below refers to skills by name (e.g. `rj-install`). Substitute the pre
 | `rj-setup` | `/rj-setup` | `$rj-setup` | Walks you through telling the app about yourself — your background, job preferences, and what you're looking for — so it knows which jobs to find for you. You can also upload your resume to fill in most of it automatically. | The app running on your computer. (If it isn't, this skill will point you to `rj-install` first.) | Right after installing, before your first job search. |
 | `rj-scrape` | `/rj-scrape` | `$rj-scrape` | Finds new job listings that match what you're looking for and adds them to your dashboard. | You've finished setup. | Whenever you want fresh job postings — most people run this daily. |
 | `rj-auto-apply` | `/rj-auto-apply` | `$rj-auto-apply` | Picks the best-matching job for you, writes a tailored resume and cover letter, opens the application, and fills it out. You get to review everything before anything is actually submitted. | A completed profile and some jobs on your dashboard. | When you're ready to start applying. |
+| `rj-update` | `/rj-update` | `$rj-update` | Pulls the latest code from `main`, reinstalls dependencies, and runs any new database migrations so your local app matches the current release. | A clean git tree (no uncommitted changes) and the dev server stopped. | When the in-app banner tells you a new version is available. |
 | `rj-help` | `/rj-help` | `$rj-help` | Shows you this list of what the app can do. | Nothing. | Any time you want a reminder of what's available. |
 
 ## Notes

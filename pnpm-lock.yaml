@@ -57,6 +57,9 @@ importers:
       '@rja-app/scraper':
         specifier: workspace:*
         version: link:../../packages/_app/scraper
+      '@rja-app/version':
+        specifier: workspace:*
+        version: link:../../packages/_app/version
       '@rja-design/ui':
         specifier: workspace:*
         version: link:../../packages/_design/ui
@@ -569,6 +572,9 @@ importers:
       '@rja-api/storage':
         specifier: workspace:*
         version: link:../../_api/storage
+      '@rja-app/version':
+        specifier: workspace:*
+        version: link:../version
       '@rja-core/dates':
         specifier: workspace:*
         version: link:../../_core/dates
@@ -637,6 +643,43 @@ importers:
       tsx:
         specifier: 4.21.0
         version: 4.21.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/_app/version:
+    dependencies:
+      '@rja-core/result':
+        specifier: workspace:*
+        version: link:../../_core/result
+    devDependencies:
+      '@rja-core/eslint':
+        specifier: workspace:*
+        version: link:../../_core/eslint
+      '@rja-core/tsconfig':
+        specifier: workspace:*
+        version: link:../../_core/tsconfig
+      '@rja-design/ui':
+        specifier: workspace:*
+        version: link:../../_design/ui
+      '@types/node':
+        specifier: 25.5.0
+        version: 25.5.0
+      '@types/react':
+        specifier: 19.2.14
+        version: 19.2.14
+      eslint:
+        specifier: 9.24.0
+        version: 9.24.0(jiti@2.6.1)
+      next:
+        specifier: 16.1.6
+        version: 16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react:
+        specifier: 19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: 19.2.4
+        version: 19.2.4(react@19.2.4)
       typescript:
         specifier: 5.9.3
         version: 5.9.3

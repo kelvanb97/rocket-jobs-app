@@ -5,6 +5,7 @@ export {
 	Briefcase,
 	Check,
 	Copy,
+	Download,
 	FileText,
 	Globe,
 	GraduationCap,
@@ -22,6 +23,7 @@ export {
 	Trash2,
 	User,
 	Users,
+	X,
 } from "lucide-react"
 
 export type { LucideIcon } from "lucide-react"
