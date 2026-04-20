@@ -18,7 +18,7 @@ Job hunting is a full-time job. I got tired of refreshing five different job boa
 
 Ask for help, share your wins, or just say hi.
 
-[![Discord](https://img.shields.io/badge/Discord-Join_the_community-5865F2?logo=discord&logoColor=white)](https://discord.gg/5jt7bcu8QR)
+[![Discord](https://img.shields.io/badge/Discord-Join_the_community-5865F2?logo=discord&logoColor=white)](https://discord.com/invite/dfeB2Jxwhs)
 
 ## Prerequisites
 
@@ -56,7 +56,7 @@ See [**.skills/rj-help/SKILL.md**](./.skills/rj-help/SKILL.md) for the full tabl
 
 Invoke the `rj-help` skill from your AI assistant for a full list of available skills, what they do, and when to use them.
 
-Still stuck? Hop into the [Rocket Jobs Discord](https://discord.gg/5jt7bcu8QR) and ask away!
+Still stuck? Hop into the [Rocket Jobs Discord](https://discord.com/invite/dfeB2Jxwhs) and ask away!
 
 Discord not your thing? Book a call with me and we can troubleshoot together: <https://cal.com/kelvan-brandt/15min>
 

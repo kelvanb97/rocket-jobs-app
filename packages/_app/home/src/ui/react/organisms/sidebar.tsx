@@ -74,7 +74,7 @@ export function Sidebar({ activePage }: ISidebarProps) {
 
 			<YStack className="gap-3 px-1">
 				<a
-					href="https://discord.gg/5jt7bcu8QR"
+					href="https://discord.com/invite/dfeB2Jxwhs"
 					target="_blank"
 					rel="noreferrer noopener"
 					className="group flex items-center justify-center gap-2 rounded-lg bg-[#5865F2] px-3 py-2 text-sm font-medium text-white transition-colors duration-150 hover:bg-[#4752C4]"
