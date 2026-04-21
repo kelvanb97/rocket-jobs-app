@@ -1,5 +1,6 @@
 "use client"
 
+import { Logo } from "@rja-design/ui/assets/logo"
 import {
 	Briefcase,
 	Home,
@@ -50,15 +51,7 @@ export function Sidebar({ activePage }: ISidebarProps) {
 	return (
 		<YStack className="h-full w-60 shrink-0 justify-between border-r border-sidebar-border bg-sidebar px-3 pb-4 pt-7">
 			<YStack className="gap-6">
-				<div className="px-4">
-					<TextBody
-						size="xl"
-						variant="foreground"
-						className="tracking-widest font-semibold"
-					>
-						Rocket Jobs
-					</TextBody>
-				</div>
+				<Logo />
 
 				<YStack className="gap-3 px-1" role="navigation">
 					<NavLinks items={HOME_NAV_ITEMS} activePage={activePage} />
