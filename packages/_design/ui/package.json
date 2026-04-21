@@ -48,6 +48,7 @@
 		"./primitives/flex": "./src/primitives/flex.tsx",
 		"./primitives/x-stack": "./src/primitives/x-stack.tsx",
 		"./primitives/y-stack": "./src/primitives/y-stack.tsx",
+		"./assets/logo": "./src/assets/logo.tsx",
 		"./assets/lucide": "./src/assets/lucide/lucide.tsx",
 		"./cn": "./src/utils/cn.ts",
 		"./global.css": "./global.css",
