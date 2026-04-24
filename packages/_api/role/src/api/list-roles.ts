@@ -18,6 +18,8 @@ export function listRoles(
 	input: TListRoles,
 ): TResult<{ roles: TRole[]; hasNext: boolean }> {
 	try {
+		const page = input.page ?? 1
+		const pageSize = input.pageSize ?? 25
 		const sortByScore = input.sortBy === "score"
 		const ascending = (input.sortOrder ?? "desc") === "asc"
 		const needsCompanyJoin = !!input.search
@@ -45,17 +47,22 @@ export function listRoles(
 			conditions.length > 0 ? and(...conditions) : undefined
 
 		const orderByDirection = ascending ? asc : desc
-		const orderByClause = sortByScore
-			? orderByDirection(score.score)
-			: orderByDirection(
-					role[
-						(input.sortBy ?? "created_at") === "created_at"
-							? "createdAt"
-							: (input.sortBy ?? "created_at") === "posted_at"
-								? "postedAt"
-								: (input.sortBy as "title" | "status")
-					],
-				)
+		const sortBy = input.sortBy ?? "created_at"
+		const orderByClause = (() => {
+			switch (sortBy) {
+				case "score":
+					return orderByDirection(score.score)
+				case "posted_at":
+					return orderByDirection(role.postedAt)
+				case "title":
+					return orderByDirection(role.title)
+				case "status":
+					return orderByDirection(role.status)
+				case "created_at":
+				default:
+					return orderByDirection(role.createdAt)
+			}
+		})()
 
 		let query = db()
 			.select({ ...getTableColumns(role) })
@@ -72,12 +79,12 @@ export function listRoles(
 		const results = query
 			.where(whereClause)
 			.orderBy(orderByClause, asc(role.id))
-			.limit(input.pageSize + 1)
-			.offset((input.page - 1) * input.pageSize)
+			.limit(pageSize + 1)
+			.offset((page - 1) * pageSize)
 			.all()
 
-		const hasNext = results.length > input.pageSize
-		const roles = results.slice(0, input.pageSize)
+		const hasNext = results.length > pageSize
+		const roles = results.slice(0, pageSize)
 		return ok({ roles, hasNext })
 	} catch (e) {
 		return errFrom(

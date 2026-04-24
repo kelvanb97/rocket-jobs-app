@@ -1,5 +1,8 @@
 import { execSync } from "node:child_process"
+import { fileURLToPath } from "node:url"
 import type { NextConfig } from "next"
+
+const repoRoot = fileURLToPath(new URL("../..", import.meta.url))
 
 const readLocalCommitSha = (): string => {
 	try {
@@ -16,6 +19,10 @@ const readLocalCommitSha = (): string => {
 const nextConfig: NextConfig = {
 	// NOTE: This is required to support PostHog trailing slash API requests
 	skipTrailingSlashRedirect: true,
+	outputFileTracingRoot: repoRoot,
+	turbopack: {
+		root: repoRoot,
+	},
 	transpilePackages: ["@rja-design/ui"],
 	serverExternalPackages: [
 		"patchright",
