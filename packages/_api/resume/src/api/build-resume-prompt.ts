@@ -3,6 +3,37 @@ import type { TRole } from "@rja-api/role/schema/role-schema"
 import type { TUserProfileFull } from "@rja-api/settings/schema/user-profile-schema"
 import type { TKeywordExtraction } from "#schema/keyword-schema"
 
+const CANADIAN_LOCATION_PATTERNS = [
+	/\bcanada\b/i,
+	/\balberta\b/i,
+	/\bab\b/i,
+	/\bbritish columbia\b/i,
+	/\bbc\b/i,
+	/\bmanitoba\b/i,
+	/\bmb\b/i,
+	/\bnew brunswick\b/i,
+	/\bnb\b/i,
+	/\bnewfoundland(?: and labrador)?\b/i,
+	/\bnl\b/i,
+	/\bnova scotia\b/i,
+	/\bns\b/i,
+	/\bnunavut\b/i,
+	/\bnu\b/i,
+	/\bontario\b/i,
+	/\bon\b/i,
+	/\bprince edward island\b/i,
+	/\bpei\b/i,
+	/\bpe\b/i,
+	/\bquebec\b/i,
+	/\bqc\b/i,
+	/\bsaskatchewan\b/i,
+	/\bsk\b/i,
+	/\byukon\b/i,
+	/\byt\b/i,
+	/\bnorthwest territories\b/i,
+	/\bnt\b/i,
+]
+
 function buildFullProfile(profile: TUserProfileFull): string {
 	const sections: string[] = []
 
@@ -64,6 +95,25 @@ function buildFullProfile(profile: TUserProfileFull): string {
 	return sections.join("\n")
 }
 
+export function getResumeRelocationNote(
+	role: TRole,
+	profile: TUserProfileFull,
+): string | null {
+	const currentLocation = `${profile.location}\n${profile.address}`.toLowerCase()
+	const roleLocationContext = `${role.location ?? ""}\n${role.description ?? ""}`.toLowerCase()
+	const roleMentionsCanada = CANADIAN_LOCATION_PATTERNS.some((pattern) =>
+		pattern.test(roleLocationContext),
+	)
+	const profileIsInCanada =
+		CANADIAN_LOCATION_PATTERNS.some((pattern) =>
+			pattern.test(currentLocation),
+		)
+
+	if (!profileIsInCanada || !roleMentionsCanada) return null
+
+	return "Open to relocate for the right opportunity."
+}
+
 export function buildResumePrompt(
 	role: TRole,
 	company: TCompany | null,
@@ -80,6 +130,11 @@ You have been provided with keywords extracted from the job description. Use the
 - **Industry Terms**: Use industryTerms in the summary and relevant highlights to demonstrate domain fluency.
 - If keyword lists are sparse or empty, fall back to general tailoring based on the job description.`
 		: ""
+	const relocationNote = getResumeRelocationNote(role, profile)
+	const relocationGuidance = relocationNote
+		? `
+- If the role has a Canada-specific location constraint, include this relocation note naturally in the summary: "${relocationNote}"`
+		: ""
 
 	const system = `You are an expert resume writer optimizing for ATS (Applicant Tracking System) compatibility. Your job is to tailor a resume for a specific job application.
 
@@ -95,7 +150,7 @@ Important rules:
 - Never invent skills, experiences, or accomplishments the candidate doesn't have.
 - Keep the professional tone and specificity of the original highlights.
 - Quantified results (percentages, metrics) should be preserved exactly.
-- The resume should feel naturally tailored, not keyword-stuffed.${keywordGuidance}`
+- The resume should feel naturally tailored, not keyword-stuffed.${keywordGuidance}${relocationGuidance}`
 
 	const roleDetails = [
 		`Title: ${role.title}`,
@@ -115,6 +170,13 @@ ${buildFullProfile(profile)}
 
 ## Target Job Posting
 ${roleDetails}`
+
+	if (relocationNote) {
+		user += `
+
+## Relocation Note
+${relocationNote}`
+	}
 
 	if (keywords) {
 		user += `

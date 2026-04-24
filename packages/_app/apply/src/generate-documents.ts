@@ -5,7 +5,10 @@ import { buildCoverLetterPrompt } from "@rja-api/cover-letter/api/build-cover-le
 import { generateCoverLetterContent } from "@rja-api/cover-letter/api/generate-cover-letter"
 import { buildKeywordPrompt } from "@rja-api/resume/api/build-keyword-prompt"
 import { buildResumeDocx } from "@rja-api/resume/api/build-resume-docx"
-import { buildResumePrompt } from "@rja-api/resume/api/build-resume-prompt"
+import {
+	buildResumePrompt,
+	getResumeRelocationNote,
+} from "@rja-api/resume/api/build-resume-prompt"
 import { extractKeywords } from "@rja-api/resume/api/extract-keywords"
 import { generateResumeContent } from "@rja-api/resume/api/generate-resume"
 import { getRole } from "@rja-api/role/api/get-role"
@@ -52,6 +55,7 @@ export async function generateDocuments(
 	)
 
 	// Generate resume
+	const relocationNote = getResumeRelocationNote(role, profile)
 	const resumePrompt = buildResumePrompt(role, company, profile, keywords)
 	const resumeContent = await generateResumeContent(
 		resumePrompt.system,
@@ -62,6 +66,7 @@ export async function generateDocuments(
 		phone: profile.phone,
 		links: profile.links,
 		location: profile.location,
+		relocationNote,
 	})
 
 	// Generate cover letter

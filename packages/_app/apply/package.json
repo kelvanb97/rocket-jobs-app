@@ -12,6 +12,7 @@
 		"./generate-documents": "./src/generate-documents.ts",
 		"./download-documents": "./src/download-documents.ts",
 		"./skip-role": "./src/skip-role.ts",
+		"./mark-role-unavailable": "./src/mark-role-unavailable.ts",
 		"./defer-role": "./src/defer-role.ts",
 		"./submit-application": "./src/submit-application.ts",
 		"./types": "./src/types.ts",

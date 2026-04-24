@@ -33,6 +33,7 @@ const STATUS_CHIPS: Array<{ label: string; value: TRoleStatus | undefined }> = [
 	{ label: "Rejected", value: "rejected" },
 	{ label: "Won't Do", value: "wont_do" },
 	{ label: "Deferred", value: "deferred" },
+	{ label: "Unavailable", value: "unavailable" },
 ]
 
 const LOCATION_TYPE_OPTIONS: { label: string; value: TLocationType }[] = [

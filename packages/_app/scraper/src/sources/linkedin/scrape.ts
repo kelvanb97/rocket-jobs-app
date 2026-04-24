@@ -257,10 +257,66 @@ async function clickJobCard(
 		})
 		return true
 	} catch (err) {
+		const message = err instanceof Error ? err.message : String(err)
+		if (
+			/class="disabled"|element to be visible, enabled and stable|element is not enabled|Timeout 2000ms exceeded/i.test(
+				message,
+			)
+		) {
+			console.warn("[linkedin] Skipping unclickable job card")
+			return false
+		}
+
 		const handled = await maybeHandleRecoverableIssue(page, err, onHandoff)
 		if (handled) return false
 		throw err
 	}
+}
+
+async function navigateToSearchUrl(
+	page: Page,
+	searchUrl: string,
+	onHandoff: TSourceScrapeOptions["onHandoff"],
+): Promise<boolean> {
+	for (let attempt = 1; attempt <= 2; attempt++) {
+		try {
+			await page.goto(searchUrl, {
+				waitUntil: "domcontentloaded",
+				timeout: 45_000,
+			})
+			await page.waitForTimeout(2000)
+			return true
+		} catch (err) {
+			const handled = await maybeHandleRecoverableIssue(
+				page,
+				err,
+				onHandoff,
+			)
+			if (handled) return false
+
+			const message = err instanceof Error ? err.message : String(err)
+			const timedOut = /page\.goto: Timeout \d+ms exceeded/i.test(message)
+
+			if (timedOut && attempt < 2) {
+				console.warn(
+					`[linkedin] Navigation timed out, retrying search URL (attempt ${attempt + 1}/2)`,
+				)
+				await page.goto("about:blank", { waitUntil: "load" }).catch(() => {})
+				continue
+			}
+
+			if (timedOut) {
+				console.warn(
+					`[linkedin] Skipping search URL after repeated navigation timeouts: ${searchUrl}`,
+				)
+				return false
+			}
+
+			throw err
+		}
+	}
+
+	return false
 }
 
 async function scrapeResultsPage(
@@ -281,7 +337,11 @@ async function scrapeResultsPage(
 		if (i < count) {
 			const card = cards.nth(i)
 			const clicked = await clickJobCard(page, card, onHandoff)
-			if (!clicked) continue
+			if (!clicked) {
+				i++
+				noGrowth = 0
+				continue
+			}
 
 			await page.waitForTimeout(100)
 
@@ -344,19 +404,9 @@ export async function scrape(
 
 			console.log(`[linkedin] Navigating to: ${searchUrl}`)
 
-			await page.goto(searchUrl, { waitUntil: "domcontentloaded" })
-			await page.waitForTimeout(2000)
-			try {
-				await checkForBlocks(page)
-			} catch (err) {
-				const handled = await maybeHandleRecoverableIssue(
-					page,
-					err,
-					onHandoff,
-				)
-				if (handled) continue
-				throw err
-			}
+			const navigated = await navigateToSearchUrl(page, searchUrl, onHandoff)
+			if (!navigated) continue
+			await checkForBlocks(page)
 
 			const cards = page.locator(CARD_SELECTOR)
 			const cardCount = await cards.count()

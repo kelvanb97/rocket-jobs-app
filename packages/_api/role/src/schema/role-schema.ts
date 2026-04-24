@@ -27,6 +27,7 @@ export const ROLE_STATUSES = [
 	"rejected",
 	"wont_do",
 	"deferred",
+	"unavailable",
 ] as const
 
 export type TRoleStatus = (typeof ROLE_STATUSES)[number]

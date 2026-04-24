@@ -7,6 +7,7 @@ const STATUS_OPTIONS: { label: string; value: TRoleStatus }[] = [
 	{ label: "Rejected", value: "rejected" },
 	{ label: "Won't Do", value: "wont_do" },
 	{ label: "Deferred", value: "deferred" },
+	{ label: "Unavailable", value: "unavailable" },
 ]
 
 interface IRoleStatusSelectProps {

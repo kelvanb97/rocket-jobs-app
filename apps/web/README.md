@@ -16,9 +16,9 @@ LLM providers, API keys, and per-use-case model selection are configured at runt
 
 ## Routes
 
-| Path          | Screen                                    |
-| ------------- | ----------------------------------------- |
-| `/`      | Home dashboard                            |
+| Path      | Screen                                    |
+| --------- | ----------------------------------------- |
+| `/`       | Home dashboard                            |
 | `/roles`  | Job roles list with filtering and sorting |
 | `/create` | Manual role creation                      |
 
@@ -33,6 +33,7 @@ LLM providers, API keys, and per-use-case model selection are configured at runt
 | POST   | `/api/apply/application`        | Create an application record |
 | POST   | `/api/apply/submit`             | Submit an application        |
 | POST   | `/api/apply/skip`               | Skip a role                  |
+| POST   | `/api/apply/unavailable`        | Mark a role unavailable      |
 
 ## Dependencies
 

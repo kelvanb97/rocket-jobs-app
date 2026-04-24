@@ -15,6 +15,7 @@ type TContactInfo = {
 	phone?: string
 	links?: string[]
 	location?: string
+	relocationNote?: string | null
 }
 
 export async function buildResumeDocx(
@@ -56,6 +57,23 @@ export async function buildResumeDocx(
 					children: [
 						new TextRun({
 							text: parts.join("  |  "),
+							size: 20,
+							font: "Calibri",
+							color: "555555",
+						}),
+					],
+				}),
+			)
+		}
+
+		if (contactInfo.relocationNote) {
+			children.push(
+				new Paragraph({
+					alignment: AlignmentType.CENTER,
+					spacing: { after: 120 },
+					children: [
+						new TextRun({
+							text: `Relocation: ${contactInfo.relocationNote}`,
 							size: 20,
 							font: "Calibri",
 							color: "555555",
