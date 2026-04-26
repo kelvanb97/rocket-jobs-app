@@ -10,6 +10,9 @@ type NextFetchInit = RequestInit & {
 
 export const getLocalSha = (): string => process.env["LOCAL_COMMIT_SHA"] ?? ""
 
+export const getLocalUpstreamSha = (): string =>
+	process.env["LOCAL_UPSTREAM_SHA"] ?? ""
+
 export const getLatestSha = async (): Promise<TResult<string>> => {
 	try {
 		const init: NextFetchInit = {

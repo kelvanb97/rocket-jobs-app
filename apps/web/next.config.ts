@@ -13,6 +13,18 @@ const readLocalCommitSha = (): string => {
 	}
 }
 
+const readUpstreamCommitSha = (): string => {
+	try {
+		return execSync("git rev-parse origin/main", {
+			stdio: ["ignore", "pipe", "ignore"],
+		})
+			.toString()
+			.trim()
+	} catch {
+		return ""
+	}
+}
+
 const nextConfig: NextConfig = {
 	// NOTE: This is required to support PostHog trailing slash API requests
 	skipTrailingSlashRedirect: true,
@@ -21,11 +33,14 @@ const nextConfig: NextConfig = {
 		"patchright",
 		"patchright-core",
 		"better-sqlite3",
+		"bindings",
+		"file-uri-to-path",
 		"@rja-core/drizzle",
 		"pdf-parse",
 	],
 	env: {
 		LOCAL_COMMIT_SHA: readLocalCommitSha(),
+		LOCAL_UPSTREAM_SHA: readUpstreamCommitSha(),
 	},
 }
 

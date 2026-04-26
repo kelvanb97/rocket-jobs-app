@@ -8,7 +8,6 @@ import {
 	asc,
 	desc,
 	eq,
-	getTableColumns,
 	gte,
 	like,
 	lte,
@@ -58,7 +57,23 @@ export function listRoles(
 				)
 
 		let query = db()
-			.select({ ...getTableColumns(role) })
+			.select({
+				id: role.id,
+				companyId: role.companyId,
+				title: role.title,
+				url: role.url,
+				description: role.description,
+				source: role.source,
+				locationType: role.locationType,
+				location: role.location,
+				salaryMin: role.salaryMin,
+				salaryMax: role.salaryMax,
+				status: role.status,
+				postedAt: role.postedAt,
+				createdAt: role.createdAt,
+				updatedAt: role.updatedAt,
+				notes: role.notes,
+			})
 			.from(role)
 			.$dynamic()
 
