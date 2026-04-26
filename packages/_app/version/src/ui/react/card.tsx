@@ -2,13 +2,18 @@ import { Check, Download } from "@rja-design/ui/assets/lucide"
 import { CopyChip } from "@rja-design/ui/library/copy-chip"
 import { XStack } from "@rja-design/ui/primitives/x-stack"
 import { YStack } from "@rja-design/ui/primitives/y-stack"
-import { getLatestSha, getLocalSha } from "#next/lib/check-app-version"
+import {
+	getLatestSha,
+	getLocalSha,
+	getLocalUpstreamSha,
+} from "#next/lib/check-app-version"
 
 const GRADIENT = "linear-gradient(135deg, var(--primary), #a78bfa)"
 const SUCCESS_GRADIENT = "linear-gradient(135deg, #10b981, #34d399)"
 
 export async function VersionStatusCard() {
 	const localSha = getLocalSha()
+	const localUpstreamSha = getLocalUpstreamSha()
 	const latest = await getLatestSha()
 
 	if (!latest.ok) {
@@ -30,7 +35,8 @@ export async function VersionStatusCard() {
 		)
 	}
 
-	const isUpToDate = localSha.length > 0 && latest.data === localSha
+	const isUpToDate =
+		latest.data === localSha || latest.data === localUpstreamSha
 
 	if (isUpToDate) {
 		return (

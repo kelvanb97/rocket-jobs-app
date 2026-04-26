@@ -1,6 +1,24 @@
 import { existsSync } from "node:fs"
 import { dirname, resolve } from "node:path"
-import { chromium, type BrowserContext } from "patchright"
+import type { BrowserContext } from "patchright"
+
+type TPatchrightModule = typeof import("patchright")
+type TRequire = (id: string) => unknown
+
+const loadPatchright = async (): Promise<TPatchrightModule> => {
+	const runtimeRequire = eval("require") as TRequire
+	const patchrightPath = resolve(
+		findWorkspaceRoot(),
+		"packages",
+		"_integrations",
+		"patchright",
+		"node_modules",
+		"patchright",
+		"index.js",
+	)
+
+	return runtimeRequire(patchrightPath) as TPatchrightModule
+}
 
 /**
  * Walk up from `process.cwd()` looking for `pnpm-workspace.yaml`. Throws if
@@ -29,6 +47,7 @@ export type BrowserOptions = {
 export async function createBrowserContext(
 	options: BrowserOptions = {},
 ): Promise<BrowserContext> {
+	const { chromium } = await loadPatchright()
 	const context = await chromium.launchPersistentContext(USER_DATA_DIR, {
 		channel: "chrome",
 		headless: options.headless ?? false,
